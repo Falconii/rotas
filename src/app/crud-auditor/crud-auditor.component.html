@@ -1,0 +1,51 @@
+<p>
+    <mat-toolbar>
+        <span>Cadastro: {{tabela}}</span>
+        <span class="example-spacer">
+          <form [formGroup]= "parametros" class="parametros-container">
+            <mat-form-field field appearance="outline" >
+              <mat-select formControlName="seletor">
+                <mat-option *ngFor="let op of opcoes" [value]="op">
+                  {{op}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          <mat-form-field  field appearance="outline">
+            <mat-label>Pesquisar Por:</mat-label>
+            <input matInput formControlName="pesquisa" >
+          </mat-form-field>
+        </form>
+        </span>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="getter()">
+          <mat-icon>rotate_right</mat-icon>
+        </button>
+    </mat-toolbar>
+</p>
+<div class="Browse">
+
+    <div class="linha" *ngFor="let auditor of auditores ; index as id">
+        <mat-card class="example-card" (click)="escolha(auditor,getAcoes()['Consulta'])">
+            <mat-card-actions>
+                <span class="button-container-right">
+                  <button mat-icon-button aria-label="Example icon-button with share icon" (click)="escolha(auditor,getAcoes()['Inclusao'])">
+                     <mat-icon>add_circle_outline</mat-icon>
+                  </button>
+                    <button mat-icon-button aria-label="Example icon-button with share icon" (click)="escolha(auditor,getAcoes()['Edicao'])">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                    <button mat-icon-button aria-label="Example icon-button with share icon" (click)="escolha(auditor,getAcoes()['Exclusao'])">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </span>
+            </mat-card-actions>
+            <mat-card-content>
+                <mat-label color="blue">ID:{{auditor.id}} Razão Social: {{auditor.razao}}</mat-label><br/>
+                <mat-label>CNPJ/CPF: {{auditor.cnpj_cpf}} Data Cadastro: {{auditor.cadastr}}</mat-label><br/>
+                <mat-label>Endereço:{{auditor.endereco}}</mat-label>
+            </mat-card-content>
+
+        </mat-card>
+    </div>
+
+</div>
+<div (window:beforeunload)="onBeforeUnload()"></div>

@@ -1,0 +1,131 @@
+<!--http://jsfiddle.net/danield770/sNwrs/3158/-->
+<p>
+    <mat-toolbar>
+        <span class="example-spacer">Projeto:{{codigo_projeto}}-{{descricao_projeto}} Manutenção das tarefas </span>
+
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()" *ngIf="idAcao == 99">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+    </mat-toolbar>
+</p>
+<form [formGroup]="formulario" autocomplete="off" *ngIf="idAcao != 99" class="bordas">
+    <div class="cad-container">
+        <mat-label>{{labelCadastro}}</mat-label>
+    </div>
+    <div class="cad-container">
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Código</mat-label>
+            <input matInput formControlName="id" [readonly]="true">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Data Inicial</mat-label>
+            <input matInput [matDatepicker]="inicialDatePicker" formControlName="inicial" [readonly]="readOnly">
+            <mat-datepicker-toggle matSuffix [for]="inicialDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #inicialDatePicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Data Final</mat-label>
+            <input matInput [matDatepicker]="finalDatePicker" formControlName="final" [readonly]="readOnly">
+            <mat-datepicker-toggle matSuffix [for]="finalDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #finalDatePicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Situação</mat-label>
+            <input matInput formControlName="status" [readonly]="true">
+        </mat-form-field>
+    </div>
+    <div class="cad-container">
+        <mat-form-field field appearance="outline" class="LargeWidth" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+            <mat-label>Tarefa</mat-label>
+            <mat-select formControlName="id_tarefa">
+                <mat-option *ngFor="let tarefa of tarefas" [value]="tarefa.codigo">
+                    {{tarefa.descricao}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="LargeWidth" *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+            <mat-label>Tarefa</mat-label>
+            <input matInput formControlName="tarefa_descricao" [readonly]="readOnly">
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="LargeWidth" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+            <mat-label>Responsável</mat-label>
+            <mat-select formControlName="id_resp">
+                <mat-option *ngFor="let resp of responsaveis" [value]="resp.id">
+                    {{resp.razao}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="LargeWidth" *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+            <mat-label>Responsável</mat-label>
+            <input matInput formControlName="resp_razao" [readonly]="readOnly">
+        </mat-form-field>
+    </div>
+    <div class="cad-container">
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Horas Planejadas</mat-label>
+            <input matInput formControlName="horasplan" [readonly]="true">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Horas Executadas</mat-label>
+            <input matInput formControlName="horasexec" [readonly]="true">
+        </mat-form-field>
+    </div>
+    <div class="cad-container">
+        <mat-form-field appearance="outline" class="LargerWidth">
+            <mat-label>Observação</mat-label>
+            <input matInput formControlName="obs" [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('obs')?.status == 'INVALID' && touchedOrDirty('obs')">tarefa - No mínimo 03 letras e no máximo 50 letras</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="cad-container">
+        <button class="buttons" mat-raised-button color="primary" *ngIf="idAcao != 3" (click)=onSubmit()>{{acao}}</button>
+        <button class="buttons" mat-raised-button color="accent" (click)="onCancel()">{{getLabelCancel()}}</button>
+    </div>
+
+</form>
+<div class="Browse" *ngIf="idAcao==99">
+    <div class="linha" *ngFor="let tarefa of tarefasProjetos ; index as id">
+
+        <mat-card class="example-card" (click)="escolha(tarefa,getAcoes()['Consulta'])">
+            <mat-card-actions>
+                <span class="button-container-right ">
+          <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(tarefa,getAcoes()[ 'Inclusao'])"
+             [matTooltip] = "getTexto().incluir"
+             matTooltipPosition="above">
+             <mat-icon>add_circle_outline</mat-icon>
+          </button>
+          <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(tarefa,getAcoes()[ 'Edicao']) " *ngIf="tarefa.obs != ''"
+             [matTooltip] = "getTexto().alterar"
+             matTooltipPosition="above">
+             <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(tarefa,getAcoes()[ 'Exclusao']) " *ngIf="tarefa.obs != ''"
+             [matTooltip] = "getTexto().excluir"
+             matTooltipPosition="above">
+             <mat-icon>delete</mat-icon>
+          </button>
+        </span>
+            </mat-card-actions>
+            <mat-card-content *ngIf="tarefa.obs != ''">
+                <mat-label class="labelTitleFirst">Tarefas:</mat-label>
+                <mat-label class="labelData">{{tarefa.id_tarefa}}</mat-label>
+                <mat-label class="labelTitle">Descrição:</mat-label>
+                <mat-label class="labelData">{{tarefa.tarefa_descricao}}</mat-label>
+                <mat-label class="labelTitle">Resp.:</mat-label>
+                <mat-label class="labelData">{{tarefa.resp_razao}}</mat-label>
+            </mat-card-content>
+            <mat-card-content *ngIf="tarefa.obs != ''">
+                <mat-label class="labelTitleFirst">Data Inicial:</mat-label>
+                <mat-label class="labelData">{{tarefa.inicial | date : 'dd/MM/yyyy'}}</mat-label>
+                <mat-label class="labelTitle">Data Final:</mat-label>
+                <mat-label class="labelData">{{tarefa.final | date : 'dd/MM/yyyy' }}</mat-label>
+                <mat-label class="labelTitle">Horas Planejadas:</mat-label>
+                <mat-label class="labelData">{{tarefa.horasplan | horaSexagenal }}</mat-label>
+                <mat-label class="labelTitle">Horas Executadas:</mat-label>
+                <mat-label class="labelData">{{tarefa.horasexec | horaSexagenal }}</mat-label>
+
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

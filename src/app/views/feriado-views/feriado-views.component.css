@@ -1,0 +1,15 @@
+.cad-container .mat-form-field {
+    margin-right: 8px;
+}
+
+.MinWidth {
+    width: 40px;
+}
+
+.MidleWidth {
+    width: 100px;
+}
+
+.MaxWidth {
+    width: 350px;
+}

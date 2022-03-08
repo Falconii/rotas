@@ -1,0 +1,68 @@
+<form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+    <div class="cad-container">
+        <mat-form-field appearance="outline">
+            <mat-label>ID</mat-label>
+            <input matInput formControlName="id" readonly="true">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Razão Social</mat-label>
+            <input matInput formControlName="razao" [readonly]="readOnly">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>CNPJ/CPF</mat-label>
+            <input matInput formControlName="cnpj_cpf" [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('cnpj_cpf')?.errors?.['cpfInvalido'] && touchedOrDirty('cnpj_cpf')">Documento Inválido</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Cadastro</mat-label>
+            <input type="date" matInput formControlName="cadastr" [readonly]="readOnly">
+        </mat-form-field>
+    </div>
+    <div formGroupName="end">
+        <div class="cad-container">
+            <mat-form-field appearance="outline">
+                <mat-label>Endereço</mat-label>
+                <input matInput formControlName="endereco" [readonly]="readOnly">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Bairro</mat-label>
+                <input matInput formControlName="bairro" [readonly]="readOnly">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Cidade</mat-label>
+                <input matInput formControlName="cidade" [readonly]="readOnly">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>UF</mat-label>
+                <input matInput formControlName="uf" [readonly]="readOnly">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>CEP</mat-label>
+                <input matInput formControlName="cep" [readonly]="readOnly">
+                <mat-error *ngIf="formulario.get('end.cep')?.errors?.['cepInvalid']">CEP Inválido!</mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="cad-container">
+        <mat-form-field appearance="outline">
+            <mat-label>Telefone</mat-label>
+            <input matInput formControlName="tel" [readonly]="readOnly">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>E-Mail</mat-label>
+            <input matInput formControlName="email" [readonly]="readOnly">
+
+        </mat-form-field>
+    </div>
+    <div class="cad-container">
+        <mat-form-field appearance="outline">
+            <mat-label>Senha</mat-label>
+            <input matInput formControlName="senha" [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('senha')?.errors?.['passwordInvalid'] && touchedOrDirty('senha')">Senha Deverá Conter Letras, Numeros</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="cad-container">
+        <button type="submit" mat-raised-button color="primary">{{acao}}</button>
+        <button mat-raised-button color="accent">Cancelar</button>
+    </div>
+</form>

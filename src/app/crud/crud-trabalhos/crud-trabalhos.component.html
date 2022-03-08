@@ -1,0 +1,62 @@
+<!--http://jsfiddle.net/danield770/sNwrs/3158/-->
+<p>
+    <mat-toolbar>
+        <span class="example-spacer">TRABALHOS Da Tarefa:{{codigo_tarefa}}-{{descricao_tarefa}} </span>
+
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()" *ngIf="idAcao == 99">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+    </mat-toolbar>
+</p>
+<form [formGroup]="formulario" autocomplete="off" *ngIf="idAcao != 99" class="bordas">
+    <div class="cad-container">
+        <mat-label>{{labelCadastro}}</mat-label>
+    </div>
+    <div>
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Código</mat-label>
+            <input matInput formControlName="codigo" [readonly]="readOnlyKey">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="LargerWidth">
+            <mat-label>Descrição</mat-label>
+            <input matInput formControlName="descricao" [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('descricao')?.status == 'INVALID' && touchedOrDirty('descricao')">tarefa - No mínimo 03 letras e no máximo 40 letras</mat-error>
+        </mat-form-field>
+        <button class="buttons" mat-raised-button color="primary" *ngIf="idAcao != 3" (click)=onSubmit()>{{acao}}"</button>
+        <button class="buttons" mat-raised-button color="accent" (click)="onCancel()">{{getLabelCancel()}}</button>
+    </div>
+
+</form>
+<div class="Browse" *ngIf="idAcao==99">
+    <div class="linha" *ngFor="let trabalho of trabalhos ; index as id">
+
+        <mat-card class="example-card" (click)="escolha(trabalho,getAcoes()['Consulta'])">
+            <mat-card-actions>
+                <span class="button-container-right ">
+            <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(trabalho,getAcoes()[ 'Inclusao']) "
+               [matTooltip] = "getTexto().incluir"
+               matTooltipPosition="above">
+               <mat-icon>add_circle_outline</mat-icon>
+            </button>
+            <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(trabalho,getAcoes()[ 'Edicao']) " *ngIf="trabalho.descricao != ''"
+              [matTooltip] = "getTexto().alterar"
+              matTooltipPosition="above">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(trabalho,getAcoes()[ 'Exclusao']) " *ngIf="trabalho.descricao != ''"
+              [matTooltip] = "getTexto().excluir"
+              matTooltipPosition="above">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </span>
+            </mat-card-actions>
+            <mat-card-content>
+                <mat-label class="labelTitleFirst">Código:</mat-label>
+                <mat-label class="labelData">{{trabalho.codigo}}</mat-label>
+                <mat-label class="labelTitle">Descrição:</mat-label>
+                <mat-label class="labelData">{{trabalho.descricao}}</mat-label>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

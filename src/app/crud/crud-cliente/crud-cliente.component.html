@@ -1,0 +1,86 @@
+<!--http://jsfiddle.net/danield770/sNwrs/3158/-->
+<p>
+    <mat-toolbar>
+        <span>Clientes: </span>
+        <form [formGroup]="parametros">
+            <span class="example-spacer">
+            <!--[if !IE]> --><div class="notIE"> <!-- <![endif]-->
+              <span class="fancyArrow"></span>
+            <label for="ordem" class="label_tb">Ordenação:</label>
+            <select formControlName="ordenacao" class="select_tb" name="ordem">
+                  <option *ngFor="let op of opcoesOrdenacao" [value]="op">
+                    {{op}}
+                  </option>
+                </select>
+            <!--[if !IE]> -->
+            </div>
+            <!-- <![endif]-->
+            <!--[if !IE]> -->
+            <div class="notIE">
+                <!-- <![endif]-->
+                <span class="fancyArrow"></span>
+                <label for="ordem" class="label_tb">Pesquisar Por:</label>
+                <select class="select_tb" formControlName="campo">
+                    <option *ngFor="let op of opcoesCampo" [value]="op">
+                      {{op}}
+                    </option>
+                  </select>
+                <!--[if !IE]> -->
+            </div>
+            <!-- <![endif]-->
+            <div class="notIE" *ngIf="isGrupo()">
+                <!-- <![endif]-->
+                <span class="fancyArrow"></span>
+                <select class="select_tb" formControlName="grupo">
+                  <option *ngFor="let gru of grupos" [value]="gru.id">
+                    {{gru.razao}}
+                  </option>
+                </select>
+                <!--[if !IE]> -->
+            </div>
+            <!-- <![endif]-->
+            <input type="text" class="input_tb" formControlName="filtro" *ngIf="!isGrupo()" placeholder="Conteúdo Para Pesquisa.">
+            </span>
+        </form>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="getClientes()">
+      <mat-icon>rotate_right</mat-icon>
+    </button>
+    </mat-toolbar>
+</p>
+<div class="Browse">
+    <div class="linha" *ngFor="let cliente of clientes ; index as id">
+        <mat-card class="example-card" (click)="escolha(cliente,getAcoes()['Consulta'])">
+            <mat-card-actions>
+                <span class="button-container-right ">
+              <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(cliente,getAcoes()[ 'Inclusao']) "
+                [matTooltip] = "getTexto().incluir"
+                matTooltipPosition="above">
+              <mat-icon>add_circle_outline</mat-icon>
+              </button>
+               <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(cliente,getAcoes()[ 'Edicao']) "
+                [matTooltip] = "getTexto().alterar"
+                matTooltipPosition="above">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(cliente,getAcoes()[ 'Exclusao']) "
+                [matTooltip] = "getTexto().excluir"
+                matTooltipPosition="above">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </span>
+            </mat-card-actions>
+            <mat-card-content>
+                <mat-label class="labelTitleFirst">CÓDIGO:</mat-label>
+                <mat-label class="labelData">{{cliente.id}}</mat-label>
+                <mat-label class="labelTitle">Social:</mat-label>
+                <mat-label class="labelData">{{cliente.razao}}</mat-label>
+                <mat-label class="labelTitle">Fantasia:</mat-label>
+                <mat-label class="labelData">{{cliente.fantasi}}</mat-label>
+                <mat-label class="labelTitle">Grupo:</mat-label>
+                <mat-label class="labelData">{{cliente.grupo}}</mat-label>
+            </mat-card-content>
+
+        </mat-card>
+    </div>
+
+</div>

@@ -1,0 +1,47 @@
+<p>
+    <mat-toolbar color="primary">
+        <button routerLink="" mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <span>Simionato Auditores</span>
+        <button mat-button [matMenuTriggerFor]="cadastros">Cadastros</button>
+        <button mat-button [matMenuTriggerFor]="projetos">Projetos</button>
+        <button mat-button [matMenuTriggerFor]="execucao">Execução</button>
+        <span>
+          <!-- #docregion sub-menu -->
+          <mat-menu #cadastros="matMenu">
+            <button mat-menu-item routerLink="empresas">Empresas</button>
+            <button mat-menu-item routerLink="usuarios">Usuários</button>
+            <button mat-menu-item routerLink="clientes">Clientes</button>
+            <button mat-menu-item routerLink="tarefas">Tarefas</button>
+            <button mat-menu-item routerLink="gruusers">Grupos De Usuários</button>
+            <button mat-menu-item routerLink="gruecos">Grupos Econômicos</button>
+            <button mat-menu-item routerLink="motapos">Motivos De Apontamento</button>
+          </mat-menu>
+          <mat-menu #projetos="matMenu">
+            <button mat-menu-item routerLink="projetos">Projetos Manutenção</button>
+            <button mat-menu-item routerLink="trabalhosprojetos">Trabalhos Do Projeto</button>
+          </mat-menu>
+          <mat-menu #execucao="matMenu">
+            <button mat-menu-item >Apontamentos</button>
+            <button mat-menu-item >Agenda Trabalhos</button>
+          </mat-menu>
+
+        </span>
+        <span class="example-spacer"></span>
+        <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>favorite</mat-icon>
+    </button>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>share</mat-icon>
+    </button>
+    </mat-toolbar>
+</p>
+<!--<div>
+    <p>Hora Centesimal {{hora | number}}. Hora Convertida Sexagenal {{hora | horaSexagenal}}</p>
+    <p>Hora Centesimal {{1.50 | number}}. Hora Convertida Sexagenal {{1.50 | horaSexagenal}}</p>
+    <p>Hora Centesimal {{2.00 | number}}. Hora Convertida Sexagenal {{2.00 | horaSexagenal}}</p>
+</div>-->
+<div class="container">
+    <router-outlet></router-outlet>
+</div>

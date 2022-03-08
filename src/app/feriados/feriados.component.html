@@ -1,0 +1,17 @@
+<button (click)="getter()">Refresh</button>
+<div class="Browse">
+    <table>
+        <tr>
+            <th class="Cabecalho">DATA</th>
+            <th class="Cabecalho">DESCRIÇÃO</th>
+        </tr>
+        <tr class="linha" *ngFor="let feriado of feriados ; index as id" (click)="escolha(feriado)">
+            <td class="Detalhe">
+                <mat-label>{{feriado.DATFER}}</mat-label>
+            </td>
+            <td class="Detalhe">
+                <mat-label>{{feriado.DESCRICAO}}</mat-label>
+            </td>
+        </tr>
+    </table>
+</div>

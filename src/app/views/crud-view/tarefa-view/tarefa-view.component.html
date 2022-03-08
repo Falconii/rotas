@@ -1,0 +1,22 @@
+<p>
+    <mat-toolbar>
+        <span><mat-label>{{labelCadastro}}</mat-label></span>
+    </mat-toolbar>
+</p>
+<form [formGroup]="formulario" autocomplete="off">
+    <div class="cad-container">
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Código</mat-label>
+            <input matInput formControlName="codigo" [readonly]="ReadOnlyKey">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="LargerWidth">
+            <mat-label>Descrição</mat-label>
+            <input matInput formControlName="descricao" [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('descricao')?.status == 'INVALID' && touchedOrDirty('descricao')">tarefa - No mínimo 03 letras e no máximo 40 letras</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="button-container-right">
+        <button mat-raised-button color="primary" *ngIf="idAcao != 3" (click)=onSubmit()>{{acao}}</button>
+        <button mat-raised-button color="accent" (click)="onCancel()">{{getLabelCancel()}}</button>
+    </div>
+</form>

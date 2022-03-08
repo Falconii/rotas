@@ -1,0 +1,17 @@
+<button (click)="getter()">Refresh</button>
+<div class="Browse">
+    <table>
+        <tr>
+            <th class="Cabecalho">CODIGO</th>
+            <th class="Cabecalho">DESCRIÇÃO</th>
+        </tr>
+        <tr class="linha" *ngFor="let tarefa of tarefas ; index as id" (click)="Escolha(tarefa)">
+            <td class="Detalhe">
+                {{tarefa.CODIGO}}
+            </td>
+            <td class="Detalhe">
+                <mat-label>{{tarefa.DESCRICAO}}</mat-label>
+            </td>
+        </tr>
+    </table>
+</div>

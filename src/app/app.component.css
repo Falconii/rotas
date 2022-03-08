@@ -1,0 +1,22 @@
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.menuitem {
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    color: white;
+}
+
+.menuitemativo {
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    color: yellow;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+}

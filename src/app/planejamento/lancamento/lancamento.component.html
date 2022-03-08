@@ -1,0 +1,18 @@
+<mat-toolbar>
+    <span class="example-spacer">Projeto ID :{{trabalho.id_projeto}}  TRabalho: {{trabalho.id_trabalho}} - {{trabalho.trab_descricao}} </span>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()">
+            <mat-icon>arrow_back</mat-icon>
+            </button>
+</mat-toolbar>
+<mat-toolbar>
+    <span class="example-spacer">
+    <mat-label class="labelTitleFirst">Resp.:</mat-label>
+    <mat-label class="labelData">{{trabalho.resp_razao}}</mat-label>
+    <mat-label class="labelTitle">Executor</mat-label>
+    <mat-label class="labelData">{{trabalho.exec_razao}}</mat-label>
+    <mat-label class="labelTitle">Período:</mat-label>
+    <mat-label class="labelData">{{trabalho.inicial | date : 'dd/MM/yyyy'}} Até </mat-label>
+    <mat-label class="labelData">{{trabalho.final | date : 'dd/MM/yyyy'}}</mat-label>
+
+  </span>
+</mat-toolbar>

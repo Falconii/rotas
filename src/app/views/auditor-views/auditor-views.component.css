@@ -1,0 +1,23 @@
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.cad-container .mat-form-field {
+    margin-right: 15px;
+}
+
+.cad-container .mat-raised-button {
+    margin-right: 8px;
+}
+
+.MinWidth {
+    width: 40px;
+}
+
+.MidleWidth {
+    width: 100px;
+}
+
+.MaxWidth {
+    width: 350px;
+}

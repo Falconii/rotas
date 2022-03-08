@@ -1,0 +1,41 @@
+<p>
+    <mat-toolbar>
+        <span><mat-label>{{labelCadastro}}</mat-label></span>
+    </mat-toolbar>
+</p>
+<form [formGroup]="formulario" autocomplete="off">
+    <div class="cad-container">
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>CÓDIGO</mat-label>
+            <input matInput formControlName="id">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="LargerWidth">
+            <mat-label>Razão Social</mat-label>
+            <input matInput formControlName="razao" [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('razao')?.status == 'INVALID' && touchedOrDirty('razao')">Razão - No mínimo 03 letras e no máximo 65 letras</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="cad-container">
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Fantasia</mat-label>
+            <input matInput formControlName="fantasi" [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('fantasi')?.status == 'INVALID' && touchedOrDirty('fantasi')">Fantasia máximo 25 letras</mat-error>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="LargeWidth" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+            <mat-label>Grupo Econômico</mat-label>
+            <mat-select formControlName="gru_econo">
+                <mat-option *ngFor="let grupo of grupos" [value]="grupo.id">
+                    {{grupo.razao}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="LargeWidth" *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+            <mat-label>Grupo Econômico</mat-label>
+            <input matInput formControlName="gru_econo_" [readonly]="readOnly">
+        </mat-form-field>
+    </div>
+    <div class="button-container-right">
+        <button mat-raised-button color="primary" *ngIf="idAcao != 3" (click)=onSubmit()>{{acao}}</button>
+        <button mat-raised-button color="accent" (click)="onCancel()">{{getLabelCancel()}}</button>
+    </div>
+</form>
