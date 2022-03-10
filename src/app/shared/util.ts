@@ -1,4 +1,4 @@
-import { Dias_Uteis } from './dias-uteis';
+import { Dias_Planejados } from './dias-planejados';
 
 export function nextCode(value: string): string {
   let base: string = value.substring(0, 3);
@@ -27,8 +27,8 @@ export class MensagensBotoes {
   static planejamentos_manutencao = 'Manutenção Dos Planejamentos';
 }
 
-export function DiasUteis(Inicial: string, Final: string): Dias_Uteis[] {
-  let retorno: Dias_Uteis[] = [];
+export function DiasUteis(Inicial: string, Final: string): Dias_Planejados[] {
+  let retorno: Dias_Planejados[] = [];
 
   let x = 0;
 
@@ -46,17 +46,14 @@ export function DiasUteis(Inicial: string, Final: string): Dias_Uteis[] {
   const diffInDays = Math.round(diffInTime / oneDay);
 
   for (x = 0; x <= diffInDays; x++) {
-    const proxima = new Dias_Uteis();
+    const proxima = new Dias_Planejados();
     proxima.data.setDate(date1.getDate() + x);
     proxima.manha = false;
     proxima.tarde = false;
-    retorno.push(proxima);
+    if (proxima.data.getDay() != 6 && proxima.data.getDay() != 0) {
+      retorno.push(proxima);
+    }
   }
-
-  retorno.forEach((element) => {
-    console.log(element);
-  });
-
   return retorno;
 }
 
