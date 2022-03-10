@@ -9,5 +9,5 @@ export const environment = {
 export const environment = {
   production: true,
   ambiente: 'Produção',
-  apiURL: 'deumerda.com',
+  apiURL: 'deumerda.com/api',
 };
