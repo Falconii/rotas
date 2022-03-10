@@ -10,7 +10,7 @@ import { ParametroEmpresa01 } from '../parametros/parametro-empresa-01';
   providedIn: 'root',
 })
 export class EmpresasService {
-  apiURL: string = '/api/';
+  apiURL: string = environment.apiURL;
 
   constructor(private http: HttpClient) {}
 
@@ -32,11 +32,11 @@ export class EmpresasService {
   }
 
   EmpresaInsert(empresa: any) {
-    return this.http.post<EmpresaModel>(`${this.apiURL}empresa/`, empresa);
+    return this.http.post<EmpresaModel>(`${this.apiURL}empresa`, empresa);
   }
 
   EmpresaUpdate(empresa: EmpresaModel) {
-    return this.http.put<EmpresaModel>(`${this.apiURL}empresa/`, empresa);
+    return this.http.put<EmpresaModel>(`${this.apiURL}empresa`, empresa);
   }
 
   EmpresaDelete(id: number) {

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { TrabalhoProjetoModel } from '../Models/trabalho-projeto-model';
 import { ParametroTrabalhoProjeto01 } from '../parametros/parametro-trabalho-projeto01';
 
@@ -8,17 +9,21 @@ import { ParametroTrabalhoProjeto01 } from '../parametros/parametro-trabalho-pro
   providedIn: 'root',
 })
 export class TrabalhoProjetoService {
+  apiURL: string = environment.apiURL;
+
   constructor(private http: HttpClient) {}
 
   getTrabalhosProjetos(): Observable<TrabalhoProjetoModel[]> {
-    return this.http.get<TrabalhoProjetoModel[]>('/api/trabalhosprojetos');
+    return this.http.get<TrabalhoProjetoModel[]>(
+      `${this.apiURL}trabalhosprojetos`
+    );
   }
 
   getTrabalhosProjetos_01(
     params: ParametroTrabalhoProjeto01
   ): Observable<TrabalhoProjetoModel[]> {
     return this.http.post<TrabalhoProjetoModel[]>(
-      '/api/trabalhosprojetos',
+      `${this.apiURL}trabalhosprojetos`,
       params
     );
   }
@@ -34,14 +39,14 @@ export class TrabalhoProjetoService {
 
   TrabalhoProjetoInsert(tarefa: any) {
     return this.http.post<TrabalhoProjetoModel>(
-      '/api/trabalhosprojeto/',
+      `${this.apiURL}trabalhosprojeto/`,
       tarefa
     );
   }
 
   TrabalhoProjetoUpdate(tarefa: TrabalhoProjetoModel) {
     return this.http.put<TrabalhoProjetoModel>(
-      '/api/trabalhosprojeto/',
+      `${this.apiURL}trabalhosprojeto/`,
       tarefa
     );
   }

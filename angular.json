@@ -92,10 +92,11 @@
                     "configurations": {
                         "production": {
                             "browserTarget": "rotas:build:production",
-                            "proxyConfig": "src/proxy.conf.js"
+                            "proxyConfig": "prod.proxy.config.json"
                         },
                         "development": {
-                            "browserTarget": "rotas:build:development"
+                            "browserTarget": "rotas:build:development",
+                            "proxyConfig": "local.proxy.config.json"
                         }
                     },
                     "defaultConfiguration": "development"
