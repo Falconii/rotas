@@ -91,7 +91,8 @@
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "configurations": {
                         "production": {
-                            "browserTarget": "rotas:build:production"
+                            "browserTarget": "rotas:build:production",
+                            "proxyConfig": "src/proxy.conf.json"
                         },
                         "development": {
                             "browserTarget": "rotas:build:development"
