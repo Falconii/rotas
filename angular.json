@@ -92,7 +92,7 @@
                     "configurations": {
                         "production": {
                             "browserTarget": "rotas:build:production",
-                            "proxyConfig": "src/proxy.conf.json"
+                            "proxyConfig": "src/proxy.conf.js"
                         },
                         "development": {
                             "browserTarget": "rotas:build:development"
