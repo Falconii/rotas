@@ -9,5 +9,5 @@ export const environment = {
 export const environment = {
   production: true,
   ambiente: 'Produção',
-  apiURL: '/api/',
+  apiURL: 'https://falconii.github.io/api/',
 };
