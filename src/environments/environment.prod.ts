@@ -9,5 +9,5 @@ export const environment = {
 export const environment = {
   production: true,
   ambiente: 'Produção',
-  apiURL: 'https://falconii.github.io/api/',
+  apiURL: 'deumerda.com',
 };
