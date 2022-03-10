@@ -94,8 +94,7 @@
                             "browserTarget": "rotas:build:production"
                         },
                         "development": {
-                            "browserTarget": "rotas:build:development",
-                            "proxyConfig": "local.proxy.config.json"
+                            "browserTarget": "rotas:build:development"
                         }
                     },
                     "defaultConfiguration": "development"
