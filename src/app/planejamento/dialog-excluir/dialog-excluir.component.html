@@ -1,0 +1,9 @@
+<h1 mat-dialog-title class="Centro labelTitle">EXCLUSÃO</h1>
+<div mat-dialog-content>
+    <mat-label class="labelData">DATA: 10/10/2020</mat-label><br/>
+    <mat-label class="labelData">Serão excluídos os planejamentos da data acima</mat-label>
+</div>
+<div mat-dialog-actions class="button-container-right">
+    <button mat-button (click)="onNoClick()">Voltar</button>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Excluir</button>
+</div>

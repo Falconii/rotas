@@ -1,3 +1,4 @@
+import { Dias_Planejados } from './../shared/dias-planejados';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -5,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { ApoPlanejamentoMoldel } from '../Models/apo-planejamento-moldel';
 import { ParametroAgendaPlanejamento01 } from '../parametros/parametro-agenda-planejamento01';
 import { ParametroAgendaPlanejamento02 } from '../parametros/parametro-agenda-planejamento02';
+import { ResqPlanejamento } from '../Models/resq-planejamento';
 
 @Injectable({
   providedIn: 'root',
@@ -29,13 +31,25 @@ export class AponPlanejamentoService {
 
   getAponAgendaPlanejamentos(
     params: ParametroAgendaPlanejamento02
-  ): Observable<any[]> {
-    return this.http.post<any[]>(`${this.apiURL}aponagenda`, params);
+  ): Observable<ParametroAgendaPlanejamento02> {
+    return this.http.post<ParametroAgendaPlanejamento02>(
+      `${this.apiURL}aponagenda`,
+      params
+    );
   }
 
-  ApoPlanejamentoInsert(aponplanejamento: any) {
+  postPlanejamento(params: ResqPlanejamento[]) {
+    return this.http.post<ResqPlanejamento[]>(
+      `${this.apiURL}planejamento`,
+      params
+    );
+  }
+
+  ApoPlanejamentoInsert(aponplanejamento: ApoPlanejamentoMoldel) {
+    console.log('Insert APO - FROND END', ApoPlanejamentoMoldel);
+
     return this.http.post<ApoPlanejamentoMoldel>(
-      `${this.apiURL}aponagenda`,
+      `${this.apiURL}aponplan`,
       aponplanejamento
     );
   }

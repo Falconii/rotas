@@ -1,0 +1,39 @@
+<h1 mat-dialog-title class="Centro labelTitle">ALTERAÇÃO</h1>
+<div mat-dialog-content>
+    <mat-label class="labelData">DATA:{{data.data | date : 'dd/MM/yyyy'}}</mat-label><br/>
+</div>
+<br/>
+<form [formGroup]="parametros" autocomplete="off">
+    <div class="cad-container">
+        <mat-form-field field appearance="outline" class="LargeWidth">
+            <mat-label>Período Manhã</mat-label>
+            <mat-select formControlName="manha_op">
+                <mat-option *ngFor="let resp of respostas" [value]="resp">
+                    {{resp}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="LargeWidth">
+            <mat-label>Observação</mat-label>
+            <input matInput formControlName="manha_obs">
+        </mat-form-field>
+    </div>
+    <div class="cad-container">
+        <mat-form-field field appearance="outline" class="LargeWidth">
+            <mat-label>Período Tarde</mat-label>
+            <mat-select formControlName="tarde_op">
+                <mat-option *ngFor="let resp of respostas" [value]="resp">
+                    {{resp}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="LargeWidth">
+            <mat-label>Observação</mat-label>
+            <input matInput formControlName="tarde_obs">
+        </mat-form-field>
+    </div>
+</form>
+<div mat-dialog-actions class="button-container-right">
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+    <button mat-button [mat-dialog-close]="parametros.value" cdkFocusInitial [disabled]="!parametros.valid">Alterar</button>
+</div>

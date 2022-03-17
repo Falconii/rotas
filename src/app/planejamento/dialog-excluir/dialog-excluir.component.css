@@ -1,0 +1,19 @@
+.Centro {
+    text-align: center;
+}
+
+.button-container-right {
+    display: flex;
+    justify-content: right;
+    height: min-content;
+}
+
+.labelTitle {
+    font-size: large;
+    color: red;
+}
+
+.labelData {
+    font-size: medium;
+    color: blue;
+}

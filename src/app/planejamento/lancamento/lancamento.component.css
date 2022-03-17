@@ -34,8 +34,20 @@
     justify-content: left;
 }
 
+.button-container-right {
+    display: flex;
+    justify-content: right;
+    height: min-content;
+}
+
+.button-container-left {
+    display: flex;
+    justify-content: left;
+    height: min-content;
+}
+
 .Browse {
-    margin-left: auto;
+    margin-left: 1px;
     margin-right: auto;
     overflow-y: scroll;
     width: 100%;
@@ -164,4 +176,16 @@ table {
 .bordas {
     border: #0000CC solid 1px;
     padding-top: 10px;
+}
+
+.cb {
+    height: 10px;
+}
+
+.example-margin {
+    margin: 10px 10px;
+}
+
+.cb-lote {
+    margin: 0px 25px;
 }

@@ -1,5 +1,48 @@
 import { Dias_Planejados } from './dias-planejados';
 
+export function DataYYYYMMDD(value: Date): string {
+  let d: Date = new Date(value),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+
+/*
+exports Date.prototype.yyyymmdd = function() {
+  var mm = this.getMonth() + 1; // getMonth() is zero-based
+  var dd = this.getDate();
+
+  return [this.getFullYear(),
+          (mm>9 ? '' : '0') + mm,
+          (dd>9 ? '' : '0') + dd
+         ].join('');
+};
+
+*/
+export function DataYYYYMMDDTHHMMSSZ(value: Date): string {
+  let d: Date = new Date(value),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = '' + d.getFullYear(),
+    hora = '' + d.getHours(),
+    min = '' + d.getMinutes(),
+    seg = '' + d.getSeconds();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+  if (hora.length < 2) hora = '0' + hora;
+  if (min.length < 2) min = '0' + min;
+  if (seg.length < 2) seg = '0' + seg;
+  return (
+    [year, month, day].join('-') + 'T' + [hora, min, seg].join(':') + '.000Z'
+  );
+}
+
 export function nextCode(value: string): string {
   let base: string = value.substring(0, 3);
   let chave: string = value.substring(3);
@@ -36,6 +79,16 @@ export function DiasUteis(Inicial: string, Final: string): Dias_Planejados[] {
 
   const date2 = new Date(Final);
 
+  date1.setHours(0);
+  date1.setMinutes(0);
+
+  date2.setHours(0);
+  date2.setMinutes(0);
+
+  console.log('Data Inicial e Final ', Inicial, Final);
+
+  console.log('Data Base ', date1, date2);
+
   // One day in milliseconds
   const oneDay = 1000 * 60 * 60 * 24;
 
@@ -48,6 +101,11 @@ export function DiasUteis(Inicial: string, Final: string): Dias_Planejados[] {
   for (x = 0; x <= diffInDays; x++) {
     const proxima = new Dias_Planejados();
     proxima.data.setDate(date1.getDate() + x);
+    //proxima.data_ = proxima.data.toISOString();
+    //proxima.data_ = proxima.data.toLocaleDateString('pt-BR', {
+    //  timeZone: 'UTC',
+    //});
+    proxima.data_ = DataYYYYMMDD(proxima.data);
     proxima.manha = false;
     proxima.tarde = false;
     if (proxima.data.getDay() != 6 && proxima.data.getDay() != 0) {
@@ -79,4 +137,67 @@ export function formatarData(date: any): string {
 
 export function formatDateHour(date: Date) {
   return date;
+}
+
+export function DifHoras(Inicial: string, Final: string): number {
+  let retorno: Dias_Planejados[] = [];
+
+  let x = 0;
+
+  const date1 = new Date(Inicial);
+
+  const date2 = new Date(Final);
+
+  console.log('Data Inicial e Final ', date1, date2);
+
+  // One day in milliseconds
+  const oneMin = 1000 * 60;
+
+  // Calculating the time difference between two dates
+  const diffInTime = date2.getTime() - date1.getTime();
+
+  // Calculating the no. of days between two dates
+  const diffInDays = Math.round(diffInTime / oneMin);
+
+  return diffInDays;
+}
+
+export function hhmm(minutos: number): string {
+  const str = (minutos / 60).toString();
+
+  const parte = str.split('.');
+
+  const horas = parseInt(parte[0]);
+
+  const min = minutos - horas * 60;
+
+  let hora = '' + horas.toString();
+
+  let minu = '' + min.toString();
+
+  if (hora.length < 2) hora = '0' + hora;
+
+  if (minu.length < 2) minu = '0' + minu;
+
+  return hora + ':' + minu;
+}
+
+export function minutostostohorasexagenal(minutos: number): number {
+  const str = (minutos / 60).toString();
+
+  const parte = str.split('.');
+
+  const horas = parseInt(parte[0]);
+
+  console.log('Horas=>', horas);
+
+  let min = minutos - horas * 60;
+
+  console.log('Minutos->', min);
+
+  min = Number.parseInt((min * 1.67).toFixed(0)) / 100;
+
+  console.log('Minutos Convertidos ->', min);
+
+  return horas + min;
 }

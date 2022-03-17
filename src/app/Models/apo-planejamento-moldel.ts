@@ -6,8 +6,8 @@ export class ApoPlanejamentoMoldel {
   public id_trabalho: string = '';
   public id_resp: number = 0;
   public id_exec: number = 0;
-  public Inicial: Date = new Date();
-  public Final: Date = new Date();
+  public inicial: string = '';
+  public final: string = '';
   public horasapon: number = 0;
   public obs: string = '';
   public encerra: string = '';

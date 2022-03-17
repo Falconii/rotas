@@ -1,5 +1,5 @@
 <mat-toolbar>
-    <span class="example-spacer">Projeto ID :{{trabalho.id_projeto}}  TRabalho: {{trabalho.id_trabalho}} - {{trabalho.trab_descricao}} </span>
+    <span class="example-spacer">Projeto :{{trabalho.trab_descricao}}  Trababalho: {{trabalho.obs}}</span>
     <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()">
             <mat-icon>arrow_back</mat-icon>
     </button>
@@ -13,5 +13,56 @@
     <mat-label class="labelTitle">Período:</mat-label>
     <mat-label class="labelData">{{trabalho.inicial | date : 'dd/MM/yyyy'}} Até </mat-label>
     <mat-label class="labelData">{{trabalho.final | date : 'dd/MM/yyyy'}}</mat-label>
+    <mat-checkbox class="cb-lote" [(ngModel)]="mark" (click)="onClickMark()">{{getMark()}}</mat-checkbox>
+    <button mat-icon-button aria-label="Example icon-button with share icon "
+    matTooltip = "Alteração Em Lote"
+    matTooltipPosition="above" *ngIf="mark">
+    <mat-icon>edit</mat-icon>
+  </button>
+    <button mat-icon-button aria-label="Example icon-button with share icon "
+    matTooltip = "Exclusão Em Lote"
+    matTooltipPosition="above" *ngIf="mark">
+    <mat-icon>delete</mat-icon>
+  </button>
   </span>
 </mat-toolbar>
+<div class="Browse">
+    <div class="linha" *ngFor="let data of paramentroAgenda.agenda">
+        <mat-card class="example-card">
+            <mat-card-actions>
+                <span class="button-container-right">
+                <mat-checkbox class="example-margin" [(ngModel)]="data.mark" ></mat-checkbox>
+                <button mat-icon-button aria-label="Example icon-button with share icon " (click)="alterar(data)"
+                  matTooltip = "Alterar Este Planejamento"
+                  matTooltipPosition="above" *ngIf="!data.mark">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                  <button mat-icon-button aria-label="Example icon-button with share icon " (click)="excluir(data)"
+                  matTooltip = "Excluir Este Planejamento"
+                  matTooltipPosition="above" *ngIf="!data.mark">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </span>
+            </mat-card-actions>
+            <mat-card-content>
+                <mat-label class="labelTitleFirst">Data:</mat-label>
+                <mat-label class="labelData">{{data.data_ }}</mat-label>
+                <br/>
+                <mat-label class="labelTitle">Período Manhã:</mat-label>
+                <mat-label class="labelData">{{getPeriodo(data.manha)}}</mat-label>
+                <mat-label class="labelTitle" *ngIf="getPeriodo(data.manha) != 'Vago'">Horário:</mat-label>
+                <mat-label class="labelData" *ngIf="getPeriodo(data.manha) != 'Vago'">{{data.manha_horario}}</mat-label>
+                <mat-label class="labelTitle" *ngIf="getPeriodo(data.manha) != 'Vago'">Obs:</mat-label>
+                <mat-label class="labelData" *ngIf="getPeriodo(data.manha) != 'Vago'">{{data.manha_obs}}</mat-label>
+                <br/>
+                <mat-label class="labelTitle">Período Tarde:</mat-label>
+                <mat-label class="labelData">{{getPeriodo(data.tarde)}}</mat-label>
+                <mat-label class="labelTitle" *ngIf="getPeriodo(data.tarde) != 'Vago'">Horário:</mat-label>
+                <mat-label class="labelData" *ngIf="getPeriodo(data.tarde) != 'Vago'">{{data.tarde_horario}}</mat-label>
+                <mat-label class="labelTitle" *ngIf="getPeriodo(data.tarde) != 'Vago'">Obs:</mat-label>
+                <mat-label class="labelData" *ngIf="getPeriodo(data.tarde) != 'Vago'">{{data.tarde_obs}}</mat-label>
+            </mat-card-content>
+
+        </mat-card>
+    </div>
+</div>

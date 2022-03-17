@@ -1,0 +1,40 @@
+.Centro {
+    text-align: center;
+}
+
+.button-container-right {
+    display: flex;
+    justify-content: right;
+    height: min-content;
+}
+
+.labelTitle {
+    font-size: large;
+    color: red;
+}
+
+.labelData {
+    align-items: center;
+    font-size: medium;
+    color: blue;
+}
+
+.cad-container .mat-form-field {
+    margin-left: 8px;
+}
+
+.SmallWidth {
+    width: 40px;
+}
+
+.MidleWidth {
+    width: 130px;
+}
+
+.LargeWidth {
+    width: 350px;
+}
+
+.LargerWidth {
+    width: 500px;
+}
