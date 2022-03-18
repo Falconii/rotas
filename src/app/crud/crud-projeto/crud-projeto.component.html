@@ -63,15 +63,15 @@
             </button>
           </span>
             </mat-card-actions>
-            <mat-card-content>
+            <mat-card-content *ngIf="projeto.id != 0">
                 <mat-label class="labelTitleFirst">Código:</mat-label>
                 <mat-label class="labelData">{{projeto.id}}</mat-label>
                 <mat-label class="labelTitle">Descrição:</mat-label>
                 <mat-label class="labelData">{{projeto.descricao}}</mat-label>
                 <mat-label class="labelTitle">Situação:</mat-label>
-                <mat-label class="labelData">{{projeto.status}}</mat-label>
+                <mat-label class="labelData">{{projeto.status | situacaoProjeto}}</mat-label>
             </mat-card-content>
-            <mat-card-content>
+            <mat-card-content *ngIf="projeto.id != 0">
                 <mat-label class="labelTitleFirst">Data Proposta:</mat-label>
                 <mat-label class="labelData">{{projeto.dataprop | date : 'dd/MM/yyyy'}}</mat-label>
                 <mat-label class="labelTitle">Data Projeto:</mat-label>
@@ -79,7 +79,7 @@
                 <mat-label class="labelTitle">Data Encerramento:</mat-label>
                 <mat-label class="labelData">{{projeto.dataenc | date : 'dd/MM/yyyy' }}</mat-label>
             </mat-card-content>
-            <mat-card-content>
+            <mat-card-content *ngIf="projeto.id != 0">
                 <mat-label class="labelTitleFirst">Diretor:</mat-label>
                 <mat-label class="labelData">{{projeto.diretor_razao}}</mat-label>
                 <mat-label class="labelTitle">Cliente:</mat-label>

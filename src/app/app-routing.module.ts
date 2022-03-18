@@ -67,7 +67,7 @@ const routes: Routes = [
     component: CrudTrabalhoProjetoComponent,
   },
   {
-    path: 'trabalhosprojetosmanu/:id_empresa/:id',
+    path: 'trabalhosprojetosmanu/:id_empresa/:id_projeto/:id_tarefa',
     component: CrudTrabalhosProjetosComponent,
   },
   {

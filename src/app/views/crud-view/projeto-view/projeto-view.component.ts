@@ -12,6 +12,7 @@ import { Subscription, Subscriber } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { horahexa } from 'src/app/shared/util';
 
 @Component({
   selector: 'app-projeto-view',
@@ -178,8 +179,8 @@ export class ProjetoViewComponent implements OnInit {
       dataproj: this.projeto.dataproj,
       dataenc: this.projeto.dataenc,
       horasve: this.projeto.horasve,
-      horasplan: this.projeto.horasplan,
-      horasexec: this.projeto.horasexec,
+      horasplan: horahexa(this.projeto.horasplan),
+      horasexec: horahexa(this.projeto.horasexec),
       status: this.projeto.status,
     });
   }

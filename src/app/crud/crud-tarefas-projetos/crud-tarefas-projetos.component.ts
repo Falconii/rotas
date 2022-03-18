@@ -1,4 +1,4 @@
-import { MensagensBotoes } from 'src/app/shared/util';
+import { horahexa, MensagensBotoes } from 'src/app/shared/util';
 import { SharedModule } from './../../shared/shared.module';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { UsuarioQuery01Model } from './../../Models/usuario-query_01-model';
@@ -245,8 +245,8 @@ export class CrudTarefasProjetosComponent implements OnInit {
     this.tarefaProjeto.final = this.formulario.value.final;
     this.tarefaProjeto.obs = this.formulario.value.obs;
     this.tarefaProjeto.seq = 1;
-    this.tarefaProjeto.horasplan = 1;
-    this.tarefaProjeto.horasexec = 1;
+    this.tarefaProjeto.horasplan = 0;
+    this.tarefaProjeto.horasexec = 0;
     switch (+this.idAcao) {
       case CadastroAcoes.Inclusao:
         this.inscricaoAcao = this.tarefaProjetoService
@@ -340,8 +340,8 @@ export class CrudTarefasProjetosComponent implements OnInit {
         this.idAcao == CadastroAcoes.Exclusao
           ? this.tarefaProjeto.resp_razao
           : '',
-      horasplan: this.tarefaProjeto.horasplan,
-      horasexec: this.tarefaProjeto.horasexec,
+      horasplan: horahexa(this.tarefaProjeto.horasplan),
+      horasexec: horahexa(this.tarefaProjeto.horasexec),
     });
   }
 

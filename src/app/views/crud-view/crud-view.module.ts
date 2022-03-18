@@ -10,6 +10,7 @@ import { GruUserViewComponent } from './gru-user-view/gru-user-view.component';
 import { MotivoApoViewComponent } from './motivo-apo-view/motivo-apo-view.component';
 import { TarefaViewComponent } from './tarefa-view/tarefa-view.component';
 import { ProjetoViewComponent } from './projeto-view/projeto-view.component';
+import { HoraSexagenalPipe } from 'src/app/shared/hora-sexagenal.pipe';
 
 @NgModule({
   imports: [CommonModule, MaterialModule, FormsModule, ReactiveFormsModule],
@@ -30,5 +31,6 @@ import { ProjetoViewComponent } from './projeto-view/projeto-view.component';
     GruEcoViewComponent,
     GruUserViewComponent,
   ],
+  providers: [HoraSexagenalPipe],
 })
 export class CrudViewModule {}

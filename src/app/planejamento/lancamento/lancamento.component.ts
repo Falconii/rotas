@@ -187,6 +187,7 @@ export class LancamentoComponent implements OnInit {
     this.router.navigate([
       '/trabalhosprojetosmanu',
       this.trabalho.id_empresa,
+      this.trabalho.id_projeto,
       this.trabalho.id_tarefa,
     ]);
   }

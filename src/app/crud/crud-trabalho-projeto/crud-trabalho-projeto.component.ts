@@ -64,7 +64,8 @@ export class CrudTrabalhoProjetoComponent implements OnInit {
     this.router.navigate([
       '/trabalhosprojetosmanu',
       projeto.id_empresa,
-      projeto.id,
+      projeto.id_projeto,
+      projeto.id_tarefa,
     ]);
   }
 

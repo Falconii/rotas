@@ -44,7 +44,9 @@ export class CrudTrabalhosProjetosComponent implements OnInit {
 
   id_empresa = 0;
 
-  id_tarefaProjeto = 0;
+  id_projeto = 0;
+
+  id_tarefa = '';
 
   durationInSeconds = 3;
 
@@ -96,7 +98,8 @@ export class CrudTrabalhosProjetosComponent implements OnInit {
     this.trabalho = new TrabalhoProjetoModel();
     this.inscricaoRota = route.params.subscribe((params: any) => {
       this.id_empresa = params.id_empresa;
-      this.id_tarefaProjeto = params.id;
+      this.id_projeto = params.id_projeto;
+      this.id_tarefa = params.id_tarefa;
       this.idAcao = 99;
       this.setAcao(99);
       this.getTarefa();
@@ -120,7 +123,9 @@ export class CrudTrabalhosProjetosComponent implements OnInit {
 
     par.id_empresa = this.id_empresa;
 
-    par.id = this.id_tarefaProjeto;
+    par.id_projeto = this.id_projeto;
+
+    par.id_tarefa = this.id_tarefa;
 
     par.orderby = 'Código';
 
@@ -176,6 +181,8 @@ export class CrudTrabalhosProjetosComponent implements OnInit {
     par.id_empresa = this.tarefaProjeto.id_empresa;
 
     par.id_projeto = this.tarefaProjeto.id_projeto;
+
+    par.id_tarefa = this.tarefaProjeto.id_tarefa;
 
     par.orderby = 'Código';
 
@@ -295,8 +302,8 @@ export class CrudTrabalhosProjetosComponent implements OnInit {
     this.trabalho.final = this.formulario.value.final;
     this.trabalho.obs = this.formulario.value.obs;
     this.trabalho.seq = 1;
-    this.trabalho.horasplan = 1;
-    this.trabalho.horasexec = 1;
+    this.trabalho.horasplan = 0;
+    this.trabalho.horasexec = 0;
     switch (+this.idAcao) {
       case CadastroAcoes.Inclusao:
         this.inscricaoAcao = this.trabalhoProjetoService
