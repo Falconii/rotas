@@ -186,6 +186,31 @@ table {
     margin: 10px 10px;
 }
 
+.icon_agenda_green {
+    margin: 10px 10px;
+    color: green;
+}
+
+.icon_agenda_red {
+    margin: 10px 10px;
+    color: red;
+}
+
+.icon_agenda_green {
+    margin: 10px 10px;
+    color: green
+}
+
+.icon_agenda_black {
+    margin: 10px 10px;
+    color: black;
+}
+
+.icon_agenda_blue {
+    margin: 10px 10px;
+    color: blue;
+}
+
 .cb-lote {
     margin: 0px 25px;
 }

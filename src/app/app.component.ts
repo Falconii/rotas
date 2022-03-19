@@ -1,9 +1,8 @@
 import { BemVindoModels } from './Models/bem-vindo-models';
 import { Subscription } from 'rxjs';
-import { TarefasService } from 'src/app/services/tarefas.service';
-import { ProdutosService } from './services/produtos.service';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { GlobalService } from './global.service';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +19,7 @@ export class AppComponent {
   erro: string = '';
   hello: BemVindoModels = new BemVindoModels();
 
-  constructor(private svTarefas: TarefasService) {}
+  constructor(private svGlobal: GlobalService) {}
 
   ngOnInit() {
     this.ambiente = environment.ambiente;

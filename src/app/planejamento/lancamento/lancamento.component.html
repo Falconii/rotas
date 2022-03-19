@@ -48,6 +48,7 @@
                 <mat-label class="labelTitleFirst">Data:</mat-label>
                 <mat-label class="labelData">{{data.data_ }}</mat-label>
                 <br/>
+                <mat-icon [class]="getClass(data,true)">{{getTipoAgenda(data,true)}}</mat-icon>
                 <mat-label class="labelTitle">Período Manhã:</mat-label>
                 <mat-label class="labelData">{{getPeriodo(data.manha)}}</mat-label>
                 <mat-label class="labelTitle" *ngIf="getPeriodo(data.manha) != 'Vago'">Horário:</mat-label>
@@ -55,6 +56,7 @@
                 <mat-label class="labelTitle" *ngIf="getPeriodo(data.manha) != 'Vago'">Obs:</mat-label>
                 <mat-label class="labelData" *ngIf="getPeriodo(data.manha) != 'Vago'">{{data.manha_obs}}</mat-label>
                 <br/>
+                <mat-icon [class]="getClass(data,false)">{{getTipoAgenda(data,false)}}</mat-icon>
                 <mat-label class="labelTitle">Período Tarde:</mat-label>
                 <mat-label class="labelData">{{getPeriodo(data.tarde)}}</mat-label>
                 <mat-label class="labelTitle" *ngIf="getPeriodo(data.tarde) != 'Vago'">Horário:</mat-label>

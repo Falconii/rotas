@@ -150,6 +150,8 @@ export class LancamentoComponent implements OnInit {
 
     this.paramentroAgenda.id_trabalho = this.trabalho.id_trabalho;
 
+    this.paramentroAgenda.id_exec = this.trabalho.id_exec;
+
     this.paramentroAgenda.agenda = DiasUteis(
       formatarData(this.trabalho.inicial),
       formatarData(this.trabalho.final)
@@ -398,5 +400,108 @@ export class LancamentoComponent implements OnInit {
           );
         }
       );
+  }
+
+  getTipoAgenda(value: Dias_Planejados, manha: Boolean): string {
+    if (manha) {
+      if (value.manha) {
+        if (
+          this.paramentroAgenda.id_projeto == value.manha_id_projeto &&
+          this.paramentroAgenda.id_tarefa == value.manha_id_tarefa &&
+          this.paramentroAgenda.id_trabalho == value.manha_id_trabalho
+        ) {
+          return 'mood';
+        } else {
+          return 'warning';
+        }
+      } else {
+        return 'adjust';
+      }
+    } else {
+      if (value.tarde) {
+        if (
+          this.paramentroAgenda.id_projeto == value.tarde_id_projeto &&
+          this.paramentroAgenda.id_tarefa == value.tarde_id_tarefa &&
+          this.paramentroAgenda.id_trabalho == value.tarde_id_trabalho
+        ) {
+          return 'mood';
+        } else {
+          return 'warning';
+        }
+      } else {
+        return 'adjust';
+      }
+    }
+
+    /*------------------
+
+
+    if (
+      this.paramentroAgenda.id_projeto == value.manha_id_projeto &&
+      this.paramentroAgenda.id_tarefa == value.manha_id_tarefa &&
+      this.paramentroAgenda.id_trabalho == value.manha_id_trabalho
+    ) {
+      if (manha) {
+        if (value.manha) {
+          return 'mood';
+        } else {
+          return 'adjust';
+        }
+      } else {
+        if (value.tarde) {
+          return 'brightness_1';
+        } else {
+          return 'adjust';
+        }
+      }
+    } else {
+      if (manha) {
+        if (value.manha) {
+          return 'brightness_1';
+        } else {
+          return 'adjust';
+        }
+      } else {
+        if (value.tarde) {
+          return 'warning';
+        } else {
+          return 'error';
+        }
+      }
+    }
+    return '';
+    */
+  }
+
+  getClass(value: Dias_Planejados, manha: Boolean): string {
+    if (manha) {
+      if (value.manha) {
+        if (
+          this.paramentroAgenda.id_projeto == value.manha_id_projeto &&
+          this.paramentroAgenda.id_tarefa == value.manha_id_tarefa &&
+          this.paramentroAgenda.id_trabalho == value.manha_id_trabalho
+        ) {
+          return 'icon_agenda_blue';
+        } else {
+          return 'icon_agenda_red';
+        }
+      } else {
+        return 'icon_agenda_green';
+      }
+    } else {
+      if (value.tarde) {
+        if (
+          this.paramentroAgenda.id_projeto == value.tarde_id_projeto &&
+          this.paramentroAgenda.id_tarefa == value.tarde_id_tarefa &&
+          this.paramentroAgenda.id_trabalho == value.tarde_id_trabalho
+        ) {
+          return 'icon_agenda_blue';
+        } else {
+          return 'icon_agenda_red';
+        }
+      } else {
+        return 'icon_agenda_green';
+      }
+    }
   }
 }
