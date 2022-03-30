@@ -4,7 +4,7 @@
 </div>
 <br/>
 <form [formGroup]="parametros" autocomplete="off">
-    <div class="cad-container">
+    <div class="cad-container" *ngIf="data.manha_estado!= '2'">
         <mat-form-field field appearance="outline" class="LargeWidth">
             <mat-label>Período Manhã</mat-label>
             <mat-select formControlName="manha_op">
@@ -18,7 +18,7 @@
             <input matInput formControlName="manha_obs">
         </mat-form-field>
     </div>
-    <div class="cad-container">
+    <div class="cad-container" *ngIf="data.tarde_estado!= '2'">
         <mat-form-field field appearance="outline" class="LargeWidth">
             <mat-label>Período Tarde</mat-label>
             <mat-select formControlName="tarde_op">

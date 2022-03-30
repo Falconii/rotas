@@ -1,8 +1,8 @@
+import { UsuarioModel } from 'src/app/Models/usuario-model';
 import { UsuarioQuery01Model } from './../Models/usuario-query_01-model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UsuarioModel } from '../Models/usuario-model';
 import { ParametroUsuario01 } from '../parametros/parametro-usuario-01';
 import { environment } from 'src/environments/environment';
 
@@ -10,6 +10,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class UsuariosService {
+  static login: UsuarioModel = new UsuarioModel();
+
   apiURL: string = environment.apiURL;
 
   constructor(private http: HttpClient) {}
@@ -41,5 +43,9 @@ export class UsuariosService {
 
   UsuarioDelete(id_empresa: number, id: number) {
     return this.http.delete<UsuarioModel>(`/api/usuario/${id_empresa}/${id}`);
+  }
+
+  setarUsuario(user: UsuarioModel) {
+    UsuariosService.login = user;
   }
 }

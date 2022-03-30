@@ -228,8 +228,8 @@ export class ProjetoViewComponent implements OnInit {
     this.projeto.dataproj = this.formulario.value.dataproj;
     this.projeto.dataenc = this.formulario.value.dataenc;
     this.projeto.horasve = this.formulario.value.horasve;
-    this.projeto.horasplan = this.formulario.value.horasplan;
-    this.projeto.horasexec = this.formulario.value.horasexec;
+    //this.projeto.horasplan = this.formulario.value.horasplan;
+    //this.projeto.horasexec = this.formulario.value.horasexec;
     this.projeto.user_insert = 1;
     this.projeto.user_update = 0;
     switch (+this.idAcao) {

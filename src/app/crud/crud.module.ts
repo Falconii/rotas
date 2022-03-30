@@ -15,6 +15,8 @@ import { CrudTarefasProjetosComponent } from './crud-tarefas-projetos/crud-taref
 import { SharedModule } from '../shared/shared.module';
 import { CrudTrabalhoProjetoComponent } from './crud-trabalho-projeto/crud-trabalho-projeto.component';
 import { CrudTrabalhosProjetosComponent } from './crud-trabalhos-projetos/crud-trabalhos-projetos.component';
+import { CrudEstruturaComponent } from './crud-estrutura/crud-estrutura.component';
+import { CrudSubestruturaComponent } from './crud-subestrutura/crud-subestrutura.component';
 
 @NgModule({
   imports: [
@@ -39,6 +41,8 @@ import { CrudTrabalhosProjetosComponent } from './crud-trabalhos-projetos/crud-t
     CrudTarefasProjetosComponent,
     CrudTrabalhoProjetoComponent,
     CrudTrabalhosProjetosComponent,
+    CrudEstruturaComponent,
+    CrudSubestruturaComponent,
   ],
   exports: [
     CrudClienteComponent,
@@ -48,6 +52,7 @@ import { CrudTrabalhosProjetosComponent } from './crud-trabalhos-projetos/crud-t
     CrudGrupoUserComponent,
     CrudMotivoApoComponent,
     CrudTarefaComponent,
+    CrudEstruturaComponent,
   ],
 })
 export class CrudModule {}

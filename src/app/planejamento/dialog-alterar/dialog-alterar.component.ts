@@ -9,6 +9,8 @@ import {
 
 export interface DialogAlterar {
   data: string;
+  manha_estado: string;
+  tarde_estado: string;
   manha_op: String;
   tarde_op: string;
   manha_obs: string;

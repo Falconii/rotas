@@ -106,8 +106,8 @@ export function DiasUteis(Inicial: string, Final: string): Dias_Planejados[] {
     //  timeZone: 'UTC',
     //});
     proxima.data_ = DataYYYYMMDD(proxima.data);
-    proxima.manha = false;
-    proxima.tarde = false;
+    proxima.manha = '0';
+    proxima.tarde = '0';
     if (proxima.data.getDay() != 6 && proxima.data.getDay() != 0) {
       retorno.push(proxima);
     }

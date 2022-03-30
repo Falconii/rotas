@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { GlobalService } from './global.service';
-
+import { Route, Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -19,7 +19,7 @@ export class AppComponent {
   erro: string = '';
   hello: BemVindoModels = new BemVindoModels();
 
-  constructor(private svGlobal: GlobalService) {}
+  constructor(private svGlobal: GlobalService, private router: Router) {}
 
   ngOnInit() {
     this.ambiente = environment.ambiente;
@@ -28,5 +28,9 @@ export class AppComponent {
 
   ngOnDestroy() {
     this.inscricao?.unsubscribe();
+  }
+
+  onLogin() {
+    this.router.navigate(['login']);
   }
 }

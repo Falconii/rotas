@@ -61,10 +61,11 @@
                     {{executor.razao}}
                 </mat-option>
             </mat-select>
+            
         </mat-form-field>
         <mat-form-field field appearance="outline" class="LargeWidth" *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
-            <mat-label>Responsável</mat-label>
-            <input matInput formControlName="resp_razao" [readonly]="readOnly">
+            <mat-label>Executor</mat-label>
+            <input matInput formControlName="exec_razao" [readonly]="readOnly">
         </mat-form-field>
     </div>
     <div class="cad-container">

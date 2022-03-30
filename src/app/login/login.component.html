@@ -1,1 +1,24 @@
-<p>login works!</p>
+<div class="container">
+    <mat-label class="centro">LOGIN</mat-label>
+    <form [formGroup]="formulario" autocomplete="off">
+        <br/>
+        <div class="cad-container centro">
+            <mat-form-field field appearance="outline" class="example-full-width">
+                <mat-label>Código Usuário:</mat-label>
+                <input matInput placeholder="Código" formControlName="id">
+            </mat-form-field>
+        </div>
+        <br/>
+        <div class="cad-container centro">
+            <mat-form-field field appearance="outline" class="example-full-width">
+                <mat-label>Senha Usuário:</mat-label>
+                <input matInput placeholder="Senha" type="password" formControlName="senha">
+            </mat-form-field>
+        </div>
+        <br/>
+        <div class="button-container-right">
+            <button mat-raised-button color="primary" (click)="onSubmit()">Logar</button>
+            <button mat-raised-button color="accent" (click)="onCancel()">Cancelar</button>
+        </div>
+    </form>
+</div>

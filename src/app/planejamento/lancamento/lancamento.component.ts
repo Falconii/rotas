@@ -79,6 +79,9 @@ export class LancamentoComponent implements OnInit {
       width: '450px',
       data: {
         id_empresa: this.trabalho.id_empresa,
+        data: value.data_,
+        manha_estado: value.manha,
+        tarde_estado: value.tarde,
         manha_id: value.manha_id_apo_planejamento,
         tarde_id: value.tarde_id_apo_planejamento,
       },
@@ -90,10 +93,13 @@ export class LancamentoComponent implements OnInit {
   }
 
   openDialogAlterar(value: Dias_Planejados): void {
+    console.log('Values Alterar', value);
     const dialogRef = this.dialog.open(DialogAlterarComponent, {
       width: '450px',
       data: {
         data: value.data,
+        manha_estado: value.manha,
+        tarde_estado: value.tarde,
         manha_op: this.getPeriodo(value.manha),
         tarde_op: this.getPeriodo(value.tarde),
         manha_obs: value.manha_obs,
@@ -101,6 +107,9 @@ export class LancamentoComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result: DialogAlterar) => {
+      console.log('value no retorno:', value);
+      result.manha_estado = value.manha;
+      result.tarde_estado = value.tarde;
       this.saveLancamento(value, result);
     });
   }
@@ -157,14 +166,11 @@ export class LancamentoComponent implements OnInit {
       formatarData(this.trabalho.final)
     );
 
-    console.log('Agenda Memoria..', this.paramentroAgenda.agenda);
-
     this.inscricaoGetAgenda = this.aponPlanejamentoService
       .getAponAgendaPlanejamentos(this.paramentroAgenda)
       .subscribe(
         (data: ParametroAgendaPlanejamento02) => {
           this.paramentroAgenda.agenda = data.agenda;
-          console.log('Planejamento:', this.paramentroAgenda);
         },
         (error: any) => {
           this.paramentroAgenda.agenda = [];
@@ -194,8 +200,8 @@ export class LancamentoComponent implements OnInit {
     ]);
   }
 
-  getPeriodo(value: Boolean) {
-    if (value) return 'Planejado';
+  getPeriodo(value: string) {
+    if (value == '1' || value == '2') return 'Planejado';
     else return 'Vago';
   }
 
@@ -220,9 +226,11 @@ export class LancamentoComponent implements OnInit {
 
   saveLancamento(value: Dias_Planejados, dialogRetorno: DialogAlterar) {
     let params: ResqPlanejamento[] = [];
-    console.log('==> ', dialogRetorno);
-    //não existe lancamento da manhã
+
+    console.log('dialogRetorno:', dialogRetorno);
+
     if (
+      dialogRetorno.manha_estado != '2' &&
       dialogRetorno.manha_op == 'Planejado' &&
       value.manha_id_apo_planejamento == 0
     ) {
@@ -254,8 +262,6 @@ export class LancamentoComponent implements OnInit {
       lanca.user_insert = 1;
       lanca.user_update = 0;
 
-      console.log('Lançamento:', lanca);
-
       const param: ResqPlanejamento = new ResqPlanejamento();
       param.acao = 'I';
       param.lanca = lanca;
@@ -265,13 +271,11 @@ export class LancamentoComponent implements OnInit {
     }
 
     if (
+      dialogRetorno.tarde_estado != '2' &&
       dialogRetorno.tarde_op == 'Planejado' &&
       value.tarde_id_apo_planejamento == 0
     ) {
       const lanca = new ApoPlanejamentoMoldel();
-
-      console.log('dialogRetorno.data', dialogRetorno.data);
-
       const dtLanca1 = new Date(value.data);
       dtLanca1.setHours(13);
       dtLanca1.setMinutes(0);
@@ -297,9 +301,6 @@ export class LancamentoComponent implements OnInit {
       lanca.encerra = 'N';
       lanca.user_insert = 1;
       lanca.user_update = 0;
-
-      console.log('Lançamento Insert Tarde:', lanca);
-
       const param: ResqPlanejamento = new ResqPlanejamento();
       param.acao = 'I';
       param.lanca = lanca;
@@ -309,6 +310,7 @@ export class LancamentoComponent implements OnInit {
     }
 
     if (
+      dialogRetorno.manha_estado != '2' &&
       dialogRetorno.manha_op == 'Planejado' &&
       value.manha_id_apo_planejamento != 0
     ) {
@@ -317,10 +319,13 @@ export class LancamentoComponent implements OnInit {
       param.id_empresa = value.manha_id_empresa;
       param.id = value.manha_id_apo_planejamento;
       param.lanca.obs = dialogRetorno.manha_obs;
+
+      console.log('Olha aqui ==> manha', param);
       params.push(param);
     }
 
     if (
+      dialogRetorno.tarde_estado != '2' &&
       dialogRetorno.tarde_op == 'Planejado' &&
       value.tarde_id_apo_planejamento != 0
     ) {
@@ -333,6 +338,7 @@ export class LancamentoComponent implements OnInit {
     }
 
     if (
+      dialogRetorno.manha_estado != '2' &&
       dialogRetorno.manha_op == 'Vago' &&
       value.manha_id_apo_planejamento != 0
     ) {
@@ -344,6 +350,7 @@ export class LancamentoComponent implements OnInit {
     }
 
     if (
+      dialogRetorno.tarde_estado != '2' &&
       dialogRetorno.tarde_op == 'Vago' &&
       value.tarde_id_apo_planejamento != 0
     ) {
@@ -364,7 +371,7 @@ export class LancamentoComponent implements OnInit {
   deleteLancamento(dialogRetorno: DialogExcluir) {
     let params: ResqPlanejamento[] = [];
 
-    if (dialogRetorno.manha_id != 0) {
+    if (dialogRetorno.manha_estado != '2' && dialogRetorno.manha_id != 0) {
       const param: ResqPlanejamento = new ResqPlanejamento();
       param.acao = 'D';
       param.id_empresa = dialogRetorno.id_empresa;
@@ -372,7 +379,7 @@ export class LancamentoComponent implements OnInit {
       params.push(param);
     }
 
-    if (dialogRetorno.tarde_id != 0) {
+    if (dialogRetorno.tarde_estado != '2' && dialogRetorno.tarde_id != 0) {
       const param: ResqPlanejamento = new ResqPlanejamento();
       param.acao = 'D';
       param.id_empresa = dialogRetorno.id_empresa;
@@ -381,6 +388,7 @@ export class LancamentoComponent implements OnInit {
     }
 
     if (params.length > 0) {
+      console.log('EXCLUSÃO=>', params);
       this.acaoLancamento(params);
     }
   }
@@ -404,104 +412,29 @@ export class LancamentoComponent implements OnInit {
 
   getTipoAgenda(value: Dias_Planejados, manha: Boolean): string {
     if (manha) {
-      if (value.manha) {
-        if (
-          this.paramentroAgenda.id_projeto == value.manha_id_projeto &&
-          this.paramentroAgenda.id_tarefa == value.manha_id_tarefa &&
-          this.paramentroAgenda.id_trabalho == value.manha_id_trabalho
-        ) {
-          return 'mood';
-        } else {
-          return 'warning';
-        }
-      } else {
-        return 'adjust';
-      }
+      if (value.manha == '0') return 'adjust';
+      if (value.manha == '1') return 'mood';
+      if (value.manha == '2') return 'warning';
     } else {
-      if (value.tarde) {
-        if (
-          this.paramentroAgenda.id_projeto == value.tarde_id_projeto &&
-          this.paramentroAgenda.id_tarefa == value.tarde_id_tarefa &&
-          this.paramentroAgenda.id_trabalho == value.tarde_id_trabalho
-        ) {
-          return 'mood';
-        } else {
-          return 'warning';
-        }
-      } else {
-        return 'adjust';
-      }
+      if (value.tarde == '0') return 'adjust';
+      if (value.tarde == '1') return 'mood';
+      if (value.tarde == '2') return 'warning';
     }
 
-    /*------------------
-
-
-    if (
-      this.paramentroAgenda.id_projeto == value.manha_id_projeto &&
-      this.paramentroAgenda.id_tarefa == value.manha_id_tarefa &&
-      this.paramentroAgenda.id_trabalho == value.manha_id_trabalho
-    ) {
-      if (manha) {
-        if (value.manha) {
-          return 'mood';
-        } else {
-          return 'adjust';
-        }
-      } else {
-        if (value.tarde) {
-          return 'brightness_1';
-        } else {
-          return 'adjust';
-        }
-      }
-    } else {
-      if (manha) {
-        if (value.manha) {
-          return 'brightness_1';
-        } else {
-          return 'adjust';
-        }
-      } else {
-        if (value.tarde) {
-          return 'warning';
-        } else {
-          return 'error';
-        }
-      }
-    }
     return '';
-    */
   }
 
   getClass(value: Dias_Planejados, manha: Boolean): string {
     if (manha) {
-      if (value.manha) {
-        if (
-          this.paramentroAgenda.id_projeto == value.manha_id_projeto &&
-          this.paramentroAgenda.id_tarefa == value.manha_id_tarefa &&
-          this.paramentroAgenda.id_trabalho == value.manha_id_trabalho
-        ) {
-          return 'icon_agenda_blue';
-        } else {
-          return 'icon_agenda_red';
-        }
-      } else {
-        return 'icon_agenda_green';
-      }
+      if (value.manha == '0') return 'icon_agenda_green';
+      if (value.manha == '1') return 'icon_agenda_blue';
+      if (value.manha == '2') return 'icon_agenda_red';
     } else {
-      if (value.tarde) {
-        if (
-          this.paramentroAgenda.id_projeto == value.tarde_id_projeto &&
-          this.paramentroAgenda.id_tarefa == value.tarde_id_tarefa &&
-          this.paramentroAgenda.id_trabalho == value.tarde_id_trabalho
-        ) {
-          return 'icon_agenda_blue';
-        } else {
-          return 'icon_agenda_red';
-        }
-      } else {
-        return 'icon_agenda_green';
-      }
+      if (value.tarde == '0') return 'icon_agenda_green';
+      if (value.tarde == '1') return 'icon_agenda_blue';
+      if (value.tarde == '2') return 'icon_agenda_red';
     }
+
+    return '';
   }
 }

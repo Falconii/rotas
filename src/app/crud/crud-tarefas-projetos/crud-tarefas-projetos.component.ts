@@ -247,6 +247,7 @@ export class CrudTarefasProjetosComponent implements OnInit {
     this.tarefaProjeto.seq = 1;
     this.tarefaProjeto.horasplan = 0;
     this.tarefaProjeto.horasexec = 0;
+    console.log('Tarefa => ', this.tarefaProjeto);
     switch (+this.idAcao) {
       case CadastroAcoes.Inclusao:
         this.inscricaoAcao = this.tarefaProjetoService

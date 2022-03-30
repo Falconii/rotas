@@ -1,0 +1,84 @@
+<p>
+    <mat-toolbar>
+        <span>Estruturas: </span>
+        <form [formGroup]="parametros">
+            <span class="example-spacer">
+        <!--[if !IE]> --><div class="notIE"> <!-- <![endif]-->
+        <span class="fancyArrow"></span>
+            <label for="ordem" class="label_tb">Ordenação:</label>
+            <select formControlName="ordenacao" class="select_tb" name="ordem">
+            <option *ngFor="let op of opcoesOrdenacao" [value]="op">
+              {{op}}
+            </option>
+          </select>
+            <!--[if !IE]> -->
+            </div>
+            <!-- <![endif]-->
+            <!--[if !IE]> -->
+            <div class="notIE">
+                <!-- <![endif]-->
+                <span class="fancyArrow"></span>
+                <label for="ordem" class="label_tb">Pesquisar Por:</label>
+                <select class="select_tb" formControlName="campo">
+              <option *ngFor="let op of opcoesCampo" [value]="op">
+                {{op}}
+              </option>
+            </select>
+                <!--[if !IE]> -->
+            </div>
+            <!-- <![endif]-->
+            <input type="text" class="input_tb" formControlName="filtro" placeholder="Conteúdo Para Pesquisa.">
+            </span>
+        </form>
+        <button mat-icon-button aria-label="Example icon-button with share icon" (click)="getEstruturas()">
+          <mat-icon>rotate_right</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Cadastrar Novas Estruturas" matTooltipPosition="above" (click)="inclusao()">
+         <mat-icon>add_circle_outline</mat-icon>
+        </button>
+    </mat-toolbar>
+</p>
+<div *ngIf="estruturas.length==0">
+    <mat-card class="example-card">
+        <mat-card-content>
+            <mat-label class="labelTitleFirst">Nenhuma Informação Para Esta Consulta Ou Tabela Vazia!</mat-label>
+        </mat-card-content>
+    </mat-card>
+</div>
+<div class="Browse" *ngIf="estruturas.length>0">
+    <div class="linha" *ngFor="let estru of estruturas ; index as id">
+
+        <mat-card class="example-card" (click)="escolha(estru,getAcoes()['Consulta'])">
+            <mat-card-actions>
+                <span class="button-container-right ">
+            <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(estru,getAcoes()[ 'Inclusao'])"
+              [matTooltip] = "getTexto().trabalhos_incluir"
+               matTooltipPosition="above">
+              <mat-icon>assignment</mat-icon>
+            </button>
+            <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(estru,getAcoes()[ 'Inclusao'])"
+              [matTooltip] = "getTexto().incluir"
+              matTooltipPosition="above">
+              <mat-icon>add_circle_outline</mat-icon>
+            </button>
+            <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(estru,getAcoes()[ 'Edicao'])"
+              [matTooltip] = "getTexto().alterar"
+              matTooltipPosition="above">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(estru,getAcoes()[ 'Exclusao'])"
+               [matTooltip] = "getTexto().excluir"
+               matTooltipPosition="above">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </span>
+            </mat-card-actions>
+            <mat-card-content>
+                <mat-label class="labelTitleFirst">Conta:</mat-label>
+                <mat-label class="labelData">{{estru.subconta}}</mat-label>
+                <mat-label class="labelTitle">Descrição:</mat-label>
+                <mat-label class="labelData">{{estru.descricao}}</mat-label>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

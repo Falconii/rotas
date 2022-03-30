@@ -7,6 +7,9 @@ import {
 
 export interface DialogExcluir {
   id_empresa: number;
+  data: string;
+  manha_estado: string;
+  tarde_estado: string;
   manha_id: 0;
   tarde_id: 0;
 }

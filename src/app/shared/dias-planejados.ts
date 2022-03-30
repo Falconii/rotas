@@ -2,8 +2,8 @@ export class Dias_Planejados {
   public mark: Boolean = false;
   public data: Date = new Date();
   public data_: string = '';
-  public manha: Boolean = false;
-  public tarde: Boolean = false;
+  public manha: string = '';
+  public tarde: string = '';
   public manha_id_empresa: number = 0;
   public manha_id_projeto: number = 0;
   public manha_id_tarefa: string = '';

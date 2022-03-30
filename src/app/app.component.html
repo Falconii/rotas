@@ -17,6 +17,7 @@
             <button mat-menu-item routerLink="gruusers">Grupos De Usuários</button>
             <button mat-menu-item routerLink="gruecos">Grupos Econômicos</button>
             <button mat-menu-item routerLink="motapos">Motivos De Apontamento</button>
+            <button mat-menu-item routerLink="estruturas">Estruturas</button>
           </mat-menu>
           <mat-menu #projetos="matMenu">
             <button mat-menu-item routerLink="projetos">Projetos Manutenção</button>
@@ -29,9 +30,8 @@
 
         </span>
         <span class="example-spacer"></span>
-        <mat-label>Ambiente:{{ambiente}} API:{{apiURL}}</mat-label>
-        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
-      <mat-icon>share</mat-icon>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" matTooltip="LOGIN" matTooltipPosition="above" (click)="onLogin()">
+        <mat-icon>person</mat-icon>
     </button>
     </mat-toolbar>
 </p>

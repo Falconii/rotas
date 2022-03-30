@@ -11,6 +11,7 @@ import { MotivoApoViewComponent } from './motivo-apo-view/motivo-apo-view.compon
 import { TarefaViewComponent } from './tarefa-view/tarefa-view.component';
 import { ProjetoViewComponent } from './projeto-view/projeto-view.component';
 import { HoraSexagenalPipe } from 'src/app/shared/hora-sexagenal.pipe';
+import { CrudViewEstruturaComponent } from './crud-view-estrutura/crud-view-estrutura.component';
 
 @NgModule({
   imports: [CommonModule, MaterialModule, FormsModule, ReactiveFormsModule],
@@ -23,6 +24,7 @@ import { HoraSexagenalPipe } from 'src/app/shared/hora-sexagenal.pipe';
     MotivoApoViewComponent,
     TarefaViewComponent,
     ProjetoViewComponent,
+    CrudViewEstruturaComponent,
   ],
   exports: [
     ClienteViewComponent,

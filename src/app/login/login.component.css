@@ -1,0 +1,34 @@
+.container {
+    margin-top: 10%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+    height: 50%;
+    border: 1px slateblue solid;
+}
+
+.cad-container .mat-form-field {
+    margin-left: 8px;
+}
+
+.button-container-right button {
+    margin-left: 10px;
+}
+
+.button-container-right {
+    display: flex;
+    justify-content: right;
+    height: min-content;
+    width: 100%;
+}
+
+.centro {
+    display: flex;
+    justify-content: center;
+    height: min-content;
+    width: 100%;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}

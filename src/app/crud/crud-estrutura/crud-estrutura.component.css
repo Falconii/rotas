@@ -8,6 +8,13 @@
     height: min-content;
 }
 
+.button-container-left {
+    display: flex;
+    justify-content: left;
+    align-content: center;
+    height: min-content;
+}
+
 .cabecalho {
     font: blue;
     font-size: 15px;

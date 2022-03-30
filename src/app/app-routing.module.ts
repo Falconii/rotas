@@ -4,9 +4,6 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FeriadoComponent } from './feriado/feriado.component';
-import { FeriadosComponent } from './feriados/feriados.component';
-import { AuditorViewsComponent } from './views/auditor-views/auditor-views.component';
 import { CrudEmpresaComponent } from './crud/crud-empresa/crud-empresa.component';
 import { EmpresaViewComponent } from './views/crud-view/empresa-view/empresa-view.component';
 import { CrudUsuarioComponent } from './crud/crud-usuario/crud-usuario.component';
@@ -26,6 +23,9 @@ import { CrudTrabalhosComponent } from './crud/crud-trabalhos/crud-trabalhos.com
 import { CrudTrabalhoProjetoComponent } from './crud/crud-trabalho-projeto/crud-trabalho-projeto.component';
 import { CrudTrabalhosProjetosComponent } from './crud/crud-trabalhos-projetos/crud-trabalhos-projetos.component';
 import { LancamentoComponent } from './planejamento/lancamento/lancamento.component';
+import { CrudEstruturaComponent } from './crud/crud-estrutura/crud-estrutura.component';
+import { CrudSubestruturaComponent } from './crud/crud-subestrutura/crud-subestrutura.component';
+import { CrudViewEstruturaComponent } from './views/crud-view/crud-view-estrutura/crud-view-estrutura.component';
 
 const routes: Routes = [
   { path: 'empresa/:id/:acao', component: EmpresaViewComponent },
@@ -36,16 +36,10 @@ const routes: Routes = [
   { path: 'clientes', component: CrudClienteComponent },
   { path: 'tarefa/:id_empresa/:codigo/:acao', component: TarefaViewComponent },
   { path: 'tarefas', component: CrudTarefaComponent },
-  { path: 'feriado/:DATFER', component: FeriadoComponent },
-  { path: 'feriados', component: FeriadosComponent },
   { path: 'grueco/:id_empresa/:id/:acao', component: GruEcoViewComponent },
   { path: 'gruecos', component: CrudGrupoEcoComponent },
   { path: 'gruuser/:id_empresa/:id/:acao', component: GruUserViewComponent },
   { path: 'gruusers', component: CrudGrupoUserComponent },
-  {
-    path: 'motapo/:id_empresa/:codigo/:acao',
-    component: AuditorViewsComponent,
-  },
   { path: 'motapos', component: CrudMotivoApoComponent },
   {
     path: 'motivoapo/:id_empresa/:codigo/:acao',
@@ -74,6 +68,17 @@ const routes: Routes = [
     path: 'planejamentolancamento/:id_empresa/:id',
     component: LancamentoComponent,
   },
+  {
+    path: 'planejamentolancamento/:id_empresa/:id',
+    component: LancamentoComponent,
+  },
+  { path: 'login', component: LoginComponent },
+  { path: 'estruturas', component: CrudEstruturaComponent },
+  {
+    path: 'estrutura/:id_empresa/:conta/:subconta/:acao',
+    component: CrudViewEstruturaComponent,
+  },
+
   { path: '', component: HomeComponent },
 ];
 

@@ -1,0 +1,34 @@
+<p>
+    <mat-toolbar>
+        <span><mat-label>{{labelCadastro}}</mat-label></span>
+    </mat-toolbar>
+</p>
+<form [formGroup]="formulario" autocomplete="off">
+    <div class="cad-container">
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Conta</mat-label>
+            <input matInput formControlName="conta" readonly=true>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>SubConta</mat-label>
+            <input matInput formControlName="subconta" readonly=true>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="MidleWidth">
+            <mat-label>Nivel:</mat-label>
+            <input matInput formControlName="nivel" [readonly]="readOnly">
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="MidleWidth">
+            <mat-label>Tipo:</mat-label>
+            <input matInput formControlName="tipo" [readonly]="readOnly">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="LargeWidth">
+            <mat-label>Descrição</mat-label>
+            <input matInput formControlName="descricao" [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('descricao')?.status == 'INVALID' && touchedOrDirty('descricao')">Descrição máximo 60 letras</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="button-container-right">
+        <button mat-raised-button color="primary" *ngIf="idAcao != 3" (click)=onSubmit()>{{acao}}</button>
+        <button mat-raised-button color="accent" (click)="onCancel()">{{getLabelCancel()}}</button>
+    </div>
+</form>
