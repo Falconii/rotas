@@ -26,6 +26,7 @@ import { LancamentoComponent } from './planejamento/lancamento/lancamento.compon
 import { CrudEstruturaComponent } from './crud/crud-estrutura/crud-estrutura.component';
 import { CrudSubestruturaComponent } from './crud/crud-subestrutura/crud-subestrutura.component';
 import { CrudViewEstruturaComponent } from './views/crud-view/crud-view-estrutura/crud-view-estrutura.component';
+import { TreeEstruturaComponent } from './crud/crud-estrutura/tree-estrutura/tree-estrutura.component';
 
 const routes: Routes = [
   { path: 'empresa/:id/:acao', component: EmpresaViewComponent },
@@ -78,7 +79,14 @@ const routes: Routes = [
     path: 'estrutura/:id_empresa/:conta/:subconta/:acao',
     component: CrudViewEstruturaComponent,
   },
-
+  {
+    path: 'subconta/:id_empresa/:conta/:subconta/:descricao/:nivel/:acao',
+    component: CrudSubestruturaComponent,
+  },
+  {
+    path: 'treeconta/:id_empresa/:conta/:subconta',
+    component: TreeEstruturaComponent,
+  },
   { path: '', component: HomeComponent },
 ];
 

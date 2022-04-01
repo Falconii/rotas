@@ -1,6 +1,6 @@
+import { EstruturaModel } from 'src/app/Models/estrutura-model';
 import { ParametroEstrutura01 } from './../../parametros/parametro-estrutura01';
 import { EstruturasService } from 'src/app/services/estruturas.service';
-import { EstruturaModel } from './../../Models/estrutura-model';
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -73,7 +73,7 @@ export class CrudEstruturaComponent implements OnInit {
     if (this.parametros.value.campo == 'Descrição')
       par.descricao = this.parametros.value.filtro.toUpperCase();
 
-    par.nivel = 0;
+    par.nivel = 1;
 
     par.tipo = '';
 
@@ -105,13 +105,25 @@ export class CrudEstruturaComponent implements OnInit {
   }
 
   escolha(estrutura: EstruturaModel, opcao: number) {
-    this.router.navigate([
-      '/estrutura',
-      estrutura.id_empresa,
-      estrutura.conta,
-      estrutura.subconta,
-      opcao,
-    ]);
+    if ((opcao = 99)) {
+      this.router.navigate([
+        '/subconta',
+        estrutura.id_empresa,
+        estrutura.conta,
+        estrutura.subconta,
+        estrutura.descricao,
+        estrutura.nivel,
+        opcao,
+      ]);
+    } else {
+      this.router.navigate([
+        '/estrutura',
+        estrutura.id_empresa,
+        estrutura.conta,
+        estrutura.subconta,
+        opcao,
+      ]);
+    }
   }
 
   inclusao() {
@@ -126,5 +138,14 @@ export class CrudEstruturaComponent implements OnInit {
 
   getAcoes() {
     return CadastroAcoes;
+  }
+
+  tree(estrutura: EstruturaModel) {
+    this.router.navigate([
+      '/treeconta',
+      estrutura.id_empresa,
+      estrutura.conta,
+      estrutura.subconta,
+    ]);
   }
 }

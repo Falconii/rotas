@@ -7,4 +7,5 @@ export class ParametroEstrutura01 {
   public tipo: string = '';
   public orderby: string = '';
   public sharp: Boolean = false;
+  public subcontas: Boolean = false;
 }

@@ -48,18 +48,19 @@
 <div class="Browse" *ngIf="estruturas.length>0">
     <div class="linha" *ngFor="let estru of estruturas ; index as id">
 
-        <mat-card class="example-card" (click)="escolha(estru,getAcoes()['Consulta'])">
+        <mat-card class="example-card">
             <mat-card-actions>
                 <span class="button-container-right ">
-            <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(estru,getAcoes()[ 'Inclusao'])"
-              [matTooltip] = "getTexto().trabalhos_incluir"
+                  <button mat-icon-button aria-label="Example icon-button with share icon " (click)="tree(estru)"
+                   matTooltip = "Visualizar Estrtutura"
+                   matTooltipPosition="above">
+                  <mat-icon>fullscreen</mat-icon>
+                </button>
+
+            <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(estru,99)"
+              [matTooltip] = "getTexto().sub_conta"
                matTooltipPosition="above">
               <mat-icon>assignment</mat-icon>
-            </button>
-            <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(estru,getAcoes()[ 'Inclusao'])"
-              [matTooltip] = "getTexto().incluir"
-              matTooltipPosition="above">
-              <mat-icon>add_circle_outline</mat-icon>
             </button>
             <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(estru,getAcoes()[ 'Edicao'])"
               [matTooltip] = "getTexto().alterar"

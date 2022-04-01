@@ -17,6 +17,7 @@ import { CrudTrabalhoProjetoComponent } from './crud-trabalho-projeto/crud-traba
 import { CrudTrabalhosProjetosComponent } from './crud-trabalhos-projetos/crud-trabalhos-projetos.component';
 import { CrudEstruturaComponent } from './crud-estrutura/crud-estrutura.component';
 import { CrudSubestruturaComponent } from './crud-subestrutura/crud-subestrutura.component';
+import { TreeEstruturaComponent } from './crud-estrutura/tree-estrutura/tree-estrutura.component';
 
 @NgModule({
   imports: [
@@ -43,6 +44,7 @@ import { CrudSubestruturaComponent } from './crud-subestrutura/crud-subestrutura
     CrudTrabalhosProjetosComponent,
     CrudEstruturaComponent,
     CrudSubestruturaComponent,
+    TreeEstruturaComponent,
   ],
   exports: [
     CrudClienteComponent,

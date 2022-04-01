@@ -68,6 +68,7 @@ export class MensagensBotoes {
   static tarefas_incluir = 'Manutenção Das Tarefas';
   static trabalhos_incluir = 'Manutenção Dos Trabalhos';
   static planejamentos_manutencao = 'Manutenção Dos Planejamentos';
+  static sub_conta = 'Acesso As SubContas.';
 }
 
 export function DiasUteis(Inicial: string, Final: string): Dias_Planejados[] {

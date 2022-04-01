@@ -1,0 +1,11 @@
+<p>
+    <mat-toolbar>
+        <span class="example-spacer">ESTRUTURA: {{subconta}}</span>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    </mat-toolbar>
+</p>
+<div *ngFor="let estru of estruturas">
+    <mat-label>{{estru.subconta}}&Tab;{{estru.descricao}}{{estru.tipo}}</mat-label>
+</div>

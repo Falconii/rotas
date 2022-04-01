@@ -84,8 +84,8 @@ export class CrudViewEstruturaComponent implements OnInit {
     if (this.idAcao == CadastroAcoes.Inclusao) {
       this.estrutura = new EstruturaModel();
       this.estrutura.id_empresa = 1;
-      this.estrutura.conta = '02';
-      this.estrutura.subconta = '02';
+      this.estrutura.conta = 'NOVA';
+      this.estrutura.subconta = 'NOVA';
       this.estrutura.nivel = 1;
       this.estrutura.nivel_maxi = 7;
       this.estrutura.tipo = 'C';
@@ -190,6 +190,8 @@ export class CrudViewEstruturaComponent implements OnInit {
     console.log('registro', this.estrutura);
     switch (+this.idAcao) {
       case CadastroAcoes.Inclusao:
+        this.estrutura.conta = '';
+        this.estrutura.subconta = '';
         this.inscricaoAcao = this.estruturaService
           .EstruturaInsert(this.estrutura)
           .subscribe(
