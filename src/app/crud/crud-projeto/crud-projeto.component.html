@@ -30,14 +30,17 @@
             <input type="text" class="input_tb" formControlName="filtro" placeholder="Conteúdo Para Pesquisa.">
             </span>
         </form>
-        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="getProjetos()">
-  <mat-icon>rotate_right</mat-icon>
-</button>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="getProjetos()" matTooltip="Novo Projeto" matTooltipPosition="above">
+        <mat-icon>rotate_right</mat-icon>
+        </button>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon " (click)="escolha(inclusao,getAcoes()[ 'Inclusao'])" matTooltip="Novo Projeto" matTooltipPosition="above">
+              <mat-icon>add_circle_outline</mat-icon>
+        </button>
     </mat-toolbar>
 </p>
 <div class="Browse">
     <div class="linha" *ngFor="let projeto of projetos ; index as id">
-        <mat-card class="example-card" (click)="escolha(projeto,getAcoes()['Consulta'])">
+        <mat-card class="example-card" (click)="escolha(projeto,getAcoes()['Consulta'])" *ngIf="projeto.id !=0">
             <mat-card-actions>
                 <span class="button-container-right ">
               <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(projeto,99)"
@@ -45,11 +48,6 @@
                 matTooltipPosition="above">
                 <mat-icon>assignment</mat-icon>
               </button>
-          <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(projeto,getAcoes()[ 'Inclusao'])"
-              [matTooltip] = "getTexto().incluir"
-              matTooltipPosition="above">
-              <mat-icon>add_circle_outline</mat-icon>
-          </button>
             <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(projeto,getAcoes()[ 'Edicao'])"
               [matTooltip] = "getTexto().alterar"
               matTooltipPosition="above">
@@ -62,28 +60,30 @@
           </button>
         </span>
             </mat-card-actions>
-            <mat-card-content>
-                <mat-label class="labelTitleFirst">Código:</mat-label>
-                <mat-label class="labelData">{{projeto.id}}</mat-label>
-                <mat-label class="labelTitle">Descrição:</mat-label>
-                <mat-label class="labelData">{{projeto.descricao}}</mat-label>
-                <mat-label class="labelTitle">Situação:</mat-label>
-                <mat-label class="labelData">{{projeto.status}}</mat-label>
-            </mat-card-content>
-            <mat-card-content>
-                <mat-label class="labelTitleFirst">Data Proposta:</mat-label>
-                <mat-label class="labelData">{{projeto.dataprop | date : 'dd/MM/yyyy'}}</mat-label>
-                <mat-label class="labelTitle">Data Projeto:</mat-label>
-                <mat-label class="labelData">{{projeto.dataproj | date : 'dd/MM/yyyy' }}</mat-label>
-                <mat-label class="labelTitle">Data Encerramento:</mat-label>
-                <mat-label class="labelData">{{projeto.dataenc | date : 'dd/MM/yyyy' }}</mat-label>
-            </mat-card-content>
-            <mat-card-content>
-                <mat-label class="labelTitleFirst">Diretor:</mat-label>
-                <mat-label class="labelData">{{projeto.diretor_razao}}</mat-label>
-                <mat-label class="labelTitle">Cliente:</mat-label>
-                <mat-label class="labelData">{{projeto.cliente_razao}}</mat-label>
-            </mat-card-content>
+            <div *ngIf="projeto.id != 0">
+                <mat-card-content>
+                    <mat-label class="labelTitleFirst">Código:</mat-label>
+                    <mat-label class="labelData">{{projeto.id}}</mat-label>
+                    <mat-label class="labelTitle">Descrição:</mat-label>
+                    <mat-label class="labelData">{{projeto.descricao}}</mat-label>
+                    <mat-label class="labelTitle">Situação:</mat-label>
+                    <mat-label class="labelData">{{projeto.status}}</mat-label>
+                </mat-card-content>
+                <mat-card-content>
+                    <mat-label class="labelTitleFirst">Data Proposta:</mat-label>
+                    <mat-label class="labelData">{{projeto.dataprop | date : 'dd/MM/yyyy'}}</mat-label>
+                    <mat-label class="labelTitle">Data Projeto:</mat-label>
+                    <mat-label class="labelData">{{projeto.dataproj | date : 'dd/MM/yyyy' }}</mat-label>
+                    <mat-label class="labelTitle">Data Encerramento:</mat-label>
+                    <mat-label class="labelData">{{projeto.dataenc | date : 'dd/MM/yyyy' }}</mat-label>
+                </mat-card-content>
+                <mat-card-content>
+                    <mat-label class="labelTitleFirst">Diretor:</mat-label>
+                    <mat-label class="labelData">{{projeto.diretor_razao}}</mat-label>
+                    <mat-label class="labelTitle">Cliente:</mat-label>
+                    <mat-label class="labelData">{{projeto.cliente_razao}}</mat-label>
+                </mat-card-content>
+            </div>
         </mat-card>
     </div>
 

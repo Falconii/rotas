@@ -117,11 +117,7 @@ export class CrudViewEstruturaComponent implements OnInit {
 
   getEstrutura() {
     this.inscricaoGetEstrutura = this.estruturaService
-      .getEstrutura(
-        this.estrutura.id_empresa,
-        this.estrutura.conta,
-        this.estrutura.subconta
-      )
+      .getConta(this.estrutura.id_empresa, this.estrutura.conta)
       .subscribe(
         (data: EstruturaModel) => {
           this.estrutura = data;

@@ -1,3 +1,4 @@
+import { HistoricoSubconta } from './../../shared/historico-subconta';
 import { EstruturasService } from './../../services/estruturas.service';
 import { EstruturaModel } from 'src/app/Models/estrutura-model';
 import { Component, OnInit } from '@angular/core';
@@ -30,16 +31,6 @@ export class CrudSubestruturaComponent implements OnInit {
 
   id_empresa_pai = 0;
 
-  conta_pai_bak = '';
-
-  subconta_pai_bak = '';
-
-  descricao_pai_bak = '';
-
-  nivel_pai_bak = 0;
-
-  id_empresa = 0;
-
   conta_pai = '';
 
   subconta_pai = '';
@@ -49,6 +40,8 @@ export class CrudSubestruturaComponent implements OnInit {
   nivel_pai = 1;
 
   durationInSeconds = 3;
+
+  historico: HistoricoSubconta[] = [];
 
   tipos: any[] = [
     { id: 'C', descricao: 'CONTA' },
@@ -102,6 +95,13 @@ export class CrudSubestruturaComponent implements OnInit {
       this.subconta_pai = params.subconta;
       this.descricao_pai = params.descricao;
       this.nivel_pai = parseInt(params.nivel);
+      const histo: HistoricoSubconta = new HistoricoSubconta();
+      histo.id_empresa = this.id_empresa_pai;
+      histo.conta = this.conta_pai;
+      histo.subconta = this.subconta_pai;
+      histo.nivel = this.nivel_pai;
+      histo.descricao = this.descricao_pai;
+      this.setHistorico(histo);
       this.idAcao = params.acao;
       this.setAcao(params.acao);
     });
@@ -153,8 +153,10 @@ export class CrudSubestruturaComponent implements OnInit {
 
   setValue() {
     this.formulario.setValue({
-      conta: this.subconta.conta,
-      subconta: this.subconta.subconta,
+      conta:
+        this.idAcao == CadastroAcoes.Inclusao ? 'NOVA' : this.subconta.conta,
+      subconta:
+        this.idAcao == CadastroAcoes.Inclusao ? 'NOVA' : this.subconta.subconta,
       descricao: this.subconta.descricao,
       nivel: this.subconta.nivel,
       tipo: this.subconta.tipo,
@@ -185,7 +187,23 @@ export class CrudSubestruturaComponent implements OnInit {
   }
 
   onRetorno() {
-    this.router.navigate(['estruturas']);
+    if (this.nivel_pai - 1 <= 0) {
+      this.onHome();
+    } else {
+      console.log('historico==>', this.historico);
+      const estru: HistoricoSubconta = this.getHistorico(this.nivel_pai - 1);
+      console.log('estru==>', estru);
+
+      this.id_empresa_pai = estru.id_empresa;
+      this.conta_pai = estru.conta;
+      this.subconta_pai = estru.subconta;
+      this.descricao_pai = estru.descricao;
+      this.nivel_pai = estru.nivel;
+
+      this.getSubContas();
+      this.idAcao = 99;
+      this.setAcao(this.idAcao);
+    }
   }
 
   onHome() {
@@ -263,7 +281,7 @@ export class CrudSubestruturaComponent implements OnInit {
           .EstruturaInsert(this.subconta)
           .subscribe(
             async (data: EstruturaModel) => {
-              await this.openSnackBar_OK(`Estrutura Cadastrada.`, 'OK');
+              this.getSubContas();
               this.onCancel();
             },
             (error: any) => {
@@ -279,7 +297,7 @@ export class CrudSubestruturaComponent implements OnInit {
           .EstruturaUpdate(this.subconta)
           .subscribe(
             async (data: any) => {
-              await this.openSnackBar_OK(data.message, 'OK');
+              this.getSubContas();
               this.onCancel();
             },
             (error: any) => {
@@ -300,7 +318,7 @@ export class CrudSubestruturaComponent implements OnInit {
           )
           .subscribe(
             async (data: any) => {
-              await this.openSnackBar_OK(data.message, 'OK');
+              this.getSubContas();
               this.onCancel();
             },
             (error: any) => {
@@ -318,18 +336,20 @@ export class CrudSubestruturaComponent implements OnInit {
 
   escolha(subconta: EstruturaModel, opcao: number) {
     if (opcao == 99) {
-      //Ultima Consulta
-      this.conta_pai_bak = this.conta_pai;
-      this.subconta_pai_bak = this.subconta_pai;
-      this.descricao_pai_bak = this.descricao_pai;
-      this.nivel_pai_bak = this.nivel_pai;
-
       this.id_empresa_pai = subconta.id_empresa;
       this.conta_pai = subconta.conta;
       this.subconta_pai = subconta.subconta;
       this.descricao_pai = subconta.descricao;
       this.nivel_pai = subconta.nivel;
-      console.log('idAcao', this.idAcao);
+
+      const histo: HistoricoSubconta = new HistoricoSubconta();
+      histo.id_empresa = this.id_empresa_pai;
+      histo.conta = this.conta_pai;
+      histo.subconta = this.subconta_pai;
+      histo.nivel = this.nivel_pai;
+      histo.descricao = this.descricao_pai;
+
+      this.setHistorico(histo);
       this.getSubContas();
       this.idAcao = 99;
       this.setAcao(this.idAcao);
@@ -365,5 +385,32 @@ export class CrudSubestruturaComponent implements OnInit {
     });
 
     return retorno;
+  }
+
+  getHistorico(nivel: number) {
+    if (nivel <= HistoricoSubconta.length) {
+      console.log(
+        'Retorno anterior =>',
+        this.historico[nivel - 2],
+        'nivel==>',
+        nivel
+      );
+      return this.historico[nivel - 2];
+    } else {
+      console.log(
+        'Retorno pai =>',
+        this.historico[this.nivel_pai - 2],
+        'nivel==>',
+        this.nivel_pai
+      );
+      return this.historico[this.nivel_pai - 2];
+    }
+  }
+
+  setHistorico(value: HistoricoSubconta) {
+    if (value.nivel > this.historico.length) {
+      this.historico.push(value);
+      console.log('historico', this.historico);
+    }
   }
 }

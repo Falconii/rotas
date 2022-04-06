@@ -6,6 +6,8 @@ import { SimNaoPipe } from './sim-nao.pipe';
 import { SituacaoTarefaTrabalhoPipe } from './situacao-tarefa-trabalho.pipe';
 import { SituacaoTrabalhoProjetoPipe } from './situacao-trabalho-projeto.pipe';
 import { SituacaoProjetoPipe } from './situacao-projeto.pipe';
+import { SubcontaPipe } from './subconta.pipe';
+import { TipoContaPipe } from './tipo-conta.pipe';
 
 @NgModule({
   declarations: [
@@ -15,6 +17,8 @@ import { SituacaoProjetoPipe } from './situacao-projeto.pipe';
     SituacaoTarefaTrabalhoPipe,
     SituacaoTrabalhoProjetoPipe,
     SituacaoProjetoPipe,
+    SubcontaPipe,
+    TipoContaPipe,
   ],
   imports: [CommonModule],
   exports: [
@@ -24,6 +28,8 @@ import { SituacaoProjetoPipe } from './situacao-projeto.pipe';
     SituacaoTarefaTrabalhoPipe,
     SituacaoTrabalhoProjetoPipe,
     SituacaoProjetoPipe,
+    SubcontaPipe,
+    TipoContaPipe,
   ],
 })
 export class SharedModule {}

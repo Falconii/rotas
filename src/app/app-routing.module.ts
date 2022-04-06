@@ -84,7 +84,7 @@ const routes: Routes = [
     component: CrudSubestruturaComponent,
   },
   {
-    path: 'treeconta/:id_empresa/:conta/:subconta',
+    path: 'treeconta/:id_empresa/:conta/:subconta/:descricao/:nivel',
     component: TreeEstruturaComponent,
   },
   { path: '', component: HomeComponent },

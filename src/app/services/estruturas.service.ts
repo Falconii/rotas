@@ -26,6 +26,12 @@ export class EstruturasService {
     );
   }
 
+  getConta(id_empresa: number, conta: string) {
+    return this.http.get<EstruturaModel>(
+      `${this.apiURL}conta/${id_empresa}/${conta}`
+    );
+  }
+
   EstruturaInsert(estrutura: EstruturaModel) {
     return this.http.post<EstruturaModel>(`${this.apiURL}estrutura`, estrutura);
   }

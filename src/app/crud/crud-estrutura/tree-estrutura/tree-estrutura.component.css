@@ -174,3 +174,23 @@ table {
     border: #0000CC solid 1px;
     padding-top: 10px;
 }
+
+.coluna-codigo {
+    background-color: #878684;
+    font-weight: bolder;
+}
+
+.coluna-descricao {
+    background-color: #A9AD9E;
+}
+
+.coluna-tipo {
+    background-color: #E1E7D3;
+    text-align: center;
+    font-weight: 400;
+}
+
+.coluna-cabec {
+    background-color: #E3BD11;
+    text-align: center;
+}

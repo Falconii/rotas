@@ -27,6 +27,8 @@ export class CrudProjetoComponent implements OnInit {
 
   parametros: FormGroup;
 
+  inclusao: ProjetoModel;
+
   erro: string = '';
 
   opcoesOrdenacao = ['Código', 'Descricao'];
@@ -45,6 +47,10 @@ export class CrudProjetoComponent implements OnInit {
       filtro: [null],
       grupo: [],
     });
+    this.inclusao = new ProjetoModel();
+    this.inclusao.id_empresa = 1;
+    this.inclusao.user_insert = 1;
+    this.inclusao.user_update = 0;
     this.setValues();
   }
 
@@ -112,7 +118,7 @@ export class CrudProjetoComponent implements OnInit {
             this.projetos = [];
             this.projetos.push(trab);
             this.openSnackBar_OK(
-              'Favor Cadastrar O Primeiro Trabalho OK',
+              'Nenhuma Informação Encontrada Para Esta Consulta!',
               'OK'
             );
           } else {

@@ -53,7 +53,7 @@
 <div class="Browse" *ngIf="idAcao==99">
     <div class="linha" *ngFor="let sub of subcontas ; index as id">
 
-        <mat-card class="example-card" (click)="escolha(sub,getAcoes()['Consulta'])">
+        <mat-card class="example-card">
             <mat-card-actions>
                 <span class="button-container-right ">
           <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(sub,99) " *ngIf="sub.descricao != ''"
@@ -75,7 +75,7 @@
             </mat-card-actions>
             <mat-card-content>
                 <mat-label class="labelTitleFirst">SubConta:</mat-label>
-                <mat-label class="labelData">{{sub.subconta}}</mat-label>
+                <mat-label class="labelData">{{sub.subconta | subconta}}</mat-label>
                 <mat-label class="labelTitle">Descrição:</mat-label>
                 <mat-label class="labelData">{{sub.descricao}}</mat-label>
             </mat-card-content>

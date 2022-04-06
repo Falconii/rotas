@@ -105,7 +105,7 @@ export class CrudEstruturaComponent implements OnInit {
   }
 
   escolha(estrutura: EstruturaModel, opcao: number) {
-    if ((opcao = 99)) {
+    if (opcao == 99) {
       this.router.navigate([
         '/subconta',
         estrutura.id_empresa,
@@ -146,6 +146,8 @@ export class CrudEstruturaComponent implements OnInit {
       estrutura.id_empresa,
       estrutura.conta,
       estrutura.subconta,
+      estrutura.descricao,
+      estrutura.nivel,
     ]);
   }
 }

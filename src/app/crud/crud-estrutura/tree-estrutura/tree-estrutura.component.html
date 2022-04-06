@@ -1,11 +1,22 @@
 <p>
     <mat-toolbar>
-        <span class="example-spacer">ESTRUTURA: {{subconta}}</span>
-        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+        <span class="example-spacer">ESTRUTURA: {{subconta}}-{{descricao}}</span>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()">
       <mat-icon>arrow_back</mat-icon>
     </button>
     </mat-toolbar>
 </p>
-<div *ngFor="let estru of estruturas">
-    <mat-label>{{estru.subconta}}&Tab;{{estru.descricao}}{{estru.tipo}}</mat-label>
+<div>
+    <table>
+        <tr class="coluna-cabec">
+            <th>CONTA</th>
+            <th>CONTA-DESCRICAO</th>
+            <th>TIPO</th>
+        </tr>
+        <tr *ngFor="let estru of estruturas">
+            <td class="coluna-codigo">{{estru.subconta | subconta}}</td>
+            <td class="coluna-descricao">{{estru.descricao}}</td>
+            <td class="coluna-tipo">{{estru.tipo | tipoConta }}</td>
+        </tr>
+    </table>
 </div>
