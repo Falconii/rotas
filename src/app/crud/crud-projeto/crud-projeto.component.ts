@@ -67,10 +67,9 @@ export class CrudProjetoComponent implements OnInit {
   escolha(projeto: ProjetoModel, opcao: number) {
     if (opcao == 99) {
       this.router.navigate([
-        '/tarefasprojetos',
+        '/anexaratividade',
         projeto.id_empresa,
         projeto.id,
-        projeto.descricao,
       ]);
     } else {
       this.router.navigate(['/projeto', projeto.id_empresa, projeto.id, opcao]);

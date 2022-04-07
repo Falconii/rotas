@@ -10,16 +10,9 @@ export class SubcontaPipe implements PipeTransform {
     let retorno: string = '';
 
     if (conta.length <= 2) {
-      console.log(conta, 'conta.substring(x, 2)=>', 0, conta.substring(0, 2));
       return conta;
     } else {
       for (var x = 0; x < conta.length; x = x + 2) {
-        console.log(
-          conta,
-          `conta.substring(${x}, 2)=>`,
-          x,
-          conta.substring(x, 2)
-        );
         if (retorno.length != 0) retorno += '.';
         retorno = retorno + conta.substring(x, x + 2);
       }

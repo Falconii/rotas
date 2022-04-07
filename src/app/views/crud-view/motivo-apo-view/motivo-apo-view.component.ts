@@ -169,7 +169,6 @@ export class MotivoApoViewComponent implements OnInit {
           .MotivoApoInsert(this.motivo)
           .subscribe(
             async (data: MotivoApoModel) => {
-              await this.openSnackBar_OK(`Motivo Cadastrado Com Sucesso`, 'OK');
               this.onCancel();
             },
             (error: any) => {
@@ -185,7 +184,6 @@ export class MotivoApoViewComponent implements OnInit {
           .MotivoApoUpdate(this.motivo)
           .subscribe(
             async (data: any) => {
-              await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
             (error: any) => {
@@ -202,7 +200,6 @@ export class MotivoApoViewComponent implements OnInit {
           .MotivoApoDelete(this.motivo.id_empresa, this.motivo.codigo)
           .subscribe(
             async (data: any) => {
-              await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
             (error: any) => {

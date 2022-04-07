@@ -243,10 +243,6 @@ export class UsuarioViewComponent implements OnInit {
           .UsuarioInsert(this.usuario)
           .subscribe(
             async (data: UsuarioModel) => {
-              await this.openSnackBar_OK(
-                `Usuário Cadastrado No Código: ${data.id}`,
-                'OK'
-              );
               this.onCancel();
             },
             (error: any) => {
@@ -262,7 +258,6 @@ export class UsuarioViewComponent implements OnInit {
           .UsuarioUpdate(this.usuario)
           .subscribe(
             async (data: any) => {
-              await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
             (error: any) => {
@@ -279,7 +274,6 @@ export class UsuarioViewComponent implements OnInit {
           .UsuarioDelete(this.usuario.id_empresa, this.usuario.id)
           .subscribe(
             async (data: any) => {
-              await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
             (error: any) => {

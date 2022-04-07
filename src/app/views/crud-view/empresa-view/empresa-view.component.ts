@@ -165,10 +165,6 @@ export class EmpresaViewComponent implements OnInit {
           .EmpresaInsert(this.empresa)
           .subscribe(
             async (data: EmpresaModel) => {
-              await this.openSnackBar_OK(
-                `Empresa Cadastrada No Código: ${data.id}`,
-                'OK'
-              );
               this.onCancel();
             },
             (error: any) => {
@@ -184,7 +180,6 @@ export class EmpresaViewComponent implements OnInit {
           .EmpresaUpdate(this.empresa)
           .subscribe(
             async (data: any) => {
-              await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
             (error: any) => {
@@ -201,7 +196,6 @@ export class EmpresaViewComponent implements OnInit {
           .EmpresaDelete(this.empresa.id)
           .subscribe(
             async (data: any) => {
-              await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
             (error: any) => {

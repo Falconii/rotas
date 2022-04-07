@@ -1,12 +1,36 @@
-.example-spacer {
-    flex: 1 1 auto;
+.cad-container .mat-form-field {
+    margin-left: 8px;
 }
 
 .button-container-right {
     display: flex;
     justify-content: right;
     height: min-content;
-    width: 100%;
+}
+
+.SmallWidth {
+    width: 40px;
+}
+
+.MidleWidth {
+    width: 130px;
+}
+
+.LargeWidth {
+    width: 350px;
+}
+
+.LargerWidth {
+    width: 500px;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.buttons {
+    margin-left: 10px;
+    align-items: center;
 }
 
 .cabecalho {
@@ -16,14 +40,7 @@
     justify-content: left;
 }
 
-.parametros-container .mat-form-field {
-    margin-top: -15px;
-    margin-left: 10px;
-    height: 15px;
-    font-size: 16px;
-}
-
-.Browse {
+.Atividade {
     margin-left: auto;
     margin-right: auto;
     overflow-y: scroll;
@@ -65,13 +82,13 @@ table {
 }
 
 .labelTitle {
-    font-size: large;
+    font-size: medium;
     color: #0000CC;
     margin-left: 5px;
 }
 
 .labelData {
-    font-size: large;
+    font-size: medium;
     color: black;
     margin-left: 5px;
 }
@@ -147,4 +164,37 @@ table {
 .button-right {
     display: flex;
     justify-content: right;
+}
+
+.bordas {
+    border: #0000CC solid 1px;
+    padding-top: 10px;
+}
+
+.coluna-codigo {
+    background-color: #878684;
+    font-weight: bolder;
+}
+
+.coluna-descricao {
+    background-color: #A9AD9E;
+}
+
+.coluna-acao {
+    background-color: #E1E7D3;
+    text-align: center;
+    font-weight: 400;
+}
+
+.coluna-cabec {
+    background-color: #E3BD11;
+    text-align: center;
+}
+
+.cor-red {
+    color: red;
+}
+
+.cor-blue {
+    color: blue;
 }

@@ -27,6 +27,7 @@ import { CrudEstruturaComponent } from './crud/crud-estrutura/crud-estrutura.com
 import { CrudSubestruturaComponent } from './crud/crud-subestrutura/crud-subestrutura.component';
 import { CrudViewEstruturaComponent } from './views/crud-view/crud-view-estrutura/crud-view-estrutura.component';
 import { TreeEstruturaComponent } from './crud/crud-estrutura/tree-estrutura/tree-estrutura.component';
+import { CrudAtividadeProjetoComponent } from './crud/crud-atividade-projeto/crud-atividade-projeto.component';
 
 const routes: Routes = [
   { path: 'empresa/:id/:acao', component: EmpresaViewComponent },
@@ -86,6 +87,10 @@ const routes: Routes = [
   {
     path: 'treeconta/:id_empresa/:conta/:subconta/:descricao/:nivel',
     component: TreeEstruturaComponent,
+  },
+  {
+    path: 'anexaratividade/:id_empresa/:id_projeto',
+    component: CrudAtividadeProjetoComponent,
   },
   { path: '', component: HomeComponent },
 ];

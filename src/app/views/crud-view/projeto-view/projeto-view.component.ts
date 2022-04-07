@@ -228,8 +228,6 @@ export class ProjetoViewComponent implements OnInit {
     this.projeto.dataproj = this.formulario.value.dataproj;
     this.projeto.dataenc = this.formulario.value.dataenc;
     this.projeto.horasve = this.formulario.value.horasve;
-    //this.projeto.horasplan = this.formulario.value.horasplan;
-    //this.projeto.horasexec = this.formulario.value.horasexec;
     this.projeto.user_insert = 1;
     this.projeto.user_update = 0;
     switch (+this.idAcao) {
@@ -238,10 +236,6 @@ export class ProjetoViewComponent implements OnInit {
           .ProjetoInsert(this.projeto)
           .subscribe(
             async (data: ProjetoModel) => {
-              await this.openSnackBar_OK(
-                `Projeto Cadastrado No Código: ${data.id}`,
-                'OK'
-              );
               this.onCancel();
             },
             (error: any) => {
@@ -257,7 +251,6 @@ export class ProjetoViewComponent implements OnInit {
           .ProjetoUpdate(this.projeto)
           .subscribe(
             async (data: any) => {
-              await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
             (error: any) => {
@@ -274,7 +267,6 @@ export class ProjetoViewComponent implements OnInit {
           .ProjetoDelete(this.projeto.id_empresa, this.projeto.id)
           .subscribe(
             async (data: any) => {
-              await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
             (error: any) => {

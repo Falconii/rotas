@@ -192,7 +192,6 @@ export class CrudViewEstruturaComponent implements OnInit {
           .EstruturaInsert(this.estrutura)
           .subscribe(
             async (data: EstruturaModel) => {
-              await this.openSnackBar_OK(`Estrutura Cadastrada.`, 'OK');
               this.onCancel();
             },
             (error: any) => {
@@ -208,7 +207,6 @@ export class CrudViewEstruturaComponent implements OnInit {
           .EstruturaUpdate(this.estrutura)
           .subscribe(
             async (data: any) => {
-              await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
             (error: any) => {
@@ -229,7 +227,6 @@ export class CrudViewEstruturaComponent implements OnInit {
           )
           .subscribe(
             async (data: any) => {
-              await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
             (error: any) => {

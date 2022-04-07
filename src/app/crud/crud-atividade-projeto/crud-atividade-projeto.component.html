@@ -1,0 +1,123 @@
+<!--http://jsfiddle.net/danield770/sNwrs/3158/-->
+<p>
+    <mat-toolbar>
+        <span class="example-spacer">Projeto :{{projeto.id}}  {{projeto.descricao}} - Manutenção das Atividades </span>
+        <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Filtro" matTooltipPosition="above" *ngIf="idAcao == 99" (click)="setFiltro()">
+          <mat-icon>add_circle_outline</mat-icon>
+         </button>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()" *ngIf="idAcao == 99">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+
+    </mat-toolbar>
+</p>
+<form [formGroup]="formulario" autocomplete="off" *ngIf="idAcao != 99" class="bordas">
+    <div class="cad-container">
+        <mat-label>{{labelCadastro}}</mat-label>
+    </div>
+    <div class="cad-container">
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Atividade</mat-label>
+            <input matInput formControlName="subconta" [readonly]="true">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Data Inicial</mat-label>
+            <input matInput [matDatepicker]="inicialDatePicker" formControlName="inicial" [readonly]="readOnly">
+            <mat-datepicker-toggle matSuffix [for]="inicialDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #inicialDatePicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Data Final</mat-label>
+            <input matInput [matDatepicker]="finalDatePicker" formControlName="final" [readonly]="readOnly">
+            <mat-datepicker-toggle matSuffix [for]="finalDatePicker"></mat-datepicker-toggle>
+            <mat-datepicker #finalDatePicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="LargeWidth" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+            <mat-label>Executor</mat-label>
+            <mat-select formControlName="id_resp">
+                <mat-option *ngFor="let executor of executores" [value]="executor.id">
+                    {{executor.razao}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Situação</mat-label>
+            <input matInput formControlName="status" [readonly]="true">
+        </mat-form-field>
+    </div>
+    <div class="cad-container">
+        <mat-form-field field appearance="outline" class="LargeWidth" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+            <mat-label>Executor</mat-label>
+            <mat-select formControlName="id_exec">
+                <mat-option *ngFor="let executor of executores" [value]="executor.id">
+                    {{executor.razao}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="cad-container">
+        <mat-form-field appearance="outline" class="LargerWidth">
+            <mat-label>Observação</mat-label>
+            <input matInput formControlName="obs" [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('obs')?.status == 'INVALID' && touchedOrDirty('obs')">tarefa - No mínimo 03 letras e no máximo 50 letras</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="cad-container">
+        <button class="buttons" mat-raised-button color="primary" *ngIf="idAcao != 3" (click)=onSubmit()>{{acao}}</button>
+        <button class="buttons" mat-raised-button color="accent" (click)="onCancel()">{{getLabelCancel()}}</button>
+    </div>
+</form>
+<div class="Atividade" *ngIf="idAcao==99">
+    <form [formGroup]="parametros" autocomplete="off">
+        <div class="cad-container">
+            <mat-form-field field appearance="outline" class="LargeWidth">
+                <mat-label>Estruturas</mat-label>
+                <mat-select formControlName="conta">
+                    <mat-option *ngFor="let estru of estruturas" [value]="estru.conta">
+                        {{estru.subconta}}-{{estru.descricao}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button class="buttons" mat-raised-button color="primary" (click)=onAnexar()>Anexar Estrutura</button>
+        </div>
+    </form>
+    <div *ngIf="atividades.length > 0">
+        <table>
+            <tr class="coluna-cabec">
+                <th>CONTA</th>
+                <th>CONTA-DESCRICAO</th>
+                <th>TIPO</th>
+            </tr>
+            <tr *ngFor="let atividade of atividades">
+                <td class="coluna-codigo" *ngIf="getFiltro(atividade)">{{atividade.subconta | subconta}}
+                </td>
+                <td class="coluna-descricao" *ngIf="getFiltro(atividade)">
+                    <mat-label class="labelData">{{atividade.estru_descri}}</mat-label>
+                    <div class="coluna-descricao cor-blue" *ngIf="atividade.tipo=='O'">
+                        <mat-label class="labelTitle">Responsável:</mat-label>
+                        <mat-label class="labelData">{{atividade.resp_razao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue" *ngIf="atividade.tipo=='O'">
+                        <mat-label class="labelTitle">Data Inicial:</mat-label>
+                        <mat-label class="labelData">{{atividade.inicial}}</mat-label>
+                        <mat-label class="labelTitle">Data Final:</mat-label>
+                        <mat-label class="labelData">{{atividade.final}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue" *ngIf="atividade.tipo=='O'">
+                        <mat-label class="labelTitle">Executor:</mat-label>
+                        <mat-label class="labelData">{{atividade.exec_razao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue" *ngIf="atividade.tipo=='O'">
+                        <mat-label class="labelTitle">Obs:</mat-label>
+                        <mat-label class="labelData">{{atividade.obs}}</mat-label>
+                    </div>
+                </td>
+                <td class="coluna-acao" *ngIf="getFiltro(atividade)">
+                    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Editar Atividade" matTooltipPosition="above" (click)="escolha(atividade,getAcoes()[ 'Edicao'])" *ngIf="atividade.tipo == 'O'">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

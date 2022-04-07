@@ -156,10 +156,6 @@ export class GruUserViewComponent implements OnInit {
           .GrupoUserInsert(this.grupo)
           .subscribe(
             async (data: GruUserModel) => {
-              await this.openSnackBar_OK(
-                `Grupo de Usuário Cadastrado No Código: ${data.id}`,
-                'OK'
-              );
               this.onCancel();
             },
             (error: any) => {
@@ -175,7 +171,6 @@ export class GruUserViewComponent implements OnInit {
           .GrupoUserUpdate(this.grupo)
           .subscribe(
             async (data: any) => {
-              await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
             (error: any) => {
@@ -192,7 +187,6 @@ export class GruUserViewComponent implements OnInit {
           .GrupoUserDelete(this.grupo.id_empresa, this.grupo.id)
           .subscribe(
             async (data: any) => {
-              await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
             (error: any) => {

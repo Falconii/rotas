@@ -156,10 +156,6 @@ export class GruEcoViewComponent implements OnInit {
           .GrupoEcoInsert(this.grupo)
           .subscribe(
             async (data: GrupoEcoModel) => {
-              await this.openSnackBar_OK(
-                `Grupo Econômico Cadastrado No Código: ${data.id}`,
-                'OK'
-              );
               this.onCancel();
             },
             (error: any) => {
@@ -175,7 +171,6 @@ export class GruEcoViewComponent implements OnInit {
           .GrupoEcoUpdate(this.grupo)
           .subscribe(
             async (data: any) => {
-              await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
             (error: any) => {
@@ -192,7 +187,6 @@ export class GruEcoViewComponent implements OnInit {
           .GrupoEcoDelete(this.grupo.id_empresa, this.grupo.id)
           .subscribe(
             async (data: any) => {
-              await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
             (error: any) => {

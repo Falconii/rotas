@@ -1,4 +1,4 @@
-export class AuditorModel {
+export class AtividadeModel {
   public id_empresa: number = 0;
   public id: number = 0;
   public id_projeto: number = 0;
@@ -16,8 +16,4 @@ export class AuditorModel {
   public obs: string = '';
   public user_insert: number = 0;
   public user_update: number = 0;
-  public proj_descri: string = '';
-  public estru_descri: string = '';
-  public exec_razao: string = '';
-  public resp_razao: string = '';
 }
