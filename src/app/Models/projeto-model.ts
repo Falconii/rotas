@@ -11,8 +11,9 @@ export class ProjetoModel {
   public horasplan: number = 0;
   public horasexec: number = 0;
   public status: string = '';
-  public diretor_razao: string = '';
-  public cliente_razao: string = '';
   public user_insert: number = 0;
   public user_update: number = 0;
+  public diretor_razao: string = '';
+  public cliente_razao: string = '';
+  public cliente_gru_econo: number = 0;
 }

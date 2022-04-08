@@ -3,7 +3,7 @@
     <mat-toolbar>
         <span class="example-spacer">Projeto :{{projeto.id}}  {{projeto.descricao}} - Manutenção das Atividades </span>
         <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Filtro" matTooltipPosition="above" *ngIf="idAcao == 99" (click)="setFiltro()">
-          <mat-icon>add_circle_outline</mat-icon>
+          <mat-icon>filter_list</mat-icon>
          </button>
         <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()" *ngIf="idAcao == 99">
       <mat-icon>arrow_back</mat-icon>
@@ -11,10 +11,7 @@
 
     </mat-toolbar>
 </p>
-<form [formGroup]="formulario" autocomplete="off" *ngIf="idAcao != 99" class="bordas">
-    <div class="cad-container">
-        <mat-label>{{labelCadastro}}</mat-label>
-    </div>
+<form [formGroup]="formulario" autocomplete="off" *ngIf="idAcao != 99">
     <div class="cad-container">
         <mat-form-field appearance="outline" class="MidleWidth">
             <mat-label>Atividade</mat-label>
@@ -54,39 +51,58 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
+        <mat-form-field field appearance="outline" class="LargeWidth" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+            <mat-label>SubCliente</mat-label>
+            <mat-select formControlName="id_subcliente">
+                <mat-option *ngFor="let subcliente of subclientes" [value]="subcliente.id">
+                    {{subcliente.razao}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
     </div>
     <div class="cad-container">
         <mat-form-field appearance="outline" class="LargerWidth">
             <mat-label>Observação</mat-label>
             <input matInput formControlName="obs" [readonly]="readOnly">
-            <mat-error *ngIf="formulario.get('obs')?.status == 'INVALID' && touchedOrDirty('obs')">tarefa - No mínimo 03 letras e no máximo 50 letras</mat-error>
+            <mat-error *ngIf="formulario.get('obs')?.status == 'INVALID' && touchedOrDirty('obs')">Observação - No máximo 60 letras</mat-error>
         </mat-form-field>
     </div>
     <div class="cad-container">
-        <button class="buttons" mat-raised-button color="primary" *ngIf="idAcao != 3" (click)=onSubmit()>{{acao}}</button>
-        <button class="buttons" mat-raised-button color="accent" (click)="onCancel()">{{getLabelCancel()}}</button>
+        <div class="button-container-right">
+            <button class="buttons" mat-raised-button color="primary" *ngIf="idAcao != 3" (click)=onSubmit()>{{acao}}</button>
+            <button class="buttons" mat-raised-button color="accent" (click)="onCancel()">{{getLabelCancel()}}</button>
+        </div>
     </div>
 </form>
 <div class="Atividade" *ngIf="idAcao==99">
     <form [formGroup]="parametros" autocomplete="off">
         <div class="cad-container">
-            <mat-form-field field appearance="outline" class="LargeWidth">
+            <mat-form-field field appearance="outline" class="MidlerWidth">
                 <mat-label>Estruturas</mat-label>
                 <mat-select formControlName="conta">
-                    <mat-option *ngFor="let estru of estruturas" [value]="estru.conta">
-                        {{estru.subconta}}-{{estru.descricao}}
+                    <mat-option *ngFor="let estruOff of estruturasOff" [value]="estruOff.conta">
+                        {{estruOff.subconta}}-{{estruOff.descricao}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <button class="buttons" mat-raised-button color="primary" (click)=onAnexar()>Anexar Estrutura</button>
+            <button class="buttons" mat-raised-button color="primary" (click)=onAnexar()>Anexar</button>
+            <mat-form-field field appearance="outline" class="MidlerWidth">
+                <mat-label>Atividades</mat-label>
+                <mat-select formControlName="atividade">
+                    <mat-option *ngFor="let in of estruturasIn" [value]="in.conta">
+                        {{in.subconta}}-{{in.descricao}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button class="buttons" mat-raised-button color="primary" (click)=onVisualizar()>Visualizar</button>
         </div>
     </form>
     <div *ngIf="atividades.length > 0">
         <table>
             <tr class="coluna-cabec">
                 <th>CONTA</th>
-                <th>CONTA-DESCRICAO</th>
-                <th>TIPO</th>
+                <th>CONTEÚDO</th>
+                <th>AÇÃO</th>
             </tr>
             <tr *ngFor="let atividade of atividades">
                 <td class="coluna-codigo" *ngIf="getFiltro(atividade)">{{atividade.subconta | subconta}}
@@ -113,6 +129,9 @@
                     </div>
                 </td>
                 <td class="coluna-acao" *ngIf="getFiltro(atividade)">
+                    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Excluir Atividade" matTooltipPosition="above" (click)="onExcluir(atividade)" *ngIf="atividade.nivel == 1">
+                    <mat-icon>delete</mat-icon>
+                  </button>
                     <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Editar Atividade" matTooltipPosition="above" (click)="escolha(atividade,getAcoes()[ 'Edicao'])" *ngIf="atividade.tipo == 'O'">
                       <mat-icon>edit</mat-icon>
                     </button>

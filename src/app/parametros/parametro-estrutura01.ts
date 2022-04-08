@@ -8,4 +8,7 @@ export class ParametroEstrutura01 {
   public orderby: string = '';
   public sharp: Boolean = false;
   public subcontas: Boolean = false;
+  public projeto_in: string = '';
+  public projeto_off: string = '';
+  public id_projeto: number = 0;
 }

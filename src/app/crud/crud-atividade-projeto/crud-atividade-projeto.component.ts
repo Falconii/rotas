@@ -1,3 +1,7 @@
+import { ClientesQuery01Model } from './../../Models/cliente-query_01-model';
+import { ParametroCliente01 } from './../../parametros/parametro-cliente-01';
+import { ClientesService } from './../../services/clientes.service';
+import { ClientesModel } from './../../Models/cliente-model';
 import { ParametroAtividade01 } from './../../parametros/parametro-atividade01';
 import { ParametroEstrutura01 } from 'src/app/parametros/parametro-estrutura01';
 import { ProjetosService } from './../../services/projetos.service';
@@ -12,9 +16,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { UsuarioQuery01Model } from 'src/app/Models/usuario-query_01-model';
 import { CadastroAcoes } from 'src/app/shared/cadastro-acoes';
-import { MensagensBotoes } from 'src/app/shared/util';
+import { DataYYYYMMDD, MensagensBotoes } from 'src/app/shared/util';
 import { UsuariosService } from 'src/app/services/usuarios.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, PreloadAllModules, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ParametroUsuario01 } from 'src/app/parametros/parametro-usuario-01';
 
@@ -29,16 +33,22 @@ export class CrudAtividadeProjetoComponent implements OnInit {
   inscricaoAcao!: Subscription;
   inscricaoRota!: Subscription;
   inscricaoGetProjeto!: Subscription;
-  inscricaoGetEstruturas!: Subscription;
+  inscricaoGetEstruturasIn!: Subscription;
+  inscricaoGetEstruturasOff!: Subscription;
   inscricaoGetAtividade!: Subscription;
+  inscricaoGetSubCliente!: Subscription;
 
   projeto: ProjetoModel = new ProjetoModel();
 
   executores: UsuarioQuery01Model[] = [];
 
+  subclientes: ClientesQuery01Model[] = [];
+
   atividades: AtividadeQuery_01Model[] = [];
 
-  estruturas: EstruturaModel[] = [];
+  estruturasIn: EstruturaModel[] = [];
+
+  estruturasOff: EstruturaModel[] = [];
 
   atividade: AtividadeModel = new AtividadeModel();
 
@@ -66,6 +76,8 @@ export class CrudAtividadeProjetoComponent implements OnInit {
 
   conta: string = '';
 
+  id_atividade_conta = '';
+
   filtro: Boolean = false;
 
   constructor(
@@ -74,6 +86,7 @@ export class CrudAtividadeProjetoComponent implements OnInit {
     private atividadesService: AtividadesService,
     private usuariosService: UsuariosService,
     private projetosService: ProjetosService,
+    private clientesService: ClientesService,
     private route: ActivatedRoute,
     private router: Router,
     private _snackBar: MatSnackBar
@@ -82,13 +95,15 @@ export class CrudAtividadeProjetoComponent implements OnInit {
       subconta: [{ value: '' }],
       inicial: [],
       final: [],
-      id_resp: [],
+      id_resp: [{ value: '' }, [Validators.required, Validators.min(1)]],
       status: [],
-      id_exec: [],
-      obs: [],
+      id_exec: [{ value: '' }, [Validators.required, Validators.min(1)]],
+      id_subcliente: [{ value: '' }, [Validators.required, Validators.min(1)]],
+      obs: [{ value: '' }, [Validators.min(60)]],
     });
     this.parametros = formBuilder.group({
-      conta: [{ value: '' }, [Validators.required, Validators.minLength(2)]],
+      conta: [{ value: '' }],
+      atividade: [{ value: '' }],
     });
     this.projeto = new ProjetoModel();
     this.inscricaoRota = route.params.subscribe((params: any) => {
@@ -101,6 +116,7 @@ export class CrudAtividadeProjetoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.setParamentos();
     this.getExecutores();
   }
 
@@ -110,8 +126,10 @@ export class CrudAtividadeProjetoComponent implements OnInit {
     this.inscricaoAcao?.unsubscribe();
     this.inscricaoRota?.unsubscribe();
     this.inscricaoGetProjeto?.unsubscribe();
-    this.inscricaoGetEstruturas?.unsubscribe();
+    this.inscricaoGetEstruturasIn?.unsubscribe();
+    this.inscricaoGetEstruturasOff?.unsubscribe();
     this.inscricaoGetAtividade?.unsubscribe();
+    this.inscricaoGetSubCliente?.unsubscribe();
   }
 
   getProjeto() {
@@ -120,11 +138,36 @@ export class CrudAtividadeProjetoComponent implements OnInit {
       .subscribe(
         (data: ProjetoModel) => {
           this.projeto = data;
-          this.getEstruturas();
+          this.getEstruturasIn();
         },
         (error: any) => {
           this.openSnackBar_Err(
             `Pesquisa  Projeto ${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
+            'OK'
+          );
+        }
+      );
+  }
+  getSubClientes() {
+    console.log('Olha o projeto', this.projeto);
+
+    let par = new ParametroCliente01();
+
+    par.id_empresa = this.id_empresa;
+
+    par.grupo = this.projeto.cliente_gru_econo;
+
+    par.orderby = 'Razão';
+    this.inscricaoGetSubCliente = this.clientesService
+      .getClientes_01(par)
+      .subscribe(
+        (data: ClientesQuery01Model[]) => {
+          this.subclientes = data;
+        },
+        (error: any) => {
+          this.atividades = [];
+          this.openSnackBar_Err(
+            `${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
             'OK'
           );
         }
@@ -138,10 +181,9 @@ export class CrudAtividadeProjetoComponent implements OnInit {
         (data: AtividadeModel) => {
           this.atividade = data;
           this.setValue();
-          console.log(this.atividade);
         },
         (error: any) => {
-          this.atividades = [];
+          this.atividade = new AtividadeModel();
           this.openSnackBar_Err(
             `${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
             'OK'
@@ -155,16 +197,18 @@ export class CrudAtividadeProjetoComponent implements OnInit {
 
     par.id_empresa = this.id_empresa;
 
-    par.conta = this.conta;
+    par.conta = this.id_atividade_conta;
 
     par.id_projeto = this.id_projeto;
+
+    par.orderby = 'projeto';
 
     this.inscricaoGetFiltro = this.atividadesService
       .getAtividades_01(par)
       .subscribe(
         (data: AtividadeQuery_01Model[]) => {
           this.atividades = data;
-          console.log(this.atividades);
+          console.log('atividades', this.atividades);
         },
         (error: any) => {
           this.atividades = [];
@@ -198,12 +242,15 @@ export class CrudAtividadeProjetoComponent implements OnInit {
         }
       );
   }
+
   anexarAtividades() {
     this.inscricaoAnexar = this.atividadesService
       .anexaatividade(this.id_empresa, this.conta, this.id_projeto)
       .subscribe(
         (data: any) => {
-          this.atividades = data;
+          this.atividades = [];
+          this.conta = '';
+          this.getProjeto();
           this.openSnackBar_OK(`Estrutura Anexada Com Sucesso!`, 'OK');
         },
         (error: any) => {
@@ -215,28 +262,78 @@ export class CrudAtividadeProjetoComponent implements OnInit {
       );
   }
 
-  getEstruturas() {
+  desanexarAtividades(id_empresa: number, conta: string, id_projeto: number) {
+    this.inscricaoAnexar = this.atividadesService
+      .desanexaatividade(id_empresa, conta, id_projeto)
+      .subscribe(
+        (data: any) => {
+          this.atividades = [];
+          this.conta = '';
+          this.getProjeto();
+          this.openSnackBar_OK(`Estrutura Excluída Com Sucesso!`, 'OK');
+        },
+        (error: any) => {
+          console.log(error);
+          this.openSnackBar_Err(
+            `${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
+            'OK'
+          );
+        }
+      );
+  }
+
+  getEstruturasOff() {
     let par = new ParametroEstrutura01();
 
     par.id_empresa = this.id_empresa;
 
     par.nivel = 1;
 
+    par.projeto_off = 'S';
+
+    par.id_projeto = this.id_projeto;
+
     par.orderby = 'Conta';
 
-    this.inscricaoGetEstruturas = this.estruturasService
+    this.inscricaoGetEstruturasOff = this.estruturasService
       .getEstruturas(par)
       .subscribe(
         (data: EstruturaModel[]) => {
-          this.estruturas = data;
-          this.setParamentos();
+          this.estruturasOff = data;
         },
         (error: any) => {
-          this.estruturas = [];
-          this.openSnackBar_Err(
-            `Pesquisa Nos Tarefas Do Projeto ${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
-            'OK'
-          );
+          this.estruturasOff = [];
+        }
+      );
+  }
+
+  getEstruturasIn() {
+    let par = new ParametroEstrutura01();
+
+    par.id_empresa = this.id_empresa;
+
+    par.nivel = 1;
+
+    par.projeto_in = 'S';
+
+    par.id_projeto = this.id_projeto;
+
+    par.orderby = 'Conta';
+
+    this.inscricaoGetEstruturasIn = this.estruturasService
+      .getEstruturas(par)
+      .subscribe(
+        (data: EstruturaModel[]) => {
+          this.estruturasIn = data;
+          console.log('EstruturaIn', this.estruturasIn);
+          this.getSubClientes();
+          this.getEstruturasOff();
+        },
+        (error: any) => {
+          this.estruturasIn = [];
+          this.getSubClientes();
+          this.getEstruturasOff();
+          console.log('erro', error);
         }
       );
   }
@@ -278,8 +375,12 @@ export class CrudAtividadeProjetoComponent implements OnInit {
   }
 
   executaAcao() {
-    this.atividade.id_empresa = this.id_empresa;
-    this.atividade.id_projeto = this.id_projeto;
+    this.atividade.inicial = this.formulario.value.inicial;
+    this.atividade.final = this.formulario.value.final;
+    this.atividade.id_resp = this.formulario.value.id_resp;
+    this.atividade.id_exec = this.formulario.value.id_exec;
+    this.atividade.id_subcliente = this.formulario.value.id_subcliente;
+    this.atividade.obs = this.formulario.value.obs;
     switch (+this.idAcao) {
       case CadastroAcoes.Edicao:
         this.inscricaoAcao = this.atividadesService
@@ -287,6 +388,7 @@ export class CrudAtividadeProjetoComponent implements OnInit {
           .subscribe(
             async (data: any) => {
               this.onCancel();
+              this.refreshAtividade(this.atividade);
             },
             (error: any) => {
               console.log('Error', error.error);
@@ -313,9 +415,22 @@ export class CrudAtividadeProjetoComponent implements OnInit {
   onAnexar() {
     if (this.parametros.value.conta?.trim() != '') {
       this.conta = this.parametros.value.conta?.trim();
-      this.getAtividades();
+      this.setParamentos();
+      this.filtro = false;
+      this.anexarAtividades();
     } else {
       this.openSnackBar_OK(`Informe Uma Estrutura Primeiro`, 'OK');
+    }
+  }
+
+  onVisualizar() {
+    if (this.parametros.value.atividade?.trim() != '') {
+      this.id_atividade_conta = this.parametros.value.atividade?.trim();
+      this.setParamentos();
+      this.filtro = false;
+      this.getAtividades();
+    } else {
+      this.openSnackBar_OK(`Informe Uma Atividade Primeiro`, 'OK');
     }
   }
 
@@ -326,6 +441,7 @@ export class CrudAtividadeProjetoComponent implements OnInit {
       final: this.atividade.final,
       id_resp: this.atividade.id_resp,
       id_exec: this.atividade.id_exec,
+      id_subcliente: this.atividade.id_subcliente,
       obs: this.atividade.obs,
       status: '',
     });
@@ -334,6 +450,7 @@ export class CrudAtividadeProjetoComponent implements OnInit {
   setParamentos() {
     this.parametros.setValue({
       conta: this.conta,
+      atividade: this.id_atividade_conta,
     });
   }
 
@@ -351,8 +468,15 @@ export class CrudAtividadeProjetoComponent implements OnInit {
   }
 
   onRetorno() {
-    console.log('Retornando....');
-    this.router.navigate(['/trabalhosprojetos']);
+    this.router.navigate(['/projetos']);
+  }
+
+  onExcluir(atividade: AtividadeQuery_01Model) {
+    this.desanexarAtividades(
+      atividade.id_empresa,
+      atividade.conta,
+      atividade.id_projeto
+    );
   }
 
   openSnackBar_Err(message: string, action: string) {
@@ -402,5 +526,28 @@ export class CrudAtividadeProjetoComponent implements OnInit {
     } else {
       return true;
     }
+  }
+
+  refreshAtividade(atividade: AtividadeModel) {
+    this.atividades.forEach((ativ) => {
+      if (ativ.id == atividade.id) {
+        ativ.inicial = DataYYYYMMDD(this.formulario.value.inicial);
+        ativ.final = DataYYYYMMDD(this.formulario.value.final);
+        ativ.id_resp = this.formulario.value.id_resp;
+        ativ.resp_razao = this.getRazao(this.formulario.value.id_resp);
+        ativ.id_exec = this.formulario.value.id_exec;
+        ativ.exec_razao = this.getRazao(this.formulario.value.id_exec);
+        ativ.id_subcliente = this.formulario.value.id_subcliente;
+        ativ.obs = this.formulario.value.obs;
+      }
+    });
+  }
+
+  getRazao(value: number): string {
+    let retorno: string = '';
+    this.executores.forEach((exec) => {
+      if (exec.id == value) retorno = exec.razao;
+    });
+    return retorno;
   }
 }

@@ -20,4 +20,6 @@ export class AtividadeQuery_01Model {
   public estru_descri: string = '';
   public exec_razao: string = '';
   public resp_razao: string = '';
+  public subcliente_razao: string = '';
+  public gru_econo: number = 0;
 }
