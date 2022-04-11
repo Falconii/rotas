@@ -1,0 +1,59 @@
+<p>
+    <mat-toolbar>
+        <span class="example-spacer">Atividade:{{atividade.subconta }}</span>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+    </mat-toolbar>
+</p>
+<form [formGroup]="formulario" autocomplete="off">
+    <h1>Lançamento:</h1>
+    <div class="cad-container">
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Entrada</mat-label>
+            <input matInput formControlName="entrada">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Saída</mat-label>
+            <input matInput formControlName="saida">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="LargerWidth">
+            <mat-label>Observação</mat-label>
+            <input matInput formControlName="obs">
+        </mat-form-field>
+    </div>
+    <div class="button-container-right">
+        <button class="buttons" mat-raised-button color="primary" (click)=onSubmit()>Gravar</button>
+        <button class="buttons" mat-raised-button color="accent" (click)="onCancel()">Cancelar</button>
+    </div>
+</form>
+<div>
+    <table>
+        <tr class="coluna-cabec">
+            <th>DATA</th>
+            <th>ATIVIDADES</th>
+            <th>AÇÃO</th>
+        </tr>
+        <tr *ngFor="let agendamento of agendamentos">
+            <td class="coluna-codigo">{{agendamento.data | date : 'dd/MM/yyyy'}}
+            </td>
+            <td class="coluna-descricao">
+                <div *ngFor="let lanca of agendamento.movimentos">
+                    <div>
+                        <mat-label class="labelTitle">Hora Inicial:</mat-label>
+                        <mat-label class="labelData">{{lanca.inicial | date : 'HH:MM'}} as {{lanca.final | date : 'HH:MM'}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Obs.::</mat-label>
+                        <mat-label class="labelData">{{lanca.obs}}</mat-label>
+                    </div>
+                </div>
+            </td>
+            <td class="coluna-acao">
+                <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Editar Atividade" matTooltipPosition="above">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </td>
+        </tr>
+    </table>
+</div>

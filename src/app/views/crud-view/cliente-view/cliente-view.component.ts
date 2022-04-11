@@ -244,10 +244,6 @@ export class ClienteViewComponent implements OnInit {
           .clienteInsert(this.cliente)
           .subscribe(
             async (data: ClientesModel) => {
-              await this.openSnackBar_OK(
-                `Cliente Cadastrado No Código: ${data.id}`,
-                'OK'
-              );
               this.onCancel();
             },
             (error: any) => {
@@ -263,7 +259,6 @@ export class ClienteViewComponent implements OnInit {
           .clienteUpdate(this.cliente)
           .subscribe(
             async (data: any) => {
-              await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
             (error: any) => {
@@ -280,7 +275,6 @@ export class ClienteViewComponent implements OnInit {
           .clienteDelete(this.cliente.id_empresa, this.cliente.id)
           .subscribe(
             async (data: any) => {
-              await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
             (error: any) => {

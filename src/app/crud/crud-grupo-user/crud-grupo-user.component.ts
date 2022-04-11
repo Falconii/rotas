@@ -52,8 +52,12 @@ export class CrudGrupoUserComponent implements OnInit {
     this.inscricaoGetFiltro?.unsubscribe();
   }
 
-  escolha(grupo: GruUserModel, opcao: number) {
-    this.router.navigate(['/gruuser', grupo.id_empresa, grupo.id, opcao]);
+  escolha(opcao: number, grupo?: GruUserModel) {
+    if (typeof grupo !== 'undefined') {
+      this.router.navigate(['/gruuser', grupo.id_empresa, grupo.id, opcao]);
+    } else {
+      this.router.navigate(['/gruuser', 1, 0, opcao]);
+    }
   }
 
   getAcoes() {

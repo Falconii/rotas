@@ -339,9 +339,17 @@ export class CrudAtividadeProjetoComponent implements OnInit {
   }
 
   escolha(atividade: AtividadeQuery_01Model, opcao: number) {
-    this.idAcao = opcao;
-    this.setAcao(this.idAcao);
-    this.getAtividade(atividade.id_empresa, atividade.id);
+    if (opcao == 98) {
+      this.router.navigate([
+        '/planejamentoagenda',
+        atividade.id_empresa,
+        atividade.id,
+      ]);
+    } else {
+      this.idAcao = opcao;
+      this.setAcao(this.idAcao);
+      this.getAtividade(atividade.id_empresa, atividade.id);
+    }
   }
 
   setAcao(op: number) {

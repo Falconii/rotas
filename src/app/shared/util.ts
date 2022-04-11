@@ -1,3 +1,4 @@
+import { MoviData } from './../Models/movi-data';
 import { Dias_Planejados } from './dias-planejados';
 
 export function DataYYYYMMDD(value: Date): string {
@@ -109,6 +110,49 @@ export function DiasUteis(Inicial: string, Final: string): Dias_Planejados[] {
     proxima.data_ = DataYYYYMMDD(proxima.data);
     proxima.manha = '0';
     proxima.tarde = '0';
+    if (proxima.data.getDay() != 6 && proxima.data.getDay() != 0) {
+      retorno.push(proxima);
+    }
+  }
+  return retorno;
+}
+
+export function DiasUteisV2(Inicial: string, Final: string): MoviData[] {
+  let retorno: MoviData[] = [];
+
+  let x = 0;
+
+  const date1 = new Date(Inicial);
+
+  const date2 = new Date(Final);
+
+  date1.setHours(0);
+  date1.setMinutes(0);
+
+  date2.setHours(0);
+  date2.setMinutes(0);
+
+  console.log('Data Inicial e Final ', Inicial, Final);
+
+  console.log('Data Base ', date1, date2);
+
+  // One day in milliseconds
+  const oneDay = 1000 * 60 * 60 * 24;
+
+  // Calculating the time difference between two dates
+  const diffInTime = date2.getTime() - date1.getTime();
+
+  // Calculating the no. of days between two dates
+  const diffInDays = Math.round(diffInTime / oneDay);
+
+  for (x = 0; x <= diffInDays; x++) {
+    const proxima = new MoviData();
+    proxima.data.setDate(date1.getDate() + x);
+    //proxima.data_ = proxima.data.toISOString();
+    //proxima.data_ = proxima.data.toLocaleDateString('pt-BR', {
+    //  timeZone: 'UTC',
+    //});
+    proxima.data_ = DataYYYYMMDD(proxima.data);
     if (proxima.data.getDay() != 6 && proxima.data.getDay() != 0) {
       retorno.push(proxima);
     }

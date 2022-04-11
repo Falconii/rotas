@@ -61,13 +61,17 @@ export class CrudMotivoApoComponent implements OnInit {
     this.inscricaoGetFiltro?.unsubscribe();
   }
 
-  escolha(motivo: MotivoApoModel, opcao: number) {
-    this.router.navigate([
-      '/motivoapo',
-      motivo.id_empresa,
-      motivo.codigo,
-      opcao,
-    ]);
+  escolha(opcao: number, motivo?: MotivoApoModel) {
+    if (typeof motivo != 'undefined') {
+      this.router.navigate([
+        '/motivoapo',
+        motivo.id_empresa,
+        motivo.codigo,
+        opcao,
+      ]);
+    } else {
+      this.router.navigate(['/motivoapo', 1, '', opcao]);
+    }
   }
 
   getAcoes() {
@@ -106,7 +110,7 @@ export class CrudMotivoApoComponent implements OnInit {
   openSnackBar_Err(message: string, action: string) {
     this._snackBar.open(message, action);
   }
-
+  /*
   method1CallForClick(motivo: MotivoApoModel, opcao: number) {
     this.isSingleClick = true;
     setTimeout(() => {
@@ -119,7 +123,7 @@ export class CrudMotivoApoComponent implements OnInit {
     this.isSingleClick = false;
     this.escolha(motivo, opcao);
   }
-
+*/
   getTexto() {
     return MensagensBotoes;
   }

@@ -60,8 +60,12 @@ export class CrudEmpresaComponent implements OnInit {
     this.inscricaoGetFiltro?.unsubscribe();
   }
 
-  escolha(empresa: EmpresaQuery01Model, opcao: number) {
-    this.router.navigate(['/empresa', empresa.id, opcao]);
+  escolha(opcao: number, empresa?: EmpresaQuery01Model) {
+    if (typeof empresa !== 'undefined') {
+      this.router.navigate(['/empresa', empresa?.id, opcao]);
+    } else {
+      this.router.navigate(['/empresa', 1, opcao]);
+    }
   }
 
   getAcoes() {

@@ -59,8 +59,12 @@ export class CrudClienteComponent implements OnInit {
     this.inscricaoGetGrupo?.unsubscribe();
   }
 
-  escolha(cliente: ClientesQuery01Model, opcao: number) {
-    this.router.navigate(['/cliente', cliente.id_empresa, cliente.id, opcao]);
+  escolha(opcao: number, cliente?: ClientesQuery01Model) {
+    if (typeof cliente !== 'undefined') {
+      this.router.navigate(['/cliente', cliente.id_empresa, cliente.id, opcao]);
+    } else {
+      this.router.navigate(['/cliente', 1, 0, opcao]);
+    }
   }
 
   getAcoes() {

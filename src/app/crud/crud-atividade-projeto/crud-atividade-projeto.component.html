@@ -30,7 +30,7 @@
             <mat-datepicker #finalDatePicker></mat-datepicker>
         </mat-form-field>
         <mat-form-field field appearance="outline" class="LargeWidth" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
-            <mat-label>Executor</mat-label>
+            <mat-label>Responsavel</mat-label>
             <mat-select formControlName="id_resp">
                 <mat-option *ngFor="let executor of executores" [value]="executor.id">
                     {{executor.razao}}
@@ -134,6 +134,9 @@
                   </button>
                     <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Editar Atividade" matTooltipPosition="above" (click)="escolha(atividade,getAcoes()[ 'Edicao'])" *ngIf="atividade.tipo == 'O'">
                       <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Editar Atividade" matTooltipPosition="above" (click)="escolha(atividade,98)" *ngIf="atividade.tipo == 'O'">
+                      <mat-icon>assignment</mat-icon>
                     </button>
                 </td>
             </tr>

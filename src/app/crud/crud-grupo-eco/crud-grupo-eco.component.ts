@@ -53,8 +53,12 @@ export class CrudGrupoEcoComponent implements OnInit {
     this.inscricaoGetFiltro?.unsubscribe();
   }
 
-  escolha(grupo: GrupoEcoModel, opcao: number) {
-    this.router.navigate(['/grueco', grupo.id_empresa, grupo.id, opcao]);
+  escolha(opcao: number, grupo?: GrupoEcoModel) {
+    if (typeof grupo !== 'undefined') {
+      this.router.navigate(['/grueco', grupo.id_empresa, grupo.id, opcao]);
+    } else {
+      this.router.navigate(['/grueco', 1, 0, opcao]);
+    }
   }
 
   getAcoes() {

@@ -34,24 +34,22 @@
         <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="getGrupos()">
       <mat-icon>rotate_right</mat-icon>
     </button>
+        <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(getAcoes()[ 'Inclusao']) " [matTooltip]="getTexto().incluir" matTooltipPosition="above">
+                 <mat-icon>add_circle_outline</mat-icon>
+    </button>
     </mat-toolbar>
 </p>
 <div class="Browse">
     <div class="linha" *ngFor="let grupo of grupos ; index as id">
-        <mat-card class="example-card" (click)="escolha(grupo,getAcoes()['Consulta'])">
+        <mat-card class="example-card" (click)="escolha(getAcoes()['Consulta'],grupo)">
             <mat-card-actions>
                 <span class="button-container-right ">
-              <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(grupo,getAcoes()[ 'Inclusao']) "
-                 [matTooltip] = "getTexto().incluir"
-                 matTooltipPosition="above">
-                 <mat-icon>add_circle_outline</mat-icon>
-              </button>
-                <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(grupo,getAcoes()[ 'Edicao']) "
+              <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(getAcoes()[ 'Edicao'],grupo) "
                  [matTooltip] = "getTexto().alterar"
                  matTooltipPosition="above">
                  <mat-icon>edit</mat-icon>
               </button>
-                <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(grupo,getAcoes()[ 'Exclusao']) "
+                <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(getAcoes()[ 'Exclusao'],grupo) "
                  [matTooltip] = "getTexto().excluir"
                  matTooltipPosition="above">
                  <mat-icon>delete</mat-icon>

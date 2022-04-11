@@ -43,7 +43,7 @@ export class ClientesService {
 
   clienteDelete(id_empresa: number, id: number) {
     return this.http.delete<ClientesModel>(
-      `${this.apiURL}cliente\${id_empresa}/${id}`
+      `${this.apiURL}cliente/${id_empresa}/${id}`
     );
   }
 }

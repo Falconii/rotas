@@ -43,26 +43,24 @@
             </span>
         </form>
         <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="getUsuarios()">
-      <mat-icon>rotate_right</mat-icon>
-    </button>
+          <mat-icon>rotate_right</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(getAcoes()[ 'Inclusao']) " [matTooltip]="getTexto().incluir" matTooltipPosition="above">
+        <mat-icon>add_circle_outline</mat-icon>
+     </button>
     </mat-toolbar>
 </p>
 <div class="Browse">
     <div class="linha" *ngFor="let usuario of usuarios ; index as id">
-        <mat-card class="example-card" (click)="escolha(usuario,getAcoes()['Consulta'])">
+        <mat-card class="example-card" (click)="escolha(getAcoes()['Consulta'],usuario)">
             <mat-card-actions>
                 <span class="button-container-right ">
-              <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(usuario,getAcoes()[ 'Inclusao']) "
-                 [matTooltip] = "getTexto().incluir"
-                 matTooltipPosition="above">
-                 <mat-icon>add_circle_outline</mat-icon>
-              </button>
-                <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(usuario,getAcoes()[ 'Edicao']) "
+                <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(getAcoes()[ 'Edicao'],usuario) "
                 [matTooltip] = "getTexto().alterar"
                  matTooltipPosition="above">
                 <mat-icon>edit</mat-icon>
               </button>
-                <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(usuario,getAcoes()[ 'Exclusao']) "
+                <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(getAcoes()[ 'Exclusao'],usuario) "
                  [matTooltip] = "getTexto().excluir"
                  matTooltipPosition="above">
                 <mat-icon>delete</mat-icon>

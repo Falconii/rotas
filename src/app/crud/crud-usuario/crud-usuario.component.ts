@@ -61,8 +61,12 @@ export class CrudUsuarioComponent implements OnInit {
     this.inscricaoGetGrupo?.unsubscribe();
   }
 
-  escolha(usuario: UsuarioQuery01Model, opcao: number) {
-    this.router.navigate(['/usuario', usuario.id_empresa, usuario.id, opcao]);
+  escolha(opcao: number, usuario?: UsuarioQuery01Model) {
+    if (typeof usuario !== 'undefined') {
+      this.router.navigate(['/usuario', usuario.id_empresa, usuario.id, opcao]);
+    } else {
+      this.router.navigate(['/usuario', 1, 0, opcao]);
+    }
   }
 
   getAcoes() {
