@@ -1,3 +1,5 @@
+import { AponPlanejamentoService } from './../../services/apon-planejamento.service';
+import { AgePlanModel } from './../../Models/age-plan-model';
 import { Movimento } from './../../Models/movimento';
 import { AtividadeModel } from './../../Models/atividade-model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -8,7 +10,20 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ParametroAtividade01 } from 'src/app/parametros/parametro-atividade01';
 import { AtividadesService } from 'src/app/services/atividades.service';
 import { MoviData } from 'src/app/Models/movi-data';
-import { DataYYYYMMDD, DiasUteisV2 } from 'src/app/shared/util';
+import {
+  DataYYYYMMDD,
+  DataYYYYMMDDTHHMMSSZ,
+  DiasUteisV2,
+  DifHoras,
+  getHora,
+  getMinuto,
+  MensagensBotoes,
+  minutostostohorasexagenal,
+  setHorario,
+} from 'src/app/shared/util';
+import { CadastroAcoes } from 'src/app/shared/cadastro-acoes';
+import { ApoPlanejamentoMoldel } from 'src/app/Models/apo-planejamento-moldel';
+import { ParametroAgendaPlanejamento03 } from 'src/app/parametros/parametro-agenda-planejamento03';
 
 @Component({
   selector: 'app-crud-planejamento-lancamento',
@@ -16,21 +31,31 @@ import { DataYYYYMMDD, DiasUteisV2 } from 'src/app/shared/util';
   styleUrls: ['./crud-planejamento-lancamento.component.css'],
 })
 export class CrudPlanejamentoLancamentoComponent implements OnInit {
-  agendamentos: MoviData[] = [];
+  durationInSeconds: number = 2;
+  parametroAgendaPlanejamento03: ParametroAgendaPlanejamento03 =
+    new ParametroAgendaPlanejamento03();
+  agendamento: MoviData = new MoviData();
   inscricaoGetAll!: Subscription;
   inscricaoAcao!: Subscription;
   inscricaoRota!: Subscription;
   inscricaoAtividade!: Subscription;
+  inscricaoApontamento!: Subscription;
+  inscricaoAponAgendas!: Subscription;
+  idAcao: number = 0;
+  acao: string = '';
+  labelCadastro: string = '';
 
   id_empresa: number = 0;
   id_atividade: number = 0;
   atividade: AtividadeModel = new AtividadeModel();
+  apontamento: ApoPlanejamentoMoldel = new ApoPlanejamentoMoldel();
 
   formulario: FormGroup;
 
   constructor(
     formBuilder: FormBuilder,
     private atividadesService: AtividadesService,
+    private aponPlanejamentoService: AponPlanejamentoService,
     private route: ActivatedRoute,
     private router: Router,
     private _snackBar: MatSnackBar
@@ -45,6 +70,9 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
       this.id_empresa = params.id_empresa;
       this.id_atividade = params.id_atividade;
     });
+    this.idAcao = 99;
+    this.setAcao(this.idAcao);
+    this.setValue();
     this.getAtividade();
   }
 
@@ -55,12 +83,160 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
     this.inscricaoAcao?.unsubscribe();
     this.inscricaoRota?.unsubscribe();
     this.inscricaoAtividade?.unsubscribe();
+    this.inscricaoApontamento?.unsubscribe();
+    this.inscricaoAponAgendas?.unsubscribe();
   }
+
+  setAcao(op: number) {
+    switch (+op) {
+      case CadastroAcoes.Inclusao:
+        this.acao = 'Gravar';
+        this.labelCadastro = 'Agendamento - Inclusão.';
+        break;
+      case CadastroAcoes.Edicao:
+        this.acao = 'Gravar';
+        this.labelCadastro = 'Agendamento - Alteração.';
+        break;
+      case CadastroAcoes.Consulta:
+        this.acao = 'Voltar';
+        this.labelCadastro = 'Agendamento - Consulta.';
+        break;
+      case CadastroAcoes.Exclusao:
+        this.acao = 'Excluir';
+        this.labelCadastro = 'Agendamento - Exclusão.';
+        break;
+      default:
+        this.acao = '';
+        this.labelCadastro = '';
+        break;
+    }
+  }
+
+  escolha(opcao: number, agendamento: MoviData) {
+    this.apontamento = new ApoPlanejamentoMoldel();
+    this.agendamento = agendamento;
+    if (opcao == CadastroAcoes.Inclusao) {
+      const date1 = new Date(agendamento.data_);
+      date1.setHours(0);
+      date1.setMinutes(0);
+      let horas = DataYYYYMMDDTHHMMSSZ(date1).substring(
+        DataYYYYMMDDTHHMMSSZ(date1).indexOf('T') + 1,
+        16
+      );
+      this.apontamento.id_empresa = this.id_empresa;
+      this.apontamento.id_empresa = 0;
+      this.apontamento.id = 0;
+      this.apontamento.id_projeto = this.atividade.id_projeto;
+      this.apontamento.id_conta = this.atividade.conta;
+      this.apontamento.id_subconta = this.atividade.subconta;
+      this.apontamento.id_resp = this.atividade.id_resp;
+      this.apontamento.id_exec = this.atividade.id_exec;
+      this.apontamento.inicial = DataYYYYMMDDTHHMMSSZ(date1);
+      this.apontamento.final = DataYYYYMMDDTHHMMSSZ(date1);
+      this.apontamento.horasapon = 0;
+      this.apontamento.obs = '';
+      this.apontamento.encerra = '';
+      this.apontamento.user_insert = 1;
+      this.apontamento.user_update = 0;
+      this.apontamento.resp_razao = '';
+      this.apontamento.exec_razao = '';
+      this.apontamento.ativ_descricao = '';
+    } else {
+      this.getApontamento(this.agendamento.id_empresa;);
+    }
+    this.idAcao = opcao;
+    this.setAcao(this.idAcao);
+    this.setValue();
+  }
+  executaAcao() {
+    let dataDia: Date = new Date(this.agendamento.data);
+    this.apontamento.id_empresa = this.id_empresa;
+    this.apontamento.inicial = setHorario(
+      dataDia,
+      getHora(this.formulario.value.entrada),
+      getMinuto(this.formulario.value.entrada)
+    );
+    this.apontamento.final = setHorario(
+      dataDia,
+      getHora(this.formulario.value.saida),
+      getMinuto(this.formulario.value.saida)
+    );
+    this.apontamento.horasapon = minutostostohorasexagenal(
+      DifHoras(this.apontamento.inicial, this.apontamento.final)
+    );
+    this.apontamento.obs = this.formulario.value.obs;
+    switch (+this.idAcao) {
+      case CadastroAcoes.Inclusao:
+        this.inscricaoAcao = this.aponPlanejamentoService
+          .ApoPlanejamentoInsert(this.apontamento)
+          .subscribe(
+            async (data: ApoPlanejamentoMoldel) => {
+              await this.openSnackBar_OK(
+                `Trabalho Cadastrado Na Código: ${data.id}`,
+                'OK'
+              );
+              this.onCancel();
+            },
+            (error: any) => {
+              this.openSnackBar_Err(
+                `${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
+                'OK'
+              );
+            }
+          );
+        break;
+      case CadastroAcoes.Edicao:
+        this.inscricaoAcao = this.aponPlanejamentoService
+          .ApoPlanejamentoUpdate(this.apontamento)
+          .subscribe(
+            async (data: any) => {
+              await this.openSnackBar_OK(data.message, 'OK');
+              this.onCancel();
+            },
+            (error: any) => {
+              console.log('Error', error.error);
+              this.openSnackBar_Err(
+                `${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
+                'OK'
+              );
+            }
+          );
+        break;
+      case CadastroAcoes.Exclusao:
+        this.inscricaoAcao = this.aponPlanejamentoService
+          .ApoPlanejamentoDelete(
+            this.apontamento.id_empresa,
+            this.apontamento.id
+          )
+          .subscribe(
+            async (data: any) => {
+              await this.openSnackBar_OK(data.message, 'OK');
+              this.onCancel();
+            },
+            (error: any) => {
+              this.openSnackBar_Err(
+                `Erro Na Exclusao ${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
+                'OK'
+              );
+            }
+          );
+        break;
+      default:
+        break;
+    }
+  }
+
   setValue() {
     this.formulario.setValue({
-      entrada: '00:00',
-      saida: '00:00',
-      obs: ' ',
+      entrada: this.apontamento.inicial.substring(
+        this.apontamento.inicial.indexOf('T') + 1,
+        16
+      ),
+      saida: this.apontamento.final.substring(
+        this.apontamento.final.indexOf('T') + 1,
+        16
+      ),
+      obs: this.apontamento.obs,
     });
   }
 
@@ -70,19 +246,62 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
       .subscribe(
         (data: AtividadeModel) => {
           this.atividade = data;
-
-          this.agendamentos = DiasUteisV2(
+          let agendamentos: MoviData[] = [];
+          this.parametroAgendaPlanejamento03 =
+            new ParametroAgendaPlanejamento03();
+          this.parametroAgendaPlanejamento03.id_empresa =
+            this.atividade.id_empresa;
+          this.parametroAgendaPlanejamento03.id_projeto = this.atividade.id;
+          this.parametroAgendaPlanejamento03.id_conta = this.atividade.conta;
+          this.parametroAgendaPlanejamento03.id_subconta =
+            this.atividade.subconta;
+          agendamentos = DiasUteisV2(
             DataYYYYMMDD(this.atividade.inicial),
-            DataYYYYMMDD(this.atividade.final)
+            DataYYYYMMDD(this.atividade.final),
+            this.atividade.id_exec
           );
+          this.parametroAgendaPlanejamento03.agenda = agendamentos;
+          console.log(
+            'parametroAgendaPlanejamento03',
+            this.parametroAgendaPlanejamento03
+          );
+          this.getAponAgendas();
+        },
+        (error: any) => {
+          this.atividade = new AtividadeModel();
+          this.openSnackBar_Err(
+            `${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
+            'OK'
+          );
+        }
+      );
+  }
 
-          var lanca = new Movimento();
-          lanca.id = 12;
-          lanca.obs = 'OLÁ KKK';
-          lanca.id_projeto = 100;
-          lanca.id_exec = 2;
-          this.agendamentos[1].movimentos.push(lanca);
-          console.log('Agendamento:', this.agendamentos);
+  getApontamento(id_empresa:number,id_apon:number) {
+    this.inscricaoApontamento = this.aponPlanejamentoService
+      .getApoPlanejamento(id_empresa,id_apon)
+      .subscribe(
+        (data: ApoPlanejamentoMoldel) => {
+          this.apontamento = data;
+          console.log('apontamento', this.apontamento);
+        },
+        (error: any) => {
+          this.atividade = new AtividadeModel();
+          this.openSnackBar_Err(
+            `${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
+            'OK'
+          );
+        }
+      );
+  }
+
+  getAponAgendas() {
+    this.inscricaoAponAgendas = this.aponPlanejamentoService
+      .getAponAgendaPlanejamentosV2(this.parametroAgendaPlanejamento03)
+      .subscribe(
+        (data: ParametroAgendaPlanejamento03) => {
+          this.parametroAgendaPlanejamento03 = data;
+          console.log('apontamento', this.apontamento);
         },
         (error: any) => {
           this.atividade = new AtividadeModel();
@@ -98,7 +317,45 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
     this._snackBar.open(message, action);
   }
 
-  onSubmit() {}
+  onSubmit() {
+    console.log('formulario', this.formulario.value);
+    if (this.formulario.valid) {
+      this.executaAcao();
+    } else {
+      this.openSnackBar_OK(`Formulário Com Campos Inválidos.`, 'OK');
+    }
+  }
 
-  onCancel() {}
+  async openSnackBar_OK(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: this.durationInSeconds * 1000,
+    });
+    await this.delay(this.durationInSeconds * 1000);
+  }
+
+  delay(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+  onCancel() {
+    this.idAcao = 99;
+    this.setAcao(99);
+  }
+
+  getAcoes() {
+    return CadastroAcoes;
+  }
+
+  touchedOrDirty(campo: string): boolean {
+    if (
+      this.formulario.get(campo)?.touched ||
+      this.formulario.get(campo)?.dirty
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  getTexto() {
+    return MensagensBotoes;
+  }
 }
