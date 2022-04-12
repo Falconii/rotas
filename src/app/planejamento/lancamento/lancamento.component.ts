@@ -248,8 +248,8 @@ export class LancamentoComponent implements OnInit {
       lanca.id_empresa = this.trabalho.id_empresa;
       lanca.id = 0;
       lanca.id_projeto = this.trabalho.id_projeto;
-      lanca.id_tarefa = this.trabalho.id_tarefa;
-      lanca.id_trabalho = this.trabalho.id_trabalho;
+      //lanca.id_tarefa = this.trabalho.id_tarefa;
+      //lanca.id_trabalho = this.trabalho.id_trabalho;
       lanca.id_resp = this.trabalho.id_resp;
       lanca.id_exec = this.trabalho.id_exec;
       lanca.inicial = DataYYYYMMDDTHHMMSSZ(dtLanca1);
@@ -288,8 +288,8 @@ export class LancamentoComponent implements OnInit {
       lanca.id_empresa = this.trabalho.id_empresa;
       lanca.id = 0;
       lanca.id_projeto = this.trabalho.id_projeto;
-      lanca.id_tarefa = this.trabalho.id_tarefa;
-      lanca.id_trabalho = this.trabalho.id_trabalho;
+      //lanca.id_tarefa = this.trabalho.id_tarefa;
+      //lanca.id_trabalho = this.trabalho.id_trabalho;
       lanca.id_resp = this.trabalho.id_resp;
       lanca.id_exec = this.trabalho.id_exec;
       lanca.inicial = DataYYYYMMDDTHHMMSSZ(dtLanca1);

@@ -117,7 +117,11 @@ export function DiasUteis(Inicial: string, Final: string): Dias_Planejados[] {
   return retorno;
 }
 
-export function DiasUteisV2(Inicial: string, Final: string): MoviData[] {
+export function DiasUteisV2(
+  Inicial: string,
+  Final: string,
+  id_exec: number
+): MoviData[] {
   let retorno: MoviData[] = [];
 
   let x = 0;
@@ -145,15 +149,17 @@ export function DiasUteisV2(Inicial: string, Final: string): MoviData[] {
   // Calculating the no. of days between two dates
   const diffInDays = Math.round(diffInTime / oneDay);
 
-  for (x = 0; x <= diffInDays; x++) {
+  for (x = 1; x <= diffInDays + 1; x++) {
     const proxima = new MoviData();
+    proxima.movimentos = [];
+    proxima.id_exec = id_exec;
     proxima.data.setDate(date1.getDate() + x);
-    //proxima.data_ = proxima.data.toISOString();
-    //proxima.data_ = proxima.data.toLocaleDateString('pt-BR', {
-    //  timeZone: 'UTC',
-    //});
+    proxima.data.setHours(0);
+    proxima.data.setMinutes(0);
+    console.log('Proxima loop =>', proxima.data);
     proxima.data_ = DataYYYYMMDD(proxima.data);
     if (proxima.data.getDay() != 6 && proxima.data.getDay() != 0) {
+      console.log('Proxima=>', proxima);
       retorno.push(proxima);
     }
   }
@@ -256,4 +262,29 @@ export function horahexa(value: number): string {
   if (minutos.length < 2) minutos = '0' + minutos;
   console.log('Minutos', minutos, 'Lengh ');
   return horas + ':' + minutos;
+}
+
+export function setHorario(
+  value: Date,
+  horas: number,
+  minutos: number
+): string {
+  let retorno: string = '';
+  let dt = new Date(value);
+  dt.setHours(horas);
+  dt.setMinutes(minutos);
+  retorno = DataYYYYMMDDTHHMMSSZ(dt);
+  return retorno;
+}
+
+export function getHora(hora: string): number {
+  let retorno: number = 0;
+  retorno = parseInt(hora.split(':')[0]);
+  return retorno;
+}
+
+export function getMinuto(hora: string): number {
+  let retorno: number = 0;
+  retorno = parseInt(hora.split(':')[1]);
+  return retorno;
 }

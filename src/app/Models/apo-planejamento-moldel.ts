@@ -2,8 +2,8 @@ export class ApoPlanejamentoMoldel {
   public id_empresa: number = 0;
   public id: number = 0;
   public id_projeto: number = 0;
-  public id_tarefa: string = '';
-  public id_trabalho: string = '';
+  public id_conta: string = '';
+  public id_subconta: string = '';
   public id_resp: number = 0;
   public id_exec: number = 0;
   public inicial: string = '';
@@ -15,5 +15,5 @@ export class ApoPlanejamentoMoldel {
   public user_update: number = 0;
   public resp_razao: string = '';
   public exec_razao: string = '';
-  public trab_descricao: string = '';
+  public ativ_descricao: string = '';
 }
