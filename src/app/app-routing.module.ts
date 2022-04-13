@@ -29,6 +29,7 @@ import { CrudViewEstruturaComponent } from './views/crud-view/crud-view-estrutur
 import { TreeEstruturaComponent } from './crud/crud-estrutura/tree-estrutura/tree-estrutura.component';
 import { CrudAtividadeProjetoComponent } from './crud/crud-atividade-projeto/crud-atividade-projeto.component';
 import { CrudPlanejamentoLancamentoComponent } from './crud/crud-planejamento-lancamento/crud-planejamento-lancamento.component';
+import { CrudExecucaoLancamentoComponent } from './crud/crud-execucao-lancamento/crud-execucao-lancamento.component';
 
 const routes: Routes = [
   { path: 'empresa/:id/:acao', component: EmpresaViewComponent },
@@ -90,12 +91,16 @@ const routes: Routes = [
     component: TreeEstruturaComponent,
   },
   {
-    path: 'anexaratividade/:id_empresa/:id_projeto',
+    path: 'anexaratividade/:id_empresa/:id_projeto/:id_atividade',
     component: CrudAtividadeProjetoComponent,
   },
   {
     path: 'planejamentoagenda/:id_empresa/:id_atividade',
     component: CrudPlanejamentoLancamentoComponent,
+  },
+  {
+    path: 'apontamento',
+    component: CrudExecucaoLancamentoComponent,
   },
   { path: '', component: HomeComponent },
 ];

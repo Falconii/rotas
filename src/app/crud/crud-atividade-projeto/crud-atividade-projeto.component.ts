@@ -109,6 +109,7 @@ export class CrudAtividadeProjetoComponent implements OnInit {
     this.inscricaoRota = route.params.subscribe((params: any) => {
       this.id_empresa = params.id_empresa;
       this.id_projeto = params.id_projeto;
+      this.id_atividade_conta = params.id_atividade;
       this.idAcao = 99;
       this.setAcao(99);
     });
@@ -325,7 +326,14 @@ export class CrudAtividadeProjetoComponent implements OnInit {
       .subscribe(
         (data: EstruturaModel[]) => {
           this.estruturasIn = data;
-          console.log('EstruturaIn', this.estruturasIn);
+          if (
+            this.id_atividade_conta != 'NULL' &&
+            this.estruturasIn.length > 0
+          ) {
+            this.id_atividade_conta = this.estruturasIn[0].conta;
+            this.setParametrosPath();
+            this.onVisualizar();
+          }
           this.getSubClientes();
           this.getEstruturasOff();
         },
@@ -452,6 +460,12 @@ export class CrudAtividadeProjetoComponent implements OnInit {
       id_subcliente: this.atividade.id_subcliente,
       obs: this.atividade.obs,
       status: '',
+    });
+  }
+
+  setParametrosPath() {
+    this.parametros.patchValue({
+      atividade: this.id_atividade_conta,
     });
   }
 

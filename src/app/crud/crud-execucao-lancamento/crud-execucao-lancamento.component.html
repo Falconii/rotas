@@ -1,0 +1,73 @@
+<p>
+    <mat-toolbar>
+        <span class="example-spacer">
+          <form [formGroup]="parametro" autocomplete="off" >
+              <mat-label>Usuário:{{usuario.razao}}</mat-label>
+              <mat-form-field appearance="outline" class="MidleWidth">
+                <mat-label>Data:</mat-label>
+                <input matInput [matDatepicker]="dataDatePicker" formControlName="data" >
+                <mat-datepicker-toggle matSuffix [for]="dataDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #dataDatePicker></mat-datepicker>
+              </mat-form-field>
+              <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Atualizar" matTooltipPosition="above" (click)="getRefresh()">
+                <mat-icon>rotate_right</mat-icon>
+              </button>
+          </form>
+        </span>
+        <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Filtro" matTooltipPosition="above">
+        <mat-icon>filter_list</mat-icon>
+       </button>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()">
+          <mat-icon>arrow_back</mat-icon>
+      </button>
+    </mat-toolbar>
+</p>
+<form [formGroup]="formulario" autocomplete="off" *ngIf="idAcao !== 99">
+    <h1>Lançamento:{{labelCadastro}}</h1>
+    <div class="cad-container">
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Entrada</mat-label>
+            <input matInput formControlName="entrada">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Saída</mat-label>
+            <input matInput formControlName="saida">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="LargerWidth">
+            <mat-label>Observação</mat-label>
+            <input matInput formControlName="obs">
+        </mat-form-field>
+    </div>
+    <div class="button-container-right">
+        <button class="buttons" mat-raised-button color="primary" (click)=onSubmit()>{{acao}}</button>
+        <button class="buttons" mat-raised-button color="accent" (click)="onCancel()">{{getLabelCancel()}}</button>
+    </div>
+</form>
+<div *ngIf="idAcao == 99">
+    <table>
+        <tr class="coluna-cabec">
+            <th>PLANEJADO</th>
+            <th>EXECUTADO</th>
+        </tr>
+        <tr *ngFor="let agendamento of parametroAgendaPlanejamento03.agenda">
+            <td class="coluna-descricao">
+                <div *ngFor="let lanca of agendamento.movimentos">
+                    <div>
+                        <span class="example-spacer">
+                        <mat-label class="labelTitle">Hora Inicial:</mat-label>
+                        <mat-label class="labelData">{{lanca.inicial | date : 'HH:mm'}} as {{lanca.final |  date : 'HH:mm'}}</mat-label>
+                        <mat-label class="labelTitle">Hora Apontadas:</mat-label>
+                        <mat-label class="labelData">{{lanca.horasapon | horaSexagenal}}</mat-label>
+                        <mat-label class="labelTitle" [matTooltip]="dados_projetos" matTooltipPosition="above">Projeto:</mat-label>
+                        <mat-label class="labelData">{{lanca.id_projeto}}</mat-label>
+                      </span>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Obs.::</mat-label>
+                        <mat-label class="labelData">{{lanca.obs}}</mat-label>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

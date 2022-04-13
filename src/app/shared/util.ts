@@ -288,3 +288,9 @@ export function getMinuto(hora: string): number {
   retorno = parseInt(hora.split(':')[1]);
   return retorno;
 }
+
+export function setDBtoAngular(value: string): string {
+  let retorno = '';
+  retorno = value.replace(' ', 'T') + '.000Z';
+  return retorno;
+}

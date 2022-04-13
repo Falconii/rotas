@@ -1,13 +1,16 @@
 <p>
     <mat-toolbar>
-        <span class="example-spacer">Atividade:{{atividade.subconta }}</span>
-        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+        <span class="example-spacer">Projeto{{atividade.id_projeto}}-Atividade:{{atividade.subconta }}</span>
+        <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Filtro" matTooltipPosition="above" *ngIf="idAcao == 99" (click)="setFiltro()">
+          <mat-icon>filter_list</mat-icon>
+         </button>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()">
             <mat-icon>arrow_back</mat-icon>
         </button>
     </mat-toolbar>
 </p>
 <form [formGroup]="formulario" autocomplete="off" *ngIf="idAcao !== 99">
-    <h1>Lançamento:</h1>
+    <h1>Lançamento:{{labelCadastro}}</h1>
     <div class="cad-container">
         <mat-form-field appearance="outline" class="MidleWidth">
             <mat-label>Entrada</mat-label>
@@ -23,8 +26,8 @@
         </mat-form-field>
     </div>
     <div class="button-container-right">
-        <button class="buttons" mat-raised-button color="primary" (click)=onSubmit()>Gravar</button>
-        <button class="buttons" mat-raised-button color="accent" (click)="onCancel()">Cancelar</button>
+        <button class="buttons" mat-raised-button color="primary" (click)=onSubmit()>{{acao}}</button>
+        <button class="buttons" mat-raised-button color="accent" (click)="onCancel()">{{getLabelCancel()}}</button>
     </div>
 </form>
 <div *ngIf="idAcao == 99">
@@ -39,20 +42,30 @@
             </td>
             <td class="coluna-descricao">
                 <div *ngFor="let lanca of agendamento.movimentos">
-                    <div>
-                        <span class="example-spacer"><mat-label class="labelTitle">Hora Inicial:</mat-label><mat-label class="labelData">{{lanca.inicial | date : 'HH:MM'}} as {{lanca.final | date : 'HH:MM'}}</mat-label></span>
-                        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+                    <div *ngIf="exibir(lanca)">
+                        <span class="example-spacer">
+                          <mat-label class="labelTitle">Hora Inicial:</mat-label>
+                          <mat-label class="labelData">{{lanca.inicial | date : 'HH:mm'}} as {{lanca.final |  date : 'HH:mm'}}</mat-label>
+                          <mat-label class="labelTitle">Hora Apontadas:</mat-label>
+                          <mat-label class="labelData">{{lanca.horasapon | horaSexagenal}}</mat-label>
+                          <mat-label class="labelTitle" [matTooltip]="dados_projetos" matTooltipPosition="above">Projeto:</mat-label>
+                          <mat-label class="labelData">{{lanca.id_projeto}}</mat-label>
+                        </span>
+                        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="outras(getAcoes()['Edicao'],lanca)" matTooltip="Alterar Apontamento" matTooltipPosition="above" *ngIf="lanca.id_projeto == atividade.id_projeto">
                             <mat-icon>edit</mat-icon>
                         </button>
+                        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="outras(getAcoes()['Exclusao'],lanca)" matTooltip="Excluir Apontamento" matTooltipPosition="above" *ngIf="lanca.id_projeto == atividade.id_projeto">
+                          <mat-icon>delete</mat-icon>
+                      </button>
                     </div>
-                    <div class="coluna-descricao cor-blue">
+                    <div class="coluna-descricao cor-blue" *ngIf="exibir(lanca)">
                         <mat-label class="labelTitle">Obs.::</mat-label>
                         <mat-label class="labelData">{{lanca.obs}}</mat-label>
                     </div>
                 </div>
             </td>
             <td class="coluna-acao">
-                <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Novo Apontamento" matTooltipPosition="above" (click)="escolha(getAcoes()[ 'Inclusao'],agendamento)">
+                <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Novo Apontamento" matTooltipPosition="above" (click)="adicao(getAcoes()['Inclusao'],agendamento)">
                 <mat-icon>add_circle_outline</mat-icon>
               </button>
             </td>

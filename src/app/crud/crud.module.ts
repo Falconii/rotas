@@ -20,6 +20,7 @@ import { CrudSubestruturaComponent } from './crud-subestrutura/crud-subestrutura
 import { TreeEstruturaComponent } from './crud-estrutura/tree-estrutura/tree-estrutura.component';
 import { CrudAtividadeProjetoComponent } from './crud-atividade-projeto/crud-atividade-projeto.component';
 import { CrudPlanejamentoLancamentoComponent } from './crud-planejamento-lancamento/crud-planejamento-lancamento.component';
+import { CrudExecucaoLancamentoComponent } from './crud-execucao-lancamento/crud-execucao-lancamento.component';
 
 @NgModule({
   imports: [
@@ -49,6 +50,7 @@ import { CrudPlanejamentoLancamentoComponent } from './crud-planejamento-lancame
     TreeEstruturaComponent,
     CrudAtividadeProjetoComponent,
     CrudPlanejamentoLancamentoComponent,
+    CrudExecucaoLancamentoComponent,
   ],
   exports: [
     CrudClienteComponent,

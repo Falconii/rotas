@@ -8,6 +8,7 @@ import { SituacaoTrabalhoProjetoPipe } from './situacao-trabalho-projeto.pipe';
 import { SituacaoProjetoPipe } from './situacao-projeto.pipe';
 import { SubcontaPipe } from './subconta.pipe';
 import { TipoContaPipe } from './tipo-conta.pipe';
+import { SoHorasPipe } from './so-horas.pipe';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { TipoContaPipe } from './tipo-conta.pipe';
     SituacaoProjetoPipe,
     SubcontaPipe,
     TipoContaPipe,
+    SoHorasPipe,
   ],
   imports: [CommonModule],
   exports: [
@@ -30,6 +32,7 @@ import { TipoContaPipe } from './tipo-conta.pipe';
     SituacaoProjetoPipe,
     SubcontaPipe,
     TipoContaPipe,
+    SoHorasPipe,
   ],
 })
 export class SharedModule {}

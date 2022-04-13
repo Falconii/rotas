@@ -19,6 +19,7 @@ import {
   getMinuto,
   MensagensBotoes,
   minutostostohorasexagenal,
+  setDBtoAngular,
   setHorario,
 } from 'src/app/shared/util';
 import { CadastroAcoes } from 'src/app/shared/cadastro-acoes';
@@ -44,12 +45,24 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
   idAcao: number = 0;
   acao: string = '';
   labelCadastro: string = '';
-
   id_empresa: number = 0;
   id_atividade: number = 0;
   atividade: AtividadeModel = new AtividadeModel();
   apontamento: ApoPlanejamentoMoldel = new ApoPlanejamentoMoldel();
-
+  dados_projetos: string = `
+  <div>Event Title</div>
+  <div class="">
+    <table>
+      <thead>
+        <th>User</th>
+        <th>User</th>
+        <th>User</th>
+        <th>User</th>
+      </thead>
+    </table>
+  </div>
+`;
+  filtro: Boolean = false;
   formulario: FormGroup;
 
   constructor(
@@ -63,7 +76,7 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
     this.formulario = formBuilder.group({
       entrada: [{ value: '' }],
       saida: [],
-      obs: [{ value: '' }, [Validators.required, Validators.maxLength(50)]],
+      obs: [{ value: '' }],
     });
     this.setValue();
     this.inscricaoRota = this.route.params.subscribe((params: any) => {
@@ -91,19 +104,15 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
     switch (+op) {
       case CadastroAcoes.Inclusao:
         this.acao = 'Gravar';
-        this.labelCadastro = 'Agendamento - Inclusão.';
         break;
       case CadastroAcoes.Edicao:
         this.acao = 'Gravar';
-        this.labelCadastro = 'Agendamento - Alteração.';
         break;
       case CadastroAcoes.Consulta:
         this.acao = 'Voltar';
-        this.labelCadastro = 'Agendamento - Consulta.';
         break;
       case CadastroAcoes.Exclusao:
         this.acao = 'Excluir';
-        this.labelCadastro = 'Agendamento - Exclusão.';
         break;
       default:
         this.acao = '';
@@ -112,41 +121,44 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
     }
   }
 
-  escolha(opcao: number, agendamento: MoviData) {
+  adicao(opcao: number, agendamento: MoviData) {
     this.apontamento = new ApoPlanejamentoMoldel();
     this.agendamento = agendamento;
-    if (opcao == CadastroAcoes.Inclusao) {
-      const date1 = new Date(agendamento.data_);
-      date1.setHours(0);
-      date1.setMinutes(0);
-      let horas = DataYYYYMMDDTHHMMSSZ(date1).substring(
-        DataYYYYMMDDTHHMMSSZ(date1).indexOf('T') + 1,
-        16
-      );
-      this.apontamento.id_empresa = this.id_empresa;
-      this.apontamento.id_empresa = 0;
-      this.apontamento.id = 0;
-      this.apontamento.id_projeto = this.atividade.id_projeto;
-      this.apontamento.id_conta = this.atividade.conta;
-      this.apontamento.id_subconta = this.atividade.subconta;
-      this.apontamento.id_resp = this.atividade.id_resp;
-      this.apontamento.id_exec = this.atividade.id_exec;
-      this.apontamento.inicial = DataYYYYMMDDTHHMMSSZ(date1);
-      this.apontamento.final = DataYYYYMMDDTHHMMSSZ(date1);
-      this.apontamento.horasapon = 0;
-      this.apontamento.obs = '';
-      this.apontamento.encerra = '';
-      this.apontamento.user_insert = 1;
-      this.apontamento.user_update = 0;
-      this.apontamento.resp_razao = '';
-      this.apontamento.exec_razao = '';
-      this.apontamento.ativ_descricao = '';
-    } else {
-      this.getApontamento(this.agendamento.id_empresa;);
-    }
+    const date1 = new Date(agendamento.data_);
+    date1.setHours(0);
+    date1.setMinutes(0);
+    let horas = DataYYYYMMDDTHHMMSSZ(date1).substring(
+      DataYYYYMMDDTHHMMSSZ(date1).indexOf('T') + 1,
+      16
+    );
+    this.apontamento.id_empresa = this.id_empresa;
+    this.apontamento.id_empresa = 0;
+    this.apontamento.id = 0;
+    this.apontamento.id_projeto = this.atividade.id_projeto;
+    this.apontamento.id_conta = this.atividade.conta;
+    this.apontamento.id_subconta = this.atividade.subconta;
+    this.apontamento.id_resp = this.atividade.id_resp;
+    this.apontamento.id_exec = this.atividade.id_exec;
+    this.apontamento.inicial = DataYYYYMMDDTHHMMSSZ(date1);
+    this.apontamento.final = DataYYYYMMDDTHHMMSSZ(date1);
+    this.apontamento.horasapon = 0;
+    this.apontamento.obs = '';
+    this.apontamento.encerra = '';
+    this.apontamento.user_insert = 1;
+    this.apontamento.user_update = 0;
+    this.apontamento.resp_razao = '';
+    this.apontamento.exec_razao = '';
+    this.apontamento.ativ_descricao = '';
     this.idAcao = opcao;
     this.setAcao(this.idAcao);
+    this.labelCadastro = agendamento.data_;
     this.setValue();
+  }
+
+  outras(opcao: number, lanca: Movimento) {
+    this.getApontamento(lanca.id_empresa, lanca.id);
+    this.idAcao = opcao;
+    this.setAcao(this.idAcao);
   }
   executaAcao() {
     let dataDia: Date = new Date(this.agendamento.data);
@@ -171,10 +183,7 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
           .ApoPlanejamentoInsert(this.apontamento)
           .subscribe(
             async (data: ApoPlanejamentoMoldel) => {
-              await this.openSnackBar_OK(
-                `Trabalho Cadastrado Na Código: ${data.id}`,
-                'OK'
-              );
+              this.getAponAgendas();
               this.onCancel();
             },
             (error: any) => {
@@ -190,6 +199,7 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
           .ApoPlanejamentoUpdate(this.apontamento)
           .subscribe(
             async (data: any) => {
+              this.getAponAgendas();
               await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
@@ -210,6 +220,7 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
           )
           .subscribe(
             async (data: any) => {
+              this.getAponAgendas();
               await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
@@ -277,13 +288,15 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
       );
   }
 
-  getApontamento(id_empresa:number,id_apon:number) {
+  getApontamento(id_empresa: number, id_apon: number) {
     this.inscricaoApontamento = this.aponPlanejamentoService
-      .getApoPlanejamento(id_empresa,id_apon)
+      .getApoPlanejamento(id_empresa, id_apon)
       .subscribe(
         (data: ApoPlanejamentoMoldel) => {
           this.apontamento = data;
-          console.log('apontamento', this.apontamento);
+          this.apontamento.inicial = setDBtoAngular(this.apontamento.inicial);
+          this.apontamento.final = setDBtoAngular(this.apontamento.final);
+          this.setValue();
         },
         (error: any) => {
           this.atividade = new AtividadeModel();
@@ -341,6 +354,14 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
     this.setAcao(99);
   }
 
+  getLabelCancel() {
+    if (this.idAcao == CadastroAcoes.Consulta) {
+      return 'Voltar';
+    } else {
+      return 'Cancelar';
+    }
+  }
+
   getAcoes() {
     return CadastroAcoes;
   }
@@ -357,5 +378,26 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
 
   getTexto() {
     return MensagensBotoes;
+  }
+
+  onRetorno() {
+    this.router.navigate([
+      '/anexaratividade',
+      this.atividade.id_empresa,
+      this.atividade.id_projeto,
+      this.atividade.conta,
+    ]);
+  }
+
+  setFiltro() {
+    this.filtro = !this.filtro;
+  }
+
+  exibir(lanca: Movimento): Boolean {
+    if (this.filtro && lanca.id_projeto !== this.atividade.id_projeto) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

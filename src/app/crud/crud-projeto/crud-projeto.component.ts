@@ -70,6 +70,7 @@ export class CrudProjetoComponent implements OnInit {
         '/anexaratividade',
         projeto.id_empresa,
         projeto.id,
+        'NULL',
       ]);
     } else {
       this.router.navigate(['/projeto', projeto.id_empresa, projeto.id, opcao]);
