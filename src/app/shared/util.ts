@@ -172,8 +172,6 @@ function adicionaZero(numero: number) {
 }
 
 export function formatarData(date: any): string {
-  console.log('date', date);
-
   if (date == null) {
     return '';
   }

@@ -8,6 +8,7 @@ import { ParametroAgendaPlanejamento01 } from '../parametros/parametro-agenda-pl
 import { ParametroAgendaPlanejamento02 } from '../parametros/parametro-agenda-planejamento02';
 import { ResqPlanejamento } from '../Models/resq-planejamento';
 import { ParametroAgendaPlanejamento03 } from '../parametros/parametro-agenda-planejamento03';
+import { ApoPlanejamentoQuery_01Model } from '../Models/apo-planejamento-query_01-model';
 
 @Injectable({
   providedIn: 'root',
@@ -32,8 +33,8 @@ export class AponPlanejamentoService {
 
   getApoPlanejamentos_01(
     params: ParametroAgendaPlanejamento01
-  ): Observable<ApoPlanejamentoMoldel[]> {
-    return this.http.post<ApoPlanejamentoMoldel[]>(
+  ): Observable<ApoPlanejamentoQuery_01Model[]> {
+    return this.http.post<ApoPlanejamentoQuery_01Model[]>(
       `${this.apiURL}aponplans`,
       params
     );
@@ -65,8 +66,6 @@ export class AponPlanejamentoService {
   }
 
   ApoPlanejamentoInsert(aponplanejamento: ApoPlanejamentoMoldel) {
-    console.log('Insert APO - FROND END', ApoPlanejamentoMoldel);
-
     return this.http.post<ApoPlanejamentoMoldel>(
       `${this.apiURL}aponplan`,
       aponplanejamento

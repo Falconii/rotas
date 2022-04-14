@@ -192,3 +192,18 @@ table {
     font-size: large;
     text-align: center;
 }
+
+.div-barra {
+    width: 100%;
+    padding-top: 10px;
+    align-items: center;
+}
+
+.botoes-barra-direita {
+    width: 100%;
+}
+
+.usuario {
+    margin-left: 10px;
+    margin-right: 10px;
+}

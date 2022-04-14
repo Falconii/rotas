@@ -88,7 +88,7 @@
             <button class="buttons" mat-raised-button color="primary" (click)=onAnexar()>Anexar</button>
             <mat-form-field field appearance="outline" class="MidlerWidth">
                 <mat-label>Atividades</mat-label>
-                <mat-select formControlName="atividade">
+                <mat-select formControlName="atividade" (selectionChange)="onVisualizar()">
                     <mat-option *ngFor="let in of estruturasIn" [value]="in.conta">
                         {{in.subconta}}-{{in.descricao}}
                     </mat-option>
