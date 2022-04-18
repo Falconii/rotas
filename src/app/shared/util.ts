@@ -264,31 +264,36 @@ export function horahexa(value: number): string {
 
 export function setHorario(
   value: Date,
-  horas: number,
-  minutos: number
+  horas: string,
+  minutos: string
 ): string {
   let retorno: string = '';
   let dt = new Date(value);
-  dt.setHours(horas);
-  dt.setMinutes(minutos);
-  retorno = DataYYYYMMDDTHHMMSSZ(dt);
+  retorno = setDBtoAngularGMT(`${DataYYYYMMDD(dt)} ${horas}:${minutos}:00`);
+  console.log('data horario => ', retorno);
   return retorno;
 }
 
-export function getHora(hora: string): number {
-  let retorno: number = 0;
-  retorno = parseInt(hora.split(':')[0]);
+export function getHora(hora: string): string {
+  let retorno: string = '00';
+  retorno = hora.split(':')[0];
   return retorno;
 }
 
-export function getMinuto(hora: string): number {
-  let retorno: number = 0;
-  retorno = parseInt(hora.split(':')[1]);
+export function getMinuto(hora: string): string {
+  let retorno: string = '00';
+  retorno = hora.split(':')[1];
   return retorno;
 }
 
 export function setDBtoAngular(value: string): string {
   let retorno = '';
   retorno = value.replace(' ', 'T') + '.000Z';
+  return retorno;
+}
+
+export function setDBtoAngularGMT(value: string): string {
+  let retorno = '';
+  retorno = value + ' GMT-0300';
   return retorno;
 }

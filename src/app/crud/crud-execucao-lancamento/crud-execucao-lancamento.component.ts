@@ -1,16 +1,14 @@
 import { ParametroMotivoApo01 } from './../../parametros/parametro-motivo-apo01';
 import { MotivoApoService } from './../../services/motivo-apo.service';
-import { AtividadeModel } from 'src/app/Models/atividade-model';
 import { AtividadeQuery_01Model } from './../../Models/atividade-query_01-model';
 import { ApoPlanejamentoQuery_01Model } from './../../Models/apo-planejamento-query_01-model';
 import { ParametroAgendaPlanejamento01 } from './../../parametros/parametro-agenda-planejamento01';
-import { ApoPlanejamentoMoldel } from 'src/app/Models/apo-planejamento-moldel';
 import { ParametroAponExecucao01 } from './../../parametros/parametro-apon-execucao01';
 import { AponExecucaoService } from './../../services/apon-execucao.service';
 import { UsuarioModel } from './../../Models/usuario-model';
 import { UsuariosService } from './../../services/usuarios.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -26,6 +24,8 @@ import {
   getMinuto,
   MensagensBotoes,
   minutostostohorasexagenal,
+  setDBtoAngular,
+  setDBtoAngularGMT,
   setHorario,
 } from 'src/app/shared/util';
 import { EstruturaModel } from 'src/app/Models/estrutura-model';
@@ -75,16 +75,17 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
     private _snackBar: MatSnackBar
   ) {
     this.formulario = formBuilder.group({
-      entrada: [{ value: '' }],
-      saida: [{ value: '' }],
-      atividade: [],
-      id_motivo: [],
-      encerra: [],
-      obs: [{ value: '' }],
+      entrada: [{ value: '' }, [Validators.required]],
+      saida: [{ value: '' }, [Validators.required]],
+      atividade: [{ value: '' }, [Validators.required]],
+      cliente: [{ value: '' }, [Validators.required]],
+      id_motivo: [{ value: '' }, [Validators.required]],
+      encerra: [{ value: '' }, [Validators.required]],
+      obs: [{ value: '' }, [Validators.maxLength(50)]],
     });
     this.parametro = formBuilder.group({
       data: [{ value: '' }],
-      id_atividade: [{ value: '' }],
+      id_atividade: [{ value: '' }, [Validators.required, Validators.min(1)]],
     });
     this.setParametro();
     this.getUsuario();
@@ -137,10 +138,6 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
         },
         (error: any) => {
           this.apontamentos = [];
-          this.openSnackBar_Err(
-            `${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
-            'OK'
-          );
         }
       );
   }
@@ -158,10 +155,6 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
         },
         (error: any) => {
           this.apontamentos = [];
-          this.openSnackBar_Err(
-            `${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
-            'OK'
-          );
         }
       );
   }
@@ -175,13 +168,10 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
       .subscribe(
         (data: AtividadeQuery_01Model[]) => {
           this.atividades = data;
+          console.log(this.atividades);
         },
         (error: any) => {
           this.atividades = [];
-          this.openSnackBar_Err(
-            `${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
-            'OK'
-          );
         }
       );
   }
@@ -210,15 +200,16 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
   setValue() {
     this.formulario.setValue({
       entrada: this.apontamento.inicial.substring(
-        this.apontamento.inicial.indexOf('T') + 1,
+        this.apontamento.inicial.indexOf(' ') + 1,
         16
       ),
       saida: this.apontamento.final.substring(
-        this.apontamento.final.indexOf('T') + 1,
+        this.apontamento.final.indexOf(' ') + 1,
         16
       ),
       atividade: this.apontamento.estru_descricao,
-      id_motivo: this.apontamento.id,
+      cliente: this.atividade.subcliente_razao,
+      id_motivo: this.apontamento.id_motivo,
       encerra: this.apontamento.encerramento == 'S' ? true : false,
       obs: this.apontamento.obs,
     });
@@ -265,20 +256,23 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('formulario', this.formulario.value);
     if (this.formulario.valid) {
-      //this.executaAcao();
+      this.executaAcao();
     } else {
       this.openSnackBar_OK(`Formulário Com Campos Inválidos.`, 'OK');
     }
   }
 
   onRefresh() {
-    this.atividade = this.atividades.filter(
-      (ativ) => ativ.id === this.parametro.value.id_atividade
-    )[0];
-    this.getApontamentosPlanejamento();
-    this.getApontamentosExecucao();
+    if (this.parametro.valid) {
+      this.atividade = this.atividades.filter(
+        (ativ) => ativ.id === this.parametro.value.id_atividade
+      )[0];
+      this.getApontamentosPlanejamento();
+      this.getApontamentosExecucao();
+    } else {
+      this.openSnackBar_OK(`Formulário Com Campos Inválidos.`, 'OK');
+    }
   }
   async openSnackBar_OK(message: string, action: string) {
     this._snackBar.open(message, action, {
@@ -292,51 +286,53 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
   }
 
   adicao(opcao: number) {
-    this.apontamento = new ApoExecucaoModel();
-    const date1 = new Date(this.parametro.value.data);
-    date1.setHours(0);
-    date1.setMinutes(0);
-    date1.setSeconds(0);
-    let horas = DataYYYYMMDDTHHMMSSZ(date1).substring(
-      DataYYYYMMDDTHHMMSSZ(date1).indexOf('T') + 1,
-      16
-    );
-    this.apontamento.id_empresa = this.id_empresa;
-    this.apontamento.id_empresa = 0;
-    this.apontamento.id = 0;
-    this.apontamento.id_projeto = this.atividade.id_projeto;
-    this.apontamento.id_conta = this.atividade.conta;
-    this.apontamento.id_subconta = this.atividade.subconta;
-    this.apontamento.id_resp = this.atividade.id_resp;
-    this.apontamento.id_exec = this.atividade.id_exec;
-    this.apontamento.inicial = DataYYYYMMDDTHHMMSSZ(date1);
-    this.apontamento.final = DataYYYYMMDDTHHMMSSZ(date1);
-    this.apontamento.horasapon = 0;
-    this.apontamento.obs = '';
-    this.apontamento.encerramento = 'N';
-    this.apontamento.user_insert = this.usuario.id;
-    this.apontamento.user_update = 0;
-    this.apontamento.resp_razao = this.atividade.resp_razao;
-    this.apontamento.exec_razao = this.atividade.exec_razao;
-    this.apontamento.estru_descricao = this.atividade.estru_descri;
+    if (!this.parametro.valid) {
+      this.openSnackBar_OK(`Definina uma ativadade primeiro`, 'OK');
+    } else {
+      this.apontamento = new ApoExecucaoModel();
+      const date1 = new Date(
+        setDBtoAngularGMT(DataYYYYMMDD(this.parametro.value.data) + ' 00:00:00')
+      );
+      this.apontamento.id_empresa = this.usuario.id_empresa;
+      this.apontamento.id = 0;
+      this.apontamento.id_projeto = this.atividade.id_projeto;
+      this.apontamento.id_conta = this.atividade.conta;
+      this.apontamento.id_subconta = this.atividade.subconta;
+      this.apontamento.id_resp = this.atividade.id_resp;
+      this.apontamento.id_exec = this.atividade.id_exec;
+      this.apontamento.inicial = setDBtoAngularGMT(
+        DataYYYYMMDD(this.parametro.value.data) + ' 00:00:00'
+      ); //DataYYYYMMDDTHHMMSSZ(date1);
+      this.apontamento.final = setDBtoAngularGMT(
+        DataYYYYMMDD(this.parametro.value.data) + ' 00:00:00'
+      ); //DataYYYYMMDDTHHMMSSZ(date1);
+      this.apontamento.horasapon = 0;
+      this.apontamento.obs = '';
+      this.apontamento.encerramento = 'N';
+      this.apontamento.user_insert = this.usuario.id;
+      this.apontamento.user_update = 0;
+      this.apontamento.resp_razao = this.atividade.resp_razao;
+      this.apontamento.exec_razao = this.atividade.exec_razao;
+      this.apontamento.estru_descricao = this.atividade.estru_descri;
+      this.idAcao = opcao;
+      this.setAcao(this.idAcao);
+      this.labelCadastro = DataYYYYMMDDTHHMMSSZ(date1);
+      this.setValue();
+      console.log('inicial', this.apontamento.inicial);
+      console.log('final', this.apontamento.final);
+    }
+  }
+
+  outras(opcao: number, lanca: ApoExecucaoModel) {
+    this.apontamento = lanca;
     this.idAcao = opcao;
     this.setAcao(this.idAcao);
-    this.labelCadastro = DataYYYYMMDDTHHMMSSZ(date1);
     this.setValue();
   }
 
-  outras(opcao: number, lanca: ApoPlanejamentoQuery_01Model) {
-    /*
-    this.getApontamento(lanca.id_empresa, lanca.id);
-    this.idAcao = opcao;
-    this.setAcao(this.idAcao);
-    */
-  }
-
   executaAcao() {
-    /*
-    let dataDia: Date = new Date(this.agendamento.data);
-    this.apontamento.id_empresa = this.id_empresa;
+    let dataDia: Date = new Date();
+    dataDia.setTime(Date.parse(this.apontamento.inicial));
     this.apontamento.inicial = setHorario(
       dataDia,
       getHora(this.formulario.value.entrada),
@@ -350,14 +346,16 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
     this.apontamento.horasapon = minutostostohorasexagenal(
       DifHoras(this.apontamento.inicial, this.apontamento.final)
     );
+    this.apontamento.id_motivo = this.formulario.value.id_motivo;
     this.apontamento.obs = this.formulario.value.obs;
+    this.apontamento.encerramento = this.formulario.value.encerra ? 'S' : 'N';
     switch (+this.idAcao) {
       case CadastroAcoes.Inclusao:
         this.inscricaoAcao = this.aponExecucaoService
-          .ApoExecucaoIn(this.apontamento)
+          .ApoExecucaoInsert(this.apontamento)
           .subscribe(
-            async (data: ApoPlanejamentoMoldel) => {
-              this.getAponAgendas();
+            async (data: ApoExecucaoModel) => {
+              this.getApontamentosExecucao();
               this.onCancel();
             },
             (error: any) => {
@@ -369,11 +367,11 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
           );
         break;
       case CadastroAcoes.Edicao:
-        this.inscricaoAcao = this.aponPlanejamentoService
-          .ApoPlanejamentoUpdate(this.apontamento)
+        this.inscricaoAcao = this.aponExecucaoService
+          .ApoExecucaoInsert(this.apontamento)
           .subscribe(
             async (data: any) => {
-              this.getAponAgendas();
+              this.getApontamentosExecucao();
               await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
@@ -387,14 +385,11 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
           );
         break;
       case CadastroAcoes.Exclusao:
-        this.inscricaoAcao = this.aponPlanejamentoService
-          .ApoPlanejamentoDelete(
-            this.apontamento.id_empresa,
-            this.apontamento.id
-          )
+        this.inscricaoAcao = this.aponExecucaoService
+          .ApoExecucaoDelete(this.apontamento.id_empresa, this.apontamento.id)
           .subscribe(
             async (data: any) => {
-              this.getAponAgendas();
+              this.getApontamentosExecucao();
               await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
@@ -409,7 +404,6 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
       default:
         break;
     }
-    */
   }
 
   onCancel() {

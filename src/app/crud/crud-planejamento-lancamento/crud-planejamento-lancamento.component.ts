@@ -20,6 +20,7 @@ import {
   MensagensBotoes,
   minutostostohorasexagenal,
   setDBtoAngular,
+  setDBtoAngularGMT,
   setHorario,
 } from 'src/app/shared/util';
 import { CadastroAcoes } from 'src/app/shared/cadastro-acoes';
@@ -124,6 +125,7 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
   adicao(opcao: number, agendamento: MoviData) {
     this.apontamento = new ApoPlanejamentoMoldel();
     this.agendamento = agendamento;
+    /*
     const date1 = new Date(agendamento.data_);
     date1.setHours(0);
     date1.setMinutes(0);
@@ -131,6 +133,9 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
       DataYYYYMMDDTHHMMSSZ(date1).indexOf('T') + 1,
       16
     );
+*/
+    const date1 = new Date(setDBtoAngularGMT(agendamento.data_ + ' 00:00:00'));
+
     this.apontamento.id_empresa = this.id_empresa;
     this.apontamento.id_empresa = 0;
     this.apontamento.id = 0;
@@ -139,8 +144,12 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
     this.apontamento.id_subconta = this.atividade.subconta;
     this.apontamento.id_resp = this.atividade.id_resp;
     this.apontamento.id_exec = this.atividade.id_exec;
-    this.apontamento.inicial = DataYYYYMMDDTHHMMSSZ(date1);
-    this.apontamento.final = DataYYYYMMDDTHHMMSSZ(date1);
+    this.apontamento.inicial = setDBtoAngularGMT(
+      DataYYYYMMDD(date1) + ' 00:00:00'
+    ); //DataYYYYMMDDTHHMMSSZ(date1);
+    this.apontamento.final = setDBtoAngularGMT(
+      DataYYYYMMDD(date1) + ' 00:00:00'
+    ); //DataYYYYMMDDTHHMMSSZ(date1);
     this.apontamento.horasapon = 0;
     this.apontamento.obs = '';
     this.apontamento.encerra = '';
@@ -240,11 +249,11 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
   setValue() {
     this.formulario.setValue({
       entrada: this.apontamento.inicial.substring(
-        this.apontamento.inicial.indexOf('T') + 1,
+        this.apontamento.inicial.indexOf(' ') + 1,
         16
       ),
       saida: this.apontamento.final.substring(
-        this.apontamento.final.indexOf('T') + 1,
+        this.apontamento.final.indexOf(' ') + 1,
         16
       ),
       obs: this.apontamento.obs,
@@ -294,8 +303,6 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
       .subscribe(
         (data: ApoPlanejamentoMoldel) => {
           this.apontamento = data;
-          this.apontamento.inicial = setDBtoAngular(this.apontamento.inicial);
-          this.apontamento.final = setDBtoAngular(this.apontamento.final);
           this.setValue();
         },
         (error: any) => {

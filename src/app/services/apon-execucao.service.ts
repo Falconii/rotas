@@ -33,7 +33,7 @@ export class AponExecucaoService {
 
   ApoExecucaoInsert(aponexecucao: ApoExecucaoModel) {
     return this.http.post<ApoExecucaoModel>(
-      `${this.apiURL}aponplan`,
+      `${this.apiURL}aponexec`,
       aponexecucao
     );
   }
