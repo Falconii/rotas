@@ -252,6 +252,7 @@ export class CrudAtividadeProjetoComponent implements OnInit {
           this.atividades = [];
           this.conta = '';
           this.getProjeto();
+          this.parametros.reset();
           this.openSnackBar_OK(`Estrutura Anexada Com Sucesso!`, 'OK');
         },
         (error: any) => {
@@ -348,11 +349,18 @@ export class CrudAtividadeProjetoComponent implements OnInit {
 
   escolha(atividade: AtividadeQuery_01Model, opcao: number) {
     if (opcao == 98) {
-      this.router.navigate([
-        '/planejamentoagenda',
-        atividade.id_empresa,
-        atividade.id,
-      ]);
+      if (atividade.id_exec == 0 || atividade.id_resp == 0) {
+        this.openSnackBar_OK(
+          `Responsável e Executor são abrigatorios, para agendamento.`,
+          'OK'
+        );
+      } else {
+        this.router.navigate([
+          '/planejamentoagenda',
+          atividade.id_empresa,
+          atividade.id,
+        ]);
+      }
     } else {
       this.idAcao = opcao;
       this.setAcao(this.idAcao);

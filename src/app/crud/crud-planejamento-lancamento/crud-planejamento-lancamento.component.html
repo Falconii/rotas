@@ -1,7 +1,7 @@
 <p>
     <mat-toolbar>
         <span class="example-spacer">Projeto{{atividade.id_projeto}}-Atividade:{{atividade.subconta }}</span>
-        <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Filtro" matTooltipPosition="above" *ngIf="idAcao == 99" (click)="setFiltro()">
+        <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Filtro Projetos" matTooltipPosition="above" *ngIf="idAcao == 99" (click)="setFiltro()">
           <mat-icon>filter_list</mat-icon>
          </button>
         <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()">
@@ -42,19 +42,19 @@
             </td>
             <td class="coluna-descricao">
                 <div *ngFor="let lanca of agendamento.movimentos">
-                    <div *ngIf="exibir(lanca)">
+                    <div *ngIf="exibir(lanca) && exibirData(agendamento.data_)">
                         <span class="example-spacer">
-                          <mat-label class="labelTitle">Hora Inicial:</mat-label>
+                          <mat-label class="labelTitle">Horario:</mat-label>
                           <mat-label class="labelData">{{lanca.inicial | date : 'HH:mm'}} as {{lanca.final |  date : 'HH:mm'}}</mat-label>
                           <mat-label class="labelTitle">Hora Apontadas:</mat-label>
                           <mat-label class="labelData">{{lanca.horasapon | horaSexagenal}}</mat-label>
                           <mat-label class="labelTitle" [matTooltip]="dados_projetos" matTooltipPosition="above">Projeto:</mat-label>
                           <mat-label class="labelData">{{lanca.id_projeto}}</mat-label>
                         </span>
-                        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="outras(getAcoes()['Edicao'],lanca)" matTooltip="Alterar Apontamento" matTooltipPosition="above" *ngIf="lanca.id_projeto == atividade.id_projeto">
+                        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="outras(getAcoes()['Edicao'],agendamento,lanca)" matTooltip="Alterar Apontamento" matTooltipPosition="above" *ngIf="lanca.id_projeto == atividade.id_projeto">
                             <mat-icon>edit</mat-icon>
                         </button>
-                        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="outras(getAcoes()['Exclusao'],lanca)" matTooltip="Excluir Apontamento" matTooltipPosition="above" *ngIf="lanca.id_projeto == atividade.id_projeto">
+                        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="outras(getAcoes()['Exclusao'],agendamento,lanca)" matTooltip="Excluir Apontamento" matTooltipPosition="above" *ngIf="lanca.id_projeto == atividade.id_projeto">
                           <mat-icon>delete</mat-icon>
                       </button>
                     </div>
@@ -67,6 +67,9 @@
             <td class="coluna-acao">
                 <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Novo Apontamento" matTooltipPosition="above" (click)="adicao(getAcoes()['Inclusao'],agendamento)">
                 <mat-icon>add_circle_outline</mat-icon>
+              </button>
+                <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Filtrar Esta Data" matTooltipPosition="above" (click)="setFiltroData(agendamento)">
+                <mat-icon>filter_list</mat-icon>
               </button>
             </td>
         </tr>

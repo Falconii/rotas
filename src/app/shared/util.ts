@@ -1,6 +1,9 @@
+import { ApoExecucaoModel } from '../Models/apo-execucao-model';
+import { Movimento } from '../Models/movimento';
 import { MoviData } from './../Models/movi-data';
 import { Dias_Planejados } from './dias-planejados';
-
+import { ErrorIntervalo } from './error-intervalo';
+import { Intervalo } from './intervalo';
 export function DataYYYYMMDD(value: Date): string {
   let d: Date = new Date(value),
     month = '' + (d.getMonth() + 1),
@@ -87,10 +90,6 @@ export function DiasUteis(Inicial: string, Final: string): Dias_Planejados[] {
   date2.setHours(0);
   date2.setMinutes(0);
 
-  console.log('Data Inicial e Final ', Inicial, Final);
-
-  console.log('Data Base ', date1, date2);
-
   // One day in milliseconds
   const oneDay = 1000 * 60 * 60 * 24;
 
@@ -136,10 +135,6 @@ export function DiasUteisV2(
   date2.setHours(0);
   date2.setMinutes(0);
 
-  console.log('Data Inicial e Final ', Inicial, Final);
-
-  console.log('Data Base ', date1, date2);
-
   // One day in milliseconds
   const oneDay = 1000 * 60 * 60 * 24;
 
@@ -156,10 +151,8 @@ export function DiasUteisV2(
     proxima.data.setDate(date1.getDate() + x);
     proxima.data.setHours(0);
     proxima.data.setMinutes(0);
-    console.log('Proxima loop =>', proxima.data);
     proxima.data_ = DataYYYYMMDD(proxima.data);
     if (proxima.data.getDay() != 6 && proxima.data.getDay() != 0) {
-      console.log('Proxima=>', proxima);
       retorno.push(proxima);
     }
   }
@@ -196,8 +189,6 @@ export function DifHoras(Inicial: string, Final: string): number {
   const date1 = new Date(Inicial);
 
   const date2 = new Date(Final);
-
-  console.log('Data Inicial e Final ', date1, date2);
 
   // One day in milliseconds
   const oneMin = 1000 * 60;
@@ -238,15 +229,9 @@ export function minutostostohorasexagenal(minutos: number): number {
 
   const horas = parseInt(parte[0]);
 
-  console.log('Horas=>', horas);
-
   let min = minutos - horas * 60;
 
-  console.log('Minutos->', min);
-
   min = Number.parseInt((min * 1.67).toFixed(0)) / 100;
-
-  console.log('Minutos Convertidos ->', min);
 
   return horas + min;
 }
@@ -258,7 +243,6 @@ export function horahexa(value: number): string {
   minutos = '00' + (Number.parseInt(minutos) / 1.67).toFixed(0).trim();
   minutos = minutos.substring(minutos.length - 2);
   if (minutos.length < 2) minutos = '0' + minutos;
-  console.log('Minutos', minutos, 'Lengh ');
   return horas + ':' + minutos;
 }
 
@@ -270,7 +254,6 @@ export function setHorario(
   let retorno: string = '';
   let dt = new Date(value);
   retorno = setDBtoAngularGMT(`${DataYYYYMMDD(dt)} ${horas}:${minutos}:00`);
-  console.log('data horario => ', retorno);
   return retorno;
 }
 
@@ -296,4 +279,90 @@ export function setDBtoAngularGMT(value: string): string {
   let retorno = '';
   retorno = value + ' GMT-0300';
   return retorno;
+}
+
+export function populaIntervalo(
+  movimentos: Movimento[],
+  id_lanca: number
+): Intervalo[] {
+  let retorno: Intervalo[] = [];
+  movimentos.forEach((movi) => {
+    if (movi.id !== id_lanca) {
+      const hinicial = movi.inicial
+        .substring(movi.inicial.indexOf(' ') + 1, 16)
+        .split(':');
+      const hfinal = movi.final
+        .substring(movi.final.indexOf(' ') + 1, 16)
+        .split(':');
+
+      const horasi = parseInt(hinicial[0]) * 60;
+      const minutosi = parseInt(hinicial[1]);
+      const horasf = parseInt(hfinal[0]) * 60;
+      const minutosf = parseInt(hfinal[1]);
+      const descri =
+        hinicial[0] + ':' + hinicial[1] + ' às ' + hfinal[0] + ':' + hfinal[1];
+      const inter: Intervalo = new Intervalo();
+      inter.descricao = descri;
+      inter.inicio = horasi + minutosi;
+      inter.final = horasf + minutosf;
+      retorno.push(inter);
+    }
+  });
+  return retorno;
+}
+
+export function populaIntervalo2(
+  movimentos: ApoExecucaoModel[],
+  id_lanca: number
+): Intervalo[] {
+  let retorno: Intervalo[] = [];
+  movimentos.forEach((movi) => {
+    if (movi.id !== id_lanca) {
+      const hinicial = movi.inicial
+        .substring(movi.inicial.indexOf(' ') + 1, 16)
+        .split(':');
+      const hfinal = movi.final
+        .substring(movi.final.indexOf(' ') + 1, 16)
+        .split(':');
+
+      const horasi = parseInt(hinicial[0]) * 60;
+      const minutosi = parseInt(hinicial[1]);
+      const horasf = parseInt(hfinal[0]) * 60;
+      const minutosf = parseInt(hfinal[1]);
+      const descri =
+        hinicial[0] + ':' + hinicial[1] + ' às ' + hfinal[0] + ':' + hfinal[1];
+      const inter: Intervalo = new Intervalo();
+      inter.descricao = descri;
+      inter.inicio = horasi + minutosi;
+      inter.final = horasf + minutosf;
+      retorno.push(inter);
+    }
+  });
+  return retorno;
+}
+
+export function validaIntervalo(
+  intervalos: Intervalo[],
+  inicio: string,
+  final: string
+) {
+  try {
+    const hinicial = inicio.split(':');
+    const hfinal = final.split(':');
+    const horasi = parseInt(hinicial[0]) * 60;
+    const minutosi = parseInt(hinicial[1]);
+    const horasf = parseInt(hfinal[0]) * 60;
+    const minutosf = parseInt(hfinal[1]);
+    const inicial = horasi + minutosi;
+    const fim = horasf + minutosf;
+    intervalos.forEach((inter) => {
+      if (inicial > inter.inicio && inicial < inter.final)
+        throw new ErrorIntervalo(inter.descricao);
+      if (fim >= inter.final && fim <= inter.final)
+        throw new ErrorIntervalo(inter.descricao);
+    });
+  } catch (err) {
+    throw err;
+  }
+  return;
 }

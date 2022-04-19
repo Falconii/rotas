@@ -1,3 +1,4 @@
+import { Intervalo } from './../../shared/intervalo';
 import { AponPlanejamentoService } from './../../services/apon-planejamento.service';
 import { AgePlanModel } from './../../Models/age-plan-model';
 import { Movimento } from './../../Models/movimento';
@@ -7,7 +8,6 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ParametroAtividade01 } from 'src/app/parametros/parametro-atividade01';
 import { AtividadesService } from 'src/app/services/atividades.service';
 import { MoviData } from 'src/app/Models/movi-data';
 import {
@@ -19,13 +19,16 @@ import {
   getMinuto,
   MensagensBotoes,
   minutostostohorasexagenal,
+  populaIntervalo,
   setDBtoAngular,
   setDBtoAngularGMT,
   setHorario,
+  validaIntervalo,
 } from 'src/app/shared/util';
 import { CadastroAcoes } from 'src/app/shared/cadastro-acoes';
 import { ApoPlanejamentoMoldel } from 'src/app/Models/apo-planejamento-moldel';
 import { ParametroAgendaPlanejamento03 } from 'src/app/parametros/parametro-agenda-planejamento03';
+import { ErrorIntervalo } from 'src/app/shared/error-intervalo';
 
 @Component({
   selector: 'app-crud-planejamento-lancamento',
@@ -50,21 +53,12 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
   id_atividade: number = 0;
   atividade: AtividadeModel = new AtividadeModel();
   apontamento: ApoPlanejamentoMoldel = new ApoPlanejamentoMoldel();
-  dados_projetos: string = `
-  <div>Event Title</div>
-  <div class="">
-    <table>
-      <thead>
-        <th>User</th>
-        <th>User</th>
-        <th>User</th>
-        <th>User</th>
-      </thead>
-    </table>
-  </div>
-`;
+  dados_projetos: string = ``;
+  intervalos: Intervalo[] = [];
   filtro: Boolean = false;
+  filtroData: Boolean = false;
   formulario: FormGroup;
+  dataFiltro: string = '';
 
   constructor(
     formBuilder: FormBuilder,
@@ -125,17 +119,11 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
   adicao(opcao: number, agendamento: MoviData) {
     this.apontamento = new ApoPlanejamentoMoldel();
     this.agendamento = agendamento;
-    /*
-    const date1 = new Date(agendamento.data_);
-    date1.setHours(0);
-    date1.setMinutes(0);
-    let horas = DataYYYYMMDDTHHMMSSZ(date1).substring(
-      DataYYYYMMDDTHHMMSSZ(date1).indexOf('T') + 1,
-      16
+    this.intervalos = populaIntervalo(
+      agendamento.movimentos,
+      this.apontamento.id
     );
-*/
     const date1 = new Date(setDBtoAngularGMT(agendamento.data_ + ' 00:00:00'));
-
     this.apontamento.id_empresa = this.id_empresa;
     this.apontamento.id_empresa = 0;
     this.apontamento.id = 0;
@@ -146,10 +134,10 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
     this.apontamento.id_exec = this.atividade.id_exec;
     this.apontamento.inicial = setDBtoAngularGMT(
       DataYYYYMMDD(date1) + ' 00:00:00'
-    ); //DataYYYYMMDDTHHMMSSZ(date1);
+    );
     this.apontamento.final = setDBtoAngularGMT(
       DataYYYYMMDD(date1) + ' 00:00:00'
-    ); //DataYYYYMMDDTHHMMSSZ(date1);
+    );
     this.apontamento.horasapon = 0;
     this.apontamento.obs = '';
     this.apontamento.encerra = '';
@@ -164,8 +152,9 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
     this.setValue();
   }
 
-  outras(opcao: number, lanca: Movimento) {
-    this.getApontamento(lanca.id_empresa, lanca.id);
+  outras(opcao: number, agendamento: MoviData, lanca: Movimento) {
+    this.getApontamento(lanca.id_empresa, lanca.id, agendamento);
+    this.agendamento = agendamento;
     this.idAcao = opcao;
     this.setAcao(this.idAcao);
   }
@@ -297,12 +286,13 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
       );
   }
 
-  getApontamento(id_empresa: number, id_apon: number) {
+  getApontamento(id_empresa: number, id_apon: number, agendamento: MoviData) {
     this.inscricaoApontamento = this.aponPlanejamentoService
       .getApoPlanejamento(id_empresa, id_apon)
       .subscribe(
         (data: ApoPlanejamentoMoldel) => {
           this.apontamento = data;
+          this.intervalos = populaIntervalo(agendamento.movimentos, id_apon);
           this.setValue();
         },
         (error: any) => {
@@ -321,7 +311,6 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
       .subscribe(
         (data: ParametroAgendaPlanejamento03) => {
           this.parametroAgendaPlanejamento03 = data;
-          console.log('apontamento', this.apontamento);
         },
         (error: any) => {
           this.atividade = new AtividadeModel();
@@ -338,11 +327,28 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('formulario', this.formulario.value);
-    if (this.formulario.valid) {
-      this.executaAcao();
-    } else {
-      this.openSnackBar_OK(`Formulário Com Campos Inválidos.`, 'OK');
+    try {
+      if (
+        this.idAcao == CadastroAcoes.Inclusao ||
+        this.idAcao == CadastroAcoes.Edicao
+      ) {
+        validaIntervalo(
+          this.intervalos,
+          this.formulario.value.entrada,
+          this.formulario.value.saida
+        );
+      }
+      if (this.formulario.valid) {
+        this.executaAcao();
+      } else {
+        this.openSnackBar_OK(`Formulário Com Campos Inválidos.`, 'OK');
+      }
+    } catch (err) {
+      if (err instanceof ErrorIntervalo) {
+        this.openSnackBar_OK(`Lançamento Conflitando: ${err.message}`, 'OK');
+      } else {
+        console.log(err);
+      }
     }
   }
 
@@ -400,8 +406,21 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
     this.filtro = !this.filtro;
   }
 
+  setFiltroData(agendamento: MoviData) {
+    this.filtroData = !this.filtroData;
+    this.dataFiltro = this.agendamento.data_;
+  }
+
   exibir(lanca: Movimento): Boolean {
     if (this.filtro && lanca.id_projeto !== this.atividade.id_projeto) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  exibirData(data: string): Boolean {
+    if (this.filtroData && this.dataFiltro == data) {
       return false;
     } else {
       return true;

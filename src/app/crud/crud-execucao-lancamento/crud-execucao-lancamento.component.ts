@@ -24,14 +24,18 @@ import {
   getMinuto,
   MensagensBotoes,
   minutostostohorasexagenal,
+  populaIntervalo2,
   setDBtoAngular,
   setDBtoAngularGMT,
   setHorario,
+  validaIntervalo,
 } from 'src/app/shared/util';
 import { EstruturaModel } from 'src/app/Models/estrutura-model';
 import { ParametroAtividade01 } from 'src/app/parametros/parametro-atividade01';
 import { AtividadesService } from 'src/app/services/atividades.service';
 import { MotivoApoModel } from 'src/app/Models/motivo-apo-model';
+import { Intervalo } from 'src/app/shared/intervalo';
+import { ErrorIntervalo } from 'src/app/shared/error-intervalo';
 
 @Component({
   selector: 'app-crud-execucao-lancamento',
@@ -63,6 +67,7 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
   filtro: Boolean = false;
   formulario: FormGroup;
   parametro: FormGroup;
+  intervalos: Intervalo[] = [];
 
   constructor(
     formBuilder: FormBuilder,
@@ -129,7 +134,7 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
     para.id_empresa = this.usuario.id_empresa;
     para.id_exec = this.usuario.id;
     para.data = DataYYYYMMDD(this.parametro.value.data);
-    para.orderby = 'Responsável';
+    para.orderby = 'Executor';
     this.inscricaoAponExecucao = this.aponPlanejamentoService
       .getApoPlanejamentos_01(para)
       .subscribe(
@@ -137,7 +142,7 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
           this.agendamentos = data;
         },
         (error: any) => {
-          this.apontamentos = [];
+          this.agendamentos = [];
         }
       );
   }
@@ -147,6 +152,7 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
     para.id_empresa = 1;
     para.id_exec = this.usuario.id;
     para.data = DataYYYYMMDD(this.parametro.value.data);
+    para.orderby = 'Executor';
     this.inscricaoAponExecucao = this.aponExecucaoService
       .getApoExecucoes_01(para)
       .subscribe(
@@ -256,10 +262,34 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.formulario.valid) {
-      this.executaAcao();
-    } else {
-      this.openSnackBar_OK(`Formulário Com Campos Inválidos.`, 'OK');
+    try {
+      if (
+        this.idAcao == CadastroAcoes.Inclusao ||
+        this.idAcao == CadastroAcoes.Edicao
+      ) {
+        console.log(
+          'Edição =>',
+          this.intervalos,
+          this.formulario.value.entrada,
+          this.formulario.value.saida
+        );
+        validaIntervalo(
+          this.intervalos,
+          this.formulario.value.entrada,
+          this.formulario.value.saida
+        );
+      }
+      if (this.formulario.valid) {
+        this.executaAcao();
+      } else {
+        this.openSnackBar_OK(`Formulário Com Campos Inválidos.`, 'OK');
+      }
+    } catch (err) {
+      if (err instanceof ErrorIntervalo) {
+        this.openSnackBar_OK(`Lançamento Conflitando: ${err.message}`, 'OK');
+      } else {
+        console.log(err);
+      }
     }
   }
 
@@ -293,6 +323,11 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
       const date1 = new Date(
         setDBtoAngularGMT(DataYYYYMMDD(this.parametro.value.data) + ' 00:00:00')
       );
+      this.intervalos = populaIntervalo2(
+        this.apontamentos,
+        this.apontamento.id
+      );
+      console.log('Intervalos Adicao ==>', this.intervalos);
       this.apontamento.id_empresa = this.usuario.id_empresa;
       this.apontamento.id = 0;
       this.apontamento.id_projeto = this.atividade.id_projeto;
@@ -325,6 +360,7 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
 
   outras(opcao: number, lanca: ApoExecucaoModel) {
     this.apontamento = lanca;
+    this.intervalos = populaIntervalo2(this.apontamentos, this.apontamento.id);
     this.idAcao = opcao;
     this.setAcao(this.idAcao);
     this.setValue();
@@ -368,7 +404,7 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
         break;
       case CadastroAcoes.Edicao:
         this.inscricaoAcao = this.aponExecucaoService
-          .ApoExecucaoInsert(this.apontamento)
+          .ApoExecucaoUpdate(this.apontamento)
           .subscribe(
             async (data: any) => {
               this.getApontamentosExecucao();

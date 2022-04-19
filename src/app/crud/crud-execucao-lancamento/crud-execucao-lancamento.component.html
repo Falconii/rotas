@@ -4,10 +4,6 @@
 <div class="div-barra" *ngIf="(idAcao == 99)">
     <mat-toolbar>
         <span class="example-spacer">Projeto{{atividade.id_projeto}}-Atividade:{{atividade.subconta }}</span>
-
-        <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Atualizar" matTooltipPosition="above" (click)="onRefresh()">
-          <mat-icon>rotate_right</mat-icon>
-        </button>
         <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Novo Apontamento" matTooltipPosition="above" (click)="adicao(getAcoes()['Inclusao'])">
           <mat-icon>add_circle_outline</mat-icon>
         </button>
@@ -117,7 +113,7 @@
                 <div *ngFor="let lanca of apontamentos">
                     <div *ngIf="true">
                         <span class="example-spacer">
-                            <mat-label class="labelTitle">Hora Inicial:</mat-label>
+                            <mat-label class="labelTitle">Horário:</mat-label>
                             <mat-label class="labelData">{{lanca.inicial | date : 'HH:mm'}} as {{lanca.final |  date : 'HH:mm'}}</mat-label>
                             <mat-label class="labelTitle">Hora Apontadas:</mat-label>
                             <mat-label class="labelData">{{lanca.horasapon | horaSexagenal}}</mat-label>
