@@ -13,4 +13,7 @@ export class Movimento {
   public encerra: string = '';
   public user_insert: number = 0;
   public user_update: number = 0;
+  public resp_razao: string = '';
+  public cli_razao: string = '';
+  public proj_descricao: string = '';
 }

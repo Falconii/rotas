@@ -11,7 +11,6 @@ export class HoraSexagenalPipe implements PipeTransform {
     minutos = '00' + (Number.parseInt(minutos) / 1.67).toFixed(0).trim();
     minutos = minutos.substring(minutos.length - 2);
     if (minutos.length < 2) minutos = '0' + minutos;
-    console.log('Minutos', minutos, 'Lengh ');
     return horas + ':' + minutos;
   }
 }

@@ -71,6 +71,7 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
     this.formulario = formBuilder.group({
       entrada: [{ value: '' }],
       saida: [],
+      encerra: [],
       obs: [{ value: '' }],
     });
     this.setValue();
@@ -174,6 +175,7 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
     this.apontamento.horasapon = minutostostohorasexagenal(
       DifHoras(this.apontamento.inicial, this.apontamento.final)
     );
+    this.apontamento.encerra = this.formulario.value.encerra ? 'S' : 'N';
     this.apontamento.obs = this.formulario.value.obs;
     switch (+this.idAcao) {
       case CadastroAcoes.Inclusao:
@@ -245,6 +247,7 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
         this.apontamento.final.indexOf(' ') + 1,
         16
       ),
+      encerra: this.apontamento.encerra == 'S' ? true : false,
       obs: this.apontamento.obs,
     });
   }
@@ -264,11 +267,20 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
           this.parametroAgendaPlanejamento03.id_conta = this.atividade.conta;
           this.parametroAgendaPlanejamento03.id_subconta =
             this.atividade.subconta;
-          agendamentos = DiasUteisV2(
-            DataYYYYMMDD(this.atividade.inicial),
-            DataYYYYMMDD(this.atividade.final),
-            this.atividade.id_exec
-          );
+          console.log('filtros =>', this.dataFiltro);
+          if (this.dataFiltro !== '') {
+            agendamentos = DiasUteisV2(
+              this.dataFiltro,
+              this.dataFiltro,
+              this.atividade.id_exec
+            );
+          } else {
+            agendamentos = DiasUteisV2(
+              DataYYYYMMDD(this.atividade.inicial),
+              DataYYYYMMDD(this.atividade.final),
+              this.atividade.id_exec
+            );
+          }
           this.parametroAgendaPlanejamento03.agenda = agendamentos;
           console.log(
             'parametroAgendaPlanejamento03',
@@ -407,23 +419,33 @@ export class CrudPlanejamentoLancamentoComponent implements OnInit {
   }
 
   setFiltroData(agendamento: MoviData) {
+    console.log('Filtro Entrando', DataYYYYMMDD(agendamento.data));
     this.filtroData = !this.filtroData;
-    this.dataFiltro = this.agendamento.data_;
+    if (this.filtroData) {
+      console.log('Filtro Ativado', agendamento);
+      this.dataFiltro = agendamento.data_;
+      this.getAtividade();
+    } else {
+      this.dataFiltro = '';
+      this.getAtividade();
+    }
   }
 
   exibir(lanca: Movimento): Boolean {
+    let retorno: Boolean = true;
+
     if (this.filtro && lanca.id_projeto !== this.atividade.id_projeto) {
-      return false;
-    } else {
-      return true;
+      retorno = false;
     }
+
+    return retorno;
   }
 
-  exibirData(data: string): Boolean {
-    if (this.filtroData && this.dataFiltro == data) {
-      return false;
-    } else {
-      return true;
-    }
+  showDadosProjeto(lanca: Movimento): string {
+    let retorno = '';
+
+    retorno = `Projeto: ${lanca.id_projeto} Descrição: ${lanca.proj_descricao} Resp.: ${lanca.resp_razao}`;
+
+    return retorno;
   }
 }

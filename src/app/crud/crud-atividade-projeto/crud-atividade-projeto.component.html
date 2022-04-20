@@ -2,7 +2,7 @@
 <p>
     <mat-toolbar>
         <span class="example-spacer">Projeto :{{projeto.id}}  {{projeto.descricao}} - Manutenção das Atividades </span>
-        <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Filtro" matTooltipPosition="above" *ngIf="idAcao == 99" (click)="setFiltro()">
+        <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Filtro Operacional" matTooltipPosition="above" *ngIf="idAcao == 99" (click)="setFiltro()">
           <mat-icon>filter_list</mat-icon>
          </button>
         <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()" *ngIf="idAcao == 99">

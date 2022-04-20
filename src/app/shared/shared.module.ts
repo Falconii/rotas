@@ -9,6 +9,7 @@ import { SituacaoProjetoPipe } from './situacao-projeto.pipe';
 import { SubcontaPipe } from './subconta.pipe';
 import { TipoContaPipe } from './tipo-conta.pipe';
 import { SoHorasPipe } from './so-horas.pipe';
+import { SituacaoPadraoPipe } from './situacao-padrao.pipe';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { SoHorasPipe } from './so-horas.pipe';
     SubcontaPipe,
     TipoContaPipe,
     SoHorasPipe,
+    SituacaoPadraoPipe,
   ],
   imports: [CommonModule],
   exports: [
@@ -33,6 +35,7 @@ import { SoHorasPipe } from './so-horas.pipe';
     SubcontaPipe,
     TipoContaPipe,
     SoHorasPipe,
+    SituacaoPadraoPipe,
   ],
 })
 export class SharedModule {}

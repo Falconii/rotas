@@ -67,7 +67,11 @@
                     <mat-label class="labelTitle">Descrição:</mat-label>
                     <mat-label class="labelData">{{projeto.descricao}}</mat-label>
                     <mat-label class="labelTitle">Situação:</mat-label>
-                    <mat-label class="labelData">{{projeto.status}}</mat-label>
+                    <mat-label class="labelData">{{projeto.status | situacaoProjeto}}</mat-label>
+                    <mat-label class="labelTitle">Planejamento:</mat-label>
+                    <mat-label class="labelData">{{projeto.status_pl | situacaoPadrao}}</mat-label>
+                    <mat-label class="labelTitle">Execução:</mat-label>
+                    <mat-label class="labelData">{{projeto.status_ex | situacaoPadrao}}</mat-label>
                 </mat-card-content>
                 <mat-card-content>
                     <mat-label class="labelTitleFirst">Data Proposta:</mat-label>

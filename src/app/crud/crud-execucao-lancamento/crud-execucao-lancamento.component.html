@@ -3,13 +3,10 @@
 -->
 <div class="div-barra" *ngIf="(idAcao == 99)">
     <mat-toolbar>
-        <span class="example-spacer">Projeto{{atividade.id_projeto}}-Atividade:{{atividade.subconta }}</span>
+        <span class="example-spacer">{{getTitulo()}}</span>
         <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Novo Apontamento" matTooltipPosition="above" (click)="adicao(getAcoes()['Inclusao'])">
           <mat-icon>add_circle_outline</mat-icon>
         </button>
-        <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Filtro" matTooltipPosition="above" *ngIf="idAcao == 99" (click)="setFiltro()">
-      <mat-icon>filter_list</mat-icon>
-     </button>
         <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()">
         <mat-icon>arrow_back</mat-icon>
     </button>
@@ -27,7 +24,7 @@
                 <mat-label>Atividades</mat-label>
                 <mat-select formControlName="id_atividade" (selectionChange)="onAtividadeChange()">
                     <mat-option *ngFor="let atividade of atividades" [value]="atividade.id">
-                        {{atividade.estru_descri}}
+                        {{atividade.id_projeto}}-{{atividade.estru_descri}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -96,7 +93,7 @@
                         <mat-label class="labelData">{{lanca.inicial | date : 'HH:mm'}} as {{lanca.final |  date : 'HH:mm'}}</mat-label>
                         <mat-label class="labelTitle">Hora Apontadas:</mat-label>
                         <mat-label class="labelData">{{lanca.horasapon | horaSexagenal}}</mat-label>
-                        <mat-label class="labelTitle" [matTooltip]="dados_projetos" matTooltipPosition="above">Projeto:</mat-label>
+                        <mat-label class="labelTitle" [matTooltip]="showDadosProjetoAgendamento(lanca)" matTooltipPosition="above">Projeto:</mat-label>
                         <mat-label class="labelData">{{lanca.id_projeto}}</mat-label>
                     </span>
                     </div>
@@ -117,7 +114,7 @@
                             <mat-label class="labelData">{{lanca.inicial | date : 'HH:mm'}} as {{lanca.final |  date : 'HH:mm'}}</mat-label>
                             <mat-label class="labelTitle">Hora Apontadas:</mat-label>
                             <mat-label class="labelData">{{lanca.horasapon | horaSexagenal}}</mat-label>
-                            <mat-label class="labelTitle" [matTooltip]="dados_projetos" matTooltipPosition="above">Projeto:</mat-label>
+                            <mat-label class="labelTitle" [matTooltip]="showDadosProjetoApontamento(lanca)" matTooltipPosition="above">Projeto:</mat-label>
                             <mat-label class="labelData">{{lanca.id_projeto}}</mat-label>
                         </span>
                         <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" matTooltip="Alterar Apontamento" matTooltipPosition="above" (click)="outras(getAcoes()['Edicao'],lanca)">

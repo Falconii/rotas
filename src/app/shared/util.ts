@@ -355,12 +355,20 @@ export function validaIntervalo(
     const minutosf = parseInt(hfinal[1]);
     const inicial = horasi + minutosi;
     const fim = horasf + minutosf;
-    intervalos.forEach((inter) => {
-      if (inicial > inter.inicio && inicial < inter.final)
-        throw new ErrorIntervalo(inter.descricao);
-      if (fim >= inter.final && fim <= inter.final)
-        throw new ErrorIntervalo(inter.descricao);
-    });
+    let erro: Boolean = false;
+    let descricao: string = '';
+
+    for (let x = 0; x < intervalos.length; x++) {
+      if (inicial > intervalos[x].inicio && inicial < intervalos[x].final) {
+        erro = true;
+        descricao = intervalos[x].descricao;
+      }
+      if (fim > intervalos[x].inicio && fim < intervalos[x].final) {
+        erro = true;
+        descricao = intervalos[x].descricao;
+      }
+    }
+    if (erro) throw new ErrorIntervalo(descricao);
   } catch (err) {
     throw err;
   }

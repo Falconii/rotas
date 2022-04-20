@@ -20,6 +20,9 @@
             <mat-label>Saída</mat-label>
             <input matInput formControlName="saida">
         </mat-form-field>
+        <mat-checkbox class="encerramento" formControlName="encerra">Encerrar Atividade</mat-checkbox>
+    </div>
+    <div class="cad-container">
         <mat-form-field appearance="outline" class="LargerWidth">
             <mat-label>Observação</mat-label>
             <input matInput formControlName="obs">
@@ -42,13 +45,13 @@
             </td>
             <td class="coluna-descricao">
                 <div *ngFor="let lanca of agendamento.movimentos">
-                    <div *ngIf="exibir(lanca) && exibirData(agendamento.data_)">
+                    <div *ngIf="exibir(lanca)">
                         <span class="example-spacer">
                           <mat-label class="labelTitle">Horario:</mat-label>
                           <mat-label class="labelData">{{lanca.inicial | date : 'HH:mm'}} as {{lanca.final |  date : 'HH:mm'}}</mat-label>
                           <mat-label class="labelTitle">Hora Apontadas:</mat-label>
                           <mat-label class="labelData">{{lanca.horasapon | horaSexagenal}}</mat-label>
-                          <mat-label class="labelTitle" [matTooltip]="dados_projetos" matTooltipPosition="above">Projeto:</mat-label>
+                          <mat-label class="labelTitle" [matTooltip]="showDadosProjeto(lanca)" matTooltipPosition="above">Projeto:</mat-label>
                           <mat-label class="labelData">{{lanca.id_projeto}}</mat-label>
                         </span>
                         <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="outras(getAcoes()['Edicao'],agendamento,lanca)" matTooltip="Alterar Apontamento" matTooltipPosition="above" *ngIf="lanca.id_projeto == atividade.id_projeto">

@@ -151,6 +151,7 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
     let para = new ParametroAponExecucao01();
     para.id_empresa = 1;
     para.id_exec = this.usuario.id;
+    para.id_projeto = this.atividade.id_projeto;
     para.data = DataYYYYMMDD(this.parametro.value.data);
     para.orderby = 'Executor';
     this.inscricaoAponExecucao = this.aponExecucaoService
@@ -169,6 +170,7 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
     let para = new ParametroAtividade01();
     para.id_empresa = 1;
     para.id_exec = this.usuario.id;
+    para.orderby = 'descricao';
     this.inscricaoAponExecucao = this.atividadesService
       .getAtividades_01(para)
       .subscribe(
@@ -408,7 +410,6 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
           .subscribe(
             async (data: any) => {
               this.getApontamentosExecucao();
-              await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
             (error: any) => {
@@ -426,7 +427,6 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
           .subscribe(
             async (data: any) => {
               this.getApontamentosExecucao();
-              await this.openSnackBar_OK(data.message, 'OK');
               this.onCancel();
             },
             (error: any) => {
@@ -475,5 +475,29 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
 
   onAtividadeChange() {
     this.onRefresh();
+  }
+
+  getTitulo(): string {
+    if (this.atividade.id !== 0) {
+      return `Projeto: ${this.atividade.id_projeto} Atividade: ${this.atividade.estru_descri}`;
+    } else {
+      return 'Apontamentos de execução';
+    }
+  }
+
+  showDadosProjetoAgendamento(lanca: ApoPlanejamentoQuery_01Model): string {
+    let retorno = '';
+
+    retorno = `Projeto: ${lanca.id_projeto} Diretor: ${lanca.diretor_razao} Resp.: ${lanca.resp_razao}`;
+
+    return retorno;
+  }
+
+  showDadosProjetoApontamento(lanca: ApoExecucaoModel): string {
+    let retorno = '';
+
+    retorno = `Projeto: ${lanca.id_projeto} Descricao: ${lanca.proj_descricao} Resp.: ${lanca.resp_razao}`;
+
+    return retorno;
   }
 }

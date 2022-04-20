@@ -192,3 +192,8 @@ table {
     font-size: large;
     text-align: center;
 }
+
+.encerramento {
+    margin-left: 10px;
+    padding-bottom: 10px;
+}

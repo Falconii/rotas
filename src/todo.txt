@@ -1,0 +1,35 @@
+- No icone dos filtros, alterar a cor para ambar quando ativo;
+- Escrever Filtro ativo
+- Mostrar dados dos projetos quando passar o mouse pelo label projetos lancamento planejamento fiz mas nã ficou bom
+- Mostrar dados dos projetos quando passar o mouse pelo label projetos lancamento execucao fiz mas nã ficou bom
+- Critica de hora inicial = hora final planejamento e execucao.
+- Travar inputs com letra maíscula
+
+
+
+
+- Status projetos
+    0->Proposta
+	1->Projeto Em Aberto
+	2->Projeto Em Andamento
+	3->Projeto Encerrado
+	4->Projeto Suspenso
+	5->Projeto Cancelado
+
+- Status Planejamento
+    0->Em Aberto
+    1->Em Andamento
+    2->Em Finalizado
+    3->Em Atraso
+
+- Status Execucao
+    0->Em Aberto
+    1->Em Andamento
+    2->Em Finalizado
+    3->Em Atraso
+
+- Status atividades
+    0->Em Aberto
+    1->Em Andamento
+    2->Finalizado
+    3->Em Atraso
