@@ -109,6 +109,14 @@
                 <td class="coluna-descricao" *ngIf="getFiltro(atividade)">
                     <mat-label class="labelData">{{atividade.estru_descri}}</mat-label>
                     <div class="coluna-descricao cor-blue" *ngIf="atividade.tipo=='O'">
+                        <mat-label class="labelTitle">Situação:</mat-label>
+                        <mat-label class="labelData">{{atividade.status | situacaoPadrao}}</mat-label>
+                        <mat-label class="labelTitle">Planejamento:</mat-label>
+                        <mat-label class="labelData">{{atividade.status_pl | situacaoPadrao}}</mat-label>
+                        <mat-label class="labelTitle">Execucao:</mat-label>
+                        <mat-label class="labelData">{{atividade.status_ex | situacaoPadrao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue" *ngIf="atividade.tipo=='O'">
                         <mat-label class="labelTitle">Responsável:</mat-label>
                         <mat-label class="labelData">{{atividade.resp_razao}}</mat-label>
                     </div>

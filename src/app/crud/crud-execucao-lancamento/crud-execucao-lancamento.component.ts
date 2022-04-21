@@ -170,6 +170,7 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
     let para = new ParametroAtividade01();
     para.id_empresa = 1;
     para.id_exec = this.usuario.id;
+    para.so_abertas_ex = 'S';
     para.orderby = 'descricao';
     this.inscricaoAponExecucao = this.atividadesService
       .getAtividades_01(para)

@@ -8,6 +8,7 @@ export class ParametroAtividade01 {
   public id_resp: number = 0;
   public id_exec: number = 0;
   public id_subcliente: number = 0;
+  public so_abertas_ex: string = '';
   public orderby: string = '';
   public sharp: Boolean = true;
 }

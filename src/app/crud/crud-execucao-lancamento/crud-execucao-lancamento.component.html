@@ -12,7 +12,7 @@
     </button>
     </mat-toolbar>
     <span class="example-spacer">
-          <form [formGroup]="parametro" autocomplete="off" >
+          <form [formGroup]="parametro" autocomplete="off" class="cad-container" >
               <mat-label class="usuario">Usuário:{{usuario.razao}}</mat-label>
               <mat-form-field appearance="outline" class="MidleWidth">
                 <mat-label>Data:</mat-label>
@@ -20,7 +20,7 @@
                 <mat-datepicker-toggle matSuffix [for]="dataDatePicker"></mat-datepicker-toggle>
                 <mat-datepicker #dataDatePicker></mat-datepicker>
               </mat-form-field>
-              <mat-form-field field appearance="outline" class="LargeWidth" >
+              <mat-form-field field appearance="outline" class="LargerWidth" >
                 <mat-label>Atividades</mat-label>
                 <mat-select formControlName="id_atividade" (selectionChange)="onAtividadeChange()">
                     <mat-option *ngFor="let atividade of atividades" [value]="atividade.id">
@@ -108,23 +108,25 @@
             </td>
             <td class="coluna-descricao">
                 <div *ngFor="let lanca of apontamentos">
-                    <div *ngIf="true">
-                        <span class="example-spacer">
-                            <mat-label class="labelTitle">Horário:</mat-label>
-                            <mat-label class="labelData">{{lanca.inicial | date : 'HH:mm'}} as {{lanca.final |  date : 'HH:mm'}}</mat-label>
-                            <mat-label class="labelTitle">Hora Apontadas:</mat-label>
-                            <mat-label class="labelData">{{lanca.horasapon | horaSexagenal}}</mat-label>
-                            <mat-label class="labelTitle" [matTooltip]="showDadosProjetoApontamento(lanca)" matTooltipPosition="above">Projeto:</mat-label>
-                            <mat-label class="labelData">{{lanca.id_projeto}}</mat-label>
-                        </span>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Encerrou Atividade ?:</mat-label>
+                        <mat-label class="labelData">{{lanca.encerramento | simNao }}</mat-label>
                         <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" matTooltip="Alterar Apontamento" matTooltipPosition="above" (click)="outras(getAcoes()['Edicao'],lanca)">
-                           <mat-icon>edit</mat-icon>
-                        </button>
+                          <mat-icon>edit</mat-icon>
+                       </button>
                         <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" matTooltip="Excluir Apontamento" matTooltipPosition="above" (click)="outras(getAcoes()['Exclusao'],lanca)">
-                           <mat-icon>delete</mat-icon>
-                        </button>
+                          <mat-icon>delete</mat-icon>
+                       </button>
                     </div>
-                    <div class="coluna-descricao cor-blue" *ngIf="true">
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Horário:</mat-label>
+                        <mat-label class="labelData">{{lanca.inicial | date : 'HH:mm'}} as {{lanca.final | date : 'HH:mm'}}</mat-label>
+                        <mat-label class="labelTitle">Hora Apontadas:</mat-label>
+                        <mat-label class="labelData">{{lanca.horasapon | horaSexagenal}}</mat-label>
+                        <mat-label class="labelTitle" [matTooltip]="showDadosProjetoApontamento(lanca)" matTooltipPosition="above">Projeto:</mat-label>
+                        <mat-label class="labelData">{{lanca.id_projeto}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
                         <mat-label class="labelTitle">Obs.::</mat-label>
                         <mat-label class="labelData">{{lanca.obs}}</mat-label>
                     </div>
