@@ -86,7 +86,7 @@
                 </mat-select>
             </mat-form-field>
             <button class="buttons" mat-raised-button color="primary" (click)=onAnexar()>Anexar</button>
-            <mat-form-field field appearance="outline" class="MidlerWidth">
+            <mat-form-field field appearance="outline" class="LargeWidth">
                 <mat-label>Atividades</mat-label>
                 <mat-select formControlName="atividade" (selectionChange)="onVisualizar()">
                     <mat-option *ngFor="let in of estruturasIn" [value]="in.conta">
@@ -104,17 +104,22 @@
                 <th>AÇÃO</th>
             </tr>
             <tr *ngFor="let atividade of atividades">
-                <td class="coluna-codigo" *ngIf="getFiltro(atividade)">{{atividade.subconta | subconta}}
+                <td class="coluna-codigo" *ngIf="getFiltro(atividade)">
+                    {{atividade.subconta | subconta}}
                 </td>
                 <td class="coluna-descricao" *ngIf="getFiltro(atividade)">
                     <mat-label class="labelData">{{atividade.estru_descri}}</mat-label>
+                    <div class="coluna-descricao cor-blue" *ngIf="atividade.nivel == 1">
+                        <mat-label class="labelTitle">Horas Pl.:</mat-label>
+                        <mat-label class="labelData">{{atividade.horasplan}}</mat-label>
+                        <mat-label class="labelTitle">Horas Ex.:</mat-label>
+                        <mat-label class="labelData">{{atividade.horasexec}}</mat-label>
+                    </div>
                     <div class="coluna-descricao cor-blue" *ngIf="atividade.tipo=='O'">
-                        <mat-label class="labelTitle">Situação:</mat-label>
-                        <mat-label class="labelData">{{atividade.status | situacaoPadrao}}</mat-label>
-                        <mat-label class="labelTitle">Planejamento:</mat-label>
-                        <mat-label class="labelData">{{atividade.status_pl | situacaoPadrao}}</mat-label>
-                        <mat-label class="labelTitle">Execucao:</mat-label>
-                        <mat-label class="labelData">{{atividade.status_ex | situacaoPadrao}}</mat-label>
+                        <mat-label class="labelTitle">Horas Pl.:</mat-label>
+                        <mat-label class="labelData">{{atividade.horasplan}}</mat-label>
+                        <mat-label class="labelTitle">Horas Ex.:</mat-label>
+                        <mat-label class="labelData">{{atividade.horasexec}}</mat-label>
                     </div>
                     <div class="coluna-descricao cor-blue" *ngIf="atividade.tipo=='O'">
                         <mat-label class="labelTitle">Responsável:</mat-label>

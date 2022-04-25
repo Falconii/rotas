@@ -398,6 +398,7 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
               this.onCancel();
             },
             (error: any) => {
+              console.log('erro=>', error);
               this.openSnackBar_Err(
                 `${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
                 'OK'
