@@ -19,6 +19,7 @@ export class ApoExecucaoModel {
   public exec_razao: string = '';
   public proj_descricao: string = '';
   public motivo_descricao: string = '';
+  public motivo_produtivo: string = '';
   public ativ_inicial: string = '';
   public ativ_final: string = '';
   public cli_razao: string = '';

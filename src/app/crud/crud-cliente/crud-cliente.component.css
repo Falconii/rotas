@@ -8,6 +8,19 @@
     height: min-content;
 }
 
+.button-container-right-form {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    height: min-content;
+}
+
+.paginas {
+    height: fit-content;
+    width: 50px;
+    text-align: end;
+}
+
 .cabecalho {
     font: blue;
     font-size: 15px;
@@ -146,4 +159,10 @@ table {
 .button-right {
     display: flex;
     justify-content: right;
+}
+
+.div-barra {
+    width: 100%;
+    padding-top: 10px;
+    align-items: center;
 }

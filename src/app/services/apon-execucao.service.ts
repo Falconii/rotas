@@ -1,3 +1,4 @@
+import { ApoExecucaoModel01 } from './../Models/apo-execucao-model01';
 import { ParametroAponExecucao01 } from './../parametros/parametro-apon-execucao01';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -24,8 +25,8 @@ export class AponExecucaoService {
 
   getApoExecucoes_01(
     params: ParametroAponExecucao01
-  ): Observable<ApoExecucaoModel[]> {
-    return this.http.post<ApoExecucaoModel[]>(
+  ): Observable<ApoExecucaoModel01[]> {
+    return this.http.post<ApoExecucaoModel01[]>(
       `${this.apiURL}aponexecs`,
       params
     );

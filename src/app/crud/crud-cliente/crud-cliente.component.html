@@ -1,5 +1,5 @@
 <!--http://jsfiddle.net/danield770/sNwrs/3158/-->
-<p>
+<div class="div-barra">
     <mat-toolbar>
         <span>Clientes: </span>
         <form [formGroup]="parametros">
@@ -13,43 +13,60 @@
                   </option>
                 </select>
             <!--[if !IE]> -->
-            </div>
-            <!-- <![endif]-->
-            <!--[if !IE]> -->
-            <div class="notIE">
-                <!-- <![endif]-->
-                <span class="fancyArrow"></span>
-                <label for="ordem" class="label_tb">Pesquisar Por:</label>
-                <select class="select_tb" formControlName="campo">
+</div>
+<!-- <![endif]-->
+<!--[if !IE]> -->
+<div class="notIE">
+    <!-- <![endif]-->
+    <span class="fancyArrow"></span>
+    <label for="ordem" class="label_tb">Pesquisar Por:</label>
+    <select class="select_tb" formControlName="campo">
                     <option *ngFor="let op of opcoesCampo" [value]="op">
                       {{op}}
                     </option>
                   </select>
-                <!--[if !IE]> -->
-            </div>
-            <!-- <![endif]-->
-            <div class="notIE" *ngIf="isGrupo()">
-                <!-- <![endif]-->
-                <span class="fancyArrow"></span>
-                <select class="select_tb" formControlName="grupo">
+    <!--[if !IE]> -->
+</div>
+<!-- <![endif]-->
+<div class="notIE" *ngIf="isGrupo()">
+    <!-- <![endif]-->
+    <span class="fancyArrow"></span>
+    <select class="select_tb" formControlName="grupo">
                   <option *ngFor="let gru of grupos" [value]="gru.id">
                     {{gru.razao}}
                   </option>
                 </select>
-                <!--[if !IE]> -->
-            </div>
-            <!-- <![endif]-->
-            <input type="text" class="input_tb" formControlName="filtro" *ngIf="!isGrupo()" placeholder="Conteúdo Para Pesquisa.">
-            </span>
-        </form>
-        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="getClientes()">
+    <!--[if !IE]> -->
+</div>
+<!-- <![endif]-->
+<input type="text" class="input_tb" formControlName="filtro" *ngIf="!isGrupo()" placeholder="Conteúdo Para Pesquisa.">
+</span>
+</form>
+<button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="getClientes()">
       <mat-icon>rotate_right</mat-icon>
-    </button>
-        <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(getAcoes()[ 'Inclusao']) " [matTooltip]="getTexto().incluir" matTooltipPosition="above">
+      </button>
+<button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(getAcoes()[ 'Inclusao']) " [matTooltip]="getTexto().incluir" matTooltipPosition="above">
               <mat-icon>add_circle_outline</mat-icon>
+      </button>
+</mat-toolbar>
+<span class="example-spacer">
+  <form [formGroup]="navegador" class="button-container-right-form ">
+    <button class="example-icon" mat-icon-button aria-label="Example icon-button with share icon" >
+       <mat-icon>first_page</mat-icon>
     </button>
-    </mat-toolbar>
-</p>
+    <button class="example-icon" mat-icon-button aria-label="Example icon-button with share icon" >
+      <mat-icon>chevron_left</mat-icon>
+   </button>
+    <input matInput formControlName="navegador" class="paginas">
+   <button class="mat-icon-button" mat-icon-button aria-label="Example icon-button with share icon" >
+    <mat-icon>chevron_right</mat-icon>
+ </button>
+ <button class="mat-icon-button" mat-icon-button aria-label="Example icon-button with share icon" >
+  <mat-icon>last_page</mat-icon>
+</button>
+  </form>
+</span>
+</div>
 <div class="Browse">
     <div class="linha" *ngFor="let cliente of clientes ; index as id">
         <mat-card class="example-card" (click)="escolha(getAcoes()['Consulta'],cliente)">

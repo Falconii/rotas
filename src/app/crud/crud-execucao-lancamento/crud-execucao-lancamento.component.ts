@@ -36,6 +36,7 @@ import { AtividadesService } from 'src/app/services/atividades.service';
 import { MotivoApoModel } from 'src/app/Models/motivo-apo-model';
 import { Intervalo } from 'src/app/shared/intervalo';
 import { ErrorIntervalo } from 'src/app/shared/error-intervalo';
+import { ApoExecucaoModel01 } from 'src/app/Models/apo-execucao-model01';
 
 @Component({
   selector: 'app-crud-execucao-lancamento',
@@ -56,7 +57,7 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
   acao: string = '';
   labelCadastro: string = '';
   id_empresa: number = 0;
-  apontamentos: ApoExecucaoModel[] = [];
+  apontamentos: ApoExecucaoModel01[] = [];
   apontamento: ApoExecucaoModel = new ApoExecucaoModel();
   agendamentos: ApoPlanejamentoQuery_01Model[] = [];
   atividades: AtividadeQuery_01Model[] = [];
@@ -157,7 +158,7 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
     this.inscricaoAponExecucao = this.aponExecucaoService
       .getApoExecucoes_01(para)
       .subscribe(
-        (data: ApoExecucaoModel[]) => {
+        (data: ApoExecucaoModel01[]) => {
           this.apontamentos = data;
         },
         (error: any) => {

@@ -26,11 +26,17 @@ export class CrudClienteComponent implements OnInit {
 
   parametros: FormGroup;
 
+  navegador: FormGroup;
+
   erro: string = '';
 
   opcoesOrdenacao = ['Código', 'Razão', 'Grupo'];
 
   opcoesCampo = ['Código', 'Razão', 'Grupo'];
+
+  paginaAtual: number = 1;
+
+  totalPaginas: number = 0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -45,12 +51,16 @@ export class CrudClienteComponent implements OnInit {
       filtro: [null],
       grupo: [],
     });
+    this.navegador = formBuilder.group({
+      pagina: [null],
+    });
     this.setValues();
+    this.setValuesNavegador();
     this.getGrupos();
   }
 
   ngOnInit(): void {
-    this.getClientes();
+    this.getClientesContador();
   }
 
   ngOnDestroy() {
@@ -94,6 +104,10 @@ export class CrudClienteComponent implements OnInit {
 
     par.orderby = this.parametros.value.ordenacao;
 
+    par.contador = 'N';
+
+    par.pagina = 0;
+
     this.inscricaoGetFiltro = this.clientesServices
       .getClientes_01(par)
       .subscribe(
@@ -102,6 +116,48 @@ export class CrudClienteComponent implements OnInit {
         },
         (error: any) => {
           this.clientes = [];
+          this.openSnackBar_Err(
+            `Pesquisa Nos Clientes ${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
+            'OK'
+          );
+        }
+      );
+  }
+
+  getClientesContador() {
+    let par = new ParametroCliente01();
+
+    par.id_empresa = 1;
+
+    if (this.parametros.value.campo == 'Código') {
+      let key = parseInt(this.parametros.value.filtro, 10);
+
+      console.log('key', key);
+
+      if (isNaN(key)) {
+        par.id = 0;
+      } else {
+        par.id = key;
+      }
+    }
+    if (this.parametros.value.campo == 'Razão')
+      par.razao = this.parametros.value.filtro.toUpperCase();
+    if (this.parametros.value.campo == 'Grupo')
+      par.grupo = this.parametros.value.grupo;
+
+    par.orderby = this.parametros.value.ordenacao;
+
+    par.contador = 'S';
+
+    this.inscricaoGetFiltro = this.clientesServices
+      .getClientes_01_C(par)
+      .subscribe(
+        (data: any) => {
+          this.totalPaginas = data.total;
+          console.log('Contador', this.paginaAtual);
+        },
+        (error: any) => {
+          this.paginaAtual = 0;
           this.openSnackBar_Err(
             `Pesquisa Nos Clientes ${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
             'OK'
@@ -146,6 +202,11 @@ export class CrudClienteComponent implements OnInit {
     });
   }
 
+  setValuesNavegador() {
+    this.navegador.setValue({
+      pagina: this.paginaAtual,
+    });
+  }
   getTexto() {
     return MensagensBotoes;
   }

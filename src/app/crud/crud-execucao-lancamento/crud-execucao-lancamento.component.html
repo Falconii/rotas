@@ -88,16 +88,20 @@
             <td class="coluna-descricao">
                 <div *ngFor="let lanca of agendamentos">
                     <div *ngIf="true">
-                        <span class="example-spacer">
                         <mat-label class="labelTitle">Hora Inicial:</mat-label>
-                        <mat-label class="labelData">{{lanca.inicial | date : 'HH:mm'}} as {{lanca.final |  date : 'HH:mm'}}</mat-label>
+                        <mat-label class="labelData">{{lanca.inicial | date : 'HH:mm'}} as {{lanca.final | date : 'HH:mm'}}</mat-label>
                         <mat-label class="labelTitle">Hora Apontadas:</mat-label>
                         <mat-label class="labelData">{{lanca.horasapon | horaSexagenal}}</mat-label>
-                        <mat-label class="labelTitle" [matTooltip]="showDadosProjetoAgendamento(lanca)" matTooltipPosition="above">Projeto:</mat-label>
-                        <mat-label class="labelData">{{lanca.id_projeto}}</mat-label>
-                    </span>
                     </div>
-                    <div class="coluna-descricao cor-blue" *ngIf="true">
+                    <div *ngIf="true">
+                        <mat-label class="labelTitle" [matTooltip]="showDadosProjetoAgendamento(lanca)" matTooltipPosition="above">Projeto:</mat-label>
+                        <mat-label class="labelData">{{lanca.id_projeto}}-{{lanca.projeto_descricao}}</mat-label>
+                    </div>
+                    <div *ngIf="true">
+                        <mat-label class="labelTitle">Atividade:</mat-label>
+                        <mat-label class="labelData">{{lanca.estru_descricao}}</mat-label>
+                    </div>
+                    <div *ngIf="true">
                         <mat-label class="labelTitle">Obs.::</mat-label>
                         <mat-label class="labelData">{{lanca.obs}}</mat-label>
                     </div>
@@ -123,13 +127,29 @@
                         <mat-label class="labelData">{{lanca.inicial | date : 'HH:mm'}} as {{lanca.final | date : 'HH:mm'}}</mat-label>
                         <mat-label class="labelTitle">Hora Apontadas:</mat-label>
                         <mat-label class="labelData">{{lanca.horasapon | horaSexagenal}}</mat-label>
+                    </div>
+
+                    <div class="coluna-descricao cor-blue">
                         <mat-label class="labelTitle" [matTooltip]="showDadosProjetoApontamento(lanca)" matTooltipPosition="above">Projeto:</mat-label>
-                        <mat-label class="labelData">{{lanca.id_projeto}}</mat-label>
+                        <mat-label class="labelData">{{lanca.id_projeto}}-{{lanca.proj_descricao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Atividade:</mat-label>
+                        <mat-label class="labelData">{{lanca.estru_descricao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Motivo:</mat-label>
+                        <mat-label class="labelData">{{lanca.motivo_descricao}}</mat-label>
+                    </div>
+                    <div class="coluna-descricao cor-blue">
+                        <mat-label class="labelTitle">Produtivo:</mat-label>
+                        <mat-label class="labelData">{{lanca.motivo_produtivo}}</mat-label>
                     </div>
                     <div class="coluna-descricao cor-blue">
                         <mat-label class="labelTitle">Obs.::</mat-label>
                         <mat-label class="labelData">{{lanca.obs}}</mat-label>
                     </div>
+
                 </div>
                 <div *ngIf="apontamentos.length ==0">
                     <mat-label>Nenhum Apontamento Para Esta Data</mat-label>

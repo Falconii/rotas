@@ -46,20 +46,24 @@
             <td class="coluna-descricao">
                 <div *ngFor="let lanca of agendamento.movimentos">
                     <div *ngIf="exibir(lanca)">
-                        <span class="example-spacer">
-                          <mat-label class="labelTitle">Horario:</mat-label>
-                          <mat-label class="labelData">{{lanca.inicial | date : 'HH:mm'}} as {{lanca.final |  date : 'HH:mm'}}</mat-label>
-                          <mat-label class="labelTitle">Hora Apontadas:</mat-label>
-                          <mat-label class="labelData">{{lanca.horasapon | horaSexagenal}}</mat-label>
-                          <mat-label class="labelTitle" [matTooltip]="showDadosProjeto(lanca)" matTooltipPosition="above">Projeto:</mat-label>
-                          <mat-label class="labelData">{{lanca.id_projeto}}</mat-label>
-                        </span>
+                        <mat-label class="labelTitle">Horario:</mat-label>
+                        <mat-label class="labelData">{{lanca.inicial | date : 'HH:mm'}} as {{lanca.final | date : 'HH:mm'}}</mat-label>
+                        <mat-label class="labelTitle">Hora Apontadas:</mat-label>
+                        <mat-label class="labelData">{{lanca.horasapon | horaSexagenal}}</mat-label>
                         <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="outras(getAcoes()['Edicao'],agendamento,lanca)" matTooltip="Alterar Apontamento" matTooltipPosition="above" *ngIf="lanca.id_projeto == atividade.id_projeto">
                             <mat-icon>edit</mat-icon>
                         </button>
                         <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="outras(getAcoes()['Exclusao'],agendamento,lanca)" matTooltip="Excluir Apontamento" matTooltipPosition="above" *ngIf="lanca.id_projeto == atividade.id_projeto">
                           <mat-icon>delete</mat-icon>
                       </button>
+                    </div>
+                    <div *ngIf="exibir(lanca)">
+                        <mat-label class="labelTitle" [matTooltip]="showDadosProjeto(lanca)" matTooltipPosition="above">Projeto:</mat-label>
+                        <mat-label class="labelData">{{lanca.id_projeto}}-{{lanca.proj_descricao}}</mat-label>
+                    </div>
+                    <div *ngIf="exibir(lanca)">
+                        <mat-label class="labelTitle">Atividade:</mat-label>
+                        <mat-label class="labelData">{{lanca.id_subconta}}-{{lanca.estru_descricao}}</mat-label>
                     </div>
                     <div class="coluna-descricao cor-blue" *ngIf="exibir(lanca)">
                         <mat-label class="labelTitle">Obs.::</mat-label>

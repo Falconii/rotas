@@ -27,6 +27,10 @@ export class ClientesService {
     );
   }
 
+  getClientes_01_C(params: ParametroCliente01): Observable<number> {
+    return this.http.post<any>(`${this.apiURL}clientes`, params);
+  }
+
   getCliente(id_empresa: number, id: number) {
     return this.http.get<ClientesModel>(
       `${this.apiURL}cliente/${id_empresa}/${id}`

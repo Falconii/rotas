@@ -13,13 +13,15 @@ export class ApoPlanejamentoQuery_01Model {
   public encerra: string = '';
   public user_insert: number = 0;
   public user_update: number = 0;
-  public status_trabalho: string = '';
+  public status_atividade: string = '';
   public projeto_data_proposta: string = '';
   public projeto_data_projeto: string = '';
   public projeto_data_enc: string = '';
   public diretor_id: string = '';
   public cliente_id: string = '';
+  public projeto_descricao: string = '';
   public diretor_razao: string = '';
   public resp_razao: string = '';
   public cli_razao: string = '';
+  public estru_descricao: string = '';
 }
