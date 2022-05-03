@@ -114,7 +114,7 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
   }
 
   getUsuario() {
-    this.inscricaoUsuario = this.usuariosService.getUsuario(1, 2).subscribe(
+    this.inscricaoUsuario = this.usuariosService.getUsuario(1, 12).subscribe(
       (data: UsuarioModel) => {
         this.usuario = data;
         this.getAtividades();
@@ -122,6 +122,7 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
       },
       (error: any) => {
         this.usuario = new UsuarioModel();
+        console.log(error);
         this.openSnackBar_Err(
           `${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
           'OK'

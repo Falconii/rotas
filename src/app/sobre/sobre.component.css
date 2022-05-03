@@ -1,5 +1,5 @@
-.cad-container .mat-form-field {
-    margin-left: 8px;
+.example-spacer {
+    flex: 1 1 auto;
 }
 
 .button-container-right {
@@ -8,29 +8,17 @@
     height: min-content;
 }
 
-.SmallWidth {
-    width: 40px;
-}
-
-.MidleWidth {
-    width: 130px;
-}
-
-.LargeWidth {
-    width: 350px;
-}
-
-.LargerWidth {
-    width: 500px;
-}
-
-.example-spacer {
-    flex: 1 1 auto;
-}
-
-.buttons {
-    margin-left: 10px;
+.button-container-right-form {
+    display: flex;
+    justify-content: right;
     align-items: center;
+    height: min-content;
+}
+
+.paginas {
+    height: fit-content;
+    width: 50px;
+    text-align: end;
 }
 
 .cabecalho {
@@ -38,6 +26,13 @@
     font-size: 15px;
     font-weight: 300;
     justify-content: left;
+}
+
+.parametros-container .mat-form-field {
+    margin-top: -15px;
+    margin-left: 10px;
+    height: 15px;
+    font-size: 16px;
 }
 
 .Browse {
@@ -93,51 +88,6 @@ table {
     margin-left: 5px;
 }
 
-.notIE {
-    position: relative;
-    display: inline-block;
-}
-
-.select_tb {
-    display: inline-block;
-    height: 30px;
-    width: 150px;
-    padding: 2px 10px 2px 2px;
-    outline: none;
-    color: #74646e;
-    border: 1px solid #C8BFC4;
-    border-radius: 4px;
-    box-shadow: inset 1px 1px 2px #ddd8dc;
-    background: #fff;
-    margin-left: 10px;
-    margin-right: 5px;
-}
-
-
-/* Select arrow styling */
-
-.notIE .fancyArrow {
-    width: 23px;
-    height: 28px;
-    position: absolute;
-    display: inline-block;
-    top: 1px;
-    right: 3px;
-    background: url(https://stackoverflow.com/favicon.ico) right / 90% no-repeat #fff;
-    pointer-events: none;
-    margin-left: 10px;
-    margin-right: 5px;
-}
-
-
-/*target Internet Explorer 9 and Internet Explorer 10:*/
-
-@media screen and (min-width:0\0) {
-    .notIE .fancyArrow {
-        display: none;
-    }
-}
-
 .input_tb {
     display: inline-block;
     height: 30px;
@@ -166,7 +116,12 @@ table {
     justify-content: right;
 }
 
-.bordas {
-    border: #0000CC solid 1px;
+.div-barra {
+    width: 100%;
     padding-top: 10px;
+    align-items: center;
+}
+
+.cad-container .mat-form-field {
+    margin-left: 8px;
 }

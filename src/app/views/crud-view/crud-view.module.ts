@@ -8,7 +8,6 @@ import { UsuarioViewComponent } from './usuario-view/usuario-view.component';
 import { GruEcoViewComponent } from './gru-eco-view/gru-eco-view.component';
 import { GruUserViewComponent } from './gru-user-view/gru-user-view.component';
 import { MotivoApoViewComponent } from './motivo-apo-view/motivo-apo-view.component';
-import { TarefaViewComponent } from './tarefa-view/tarefa-view.component';
 import { ProjetoViewComponent } from './projeto-view/projeto-view.component';
 import { HoraSexagenalPipe } from 'src/app/shared/hora-sexagenal.pipe';
 import { CrudViewEstruturaComponent } from './crud-view-estrutura/crud-view-estrutura.component';
@@ -22,7 +21,6 @@ import { CrudViewEstruturaComponent } from './crud-view-estrutura/crud-view-estr
     GruEcoViewComponent,
     GruUserViewComponent,
     MotivoApoViewComponent,
-    TarefaViewComponent,
     ProjetoViewComponent,
     CrudViewEstruturaComponent,
   ],

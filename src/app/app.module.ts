@@ -12,10 +12,10 @@ import { SharedModule } from './shared/shared.module';
 import { CrudModule } from './crud/crud.module';
 import { CrudViewModule } from './views/crud-view/crud-view.module';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
-import { PlanejamentoModule } from './planejamento/planejamento.module';
+import { SobreComponent } from './sobre/sobre.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, LoginComponent],
+  declarations: [AppComponent, HomeComponent, LoginComponent, SobreComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -27,7 +27,6 @@ import { PlanejamentoModule } from './planejamento/planejamento.module';
     CrudViewModule,
     CrudModule,
     MaterialModule,
-    PlanejamentoModule,
   ],
   providers: [HttpClient, { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }],
   bootstrap: [AppComponent],

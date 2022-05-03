@@ -1,71 +1,47 @@
 <!--http://jsfiddle.net/danield770/sNwrs/3158/-->
 <div class="div-barra">
     <mat-toolbar>
-        <span>Clientes: </span>
-        <form [formGroup]="parametros">
-            <span class="example-spacer">
-            <!--[if !IE]> --><div class="notIE"> <!-- <![endif]-->
-              <span class="fancyArrow"></span>
-            <label for="ordem" class="label_tb">Ordenação:</label>
-            <select formControlName="ordenacao" class="select_tb" name="ordem">
-                  <option *ngFor="let op of opcoesOrdenacao" [value]="op">
-                    {{op}}
-                  </option>
-                </select>
-            <!--[if !IE]> -->
-</div>
-<!-- <![endif]-->
-<!--[if !IE]> -->
-<div class="notIE">
-    <!-- <![endif]-->
-    <span class="fancyArrow"></span>
-    <label for="ordem" class="label_tb">Pesquisar Por:</label>
-    <select class="select_tb" formControlName="campo">
-                    <option *ngFor="let op of opcoesCampo" [value]="op">
-                      {{op}}
-                    </option>
-                  </select>
-    <!--[if !IE]> -->
-</div>
-<!-- <![endif]-->
-<div class="notIE" *ngIf="isGrupo()">
-    <!-- <![endif]-->
-    <span class="fancyArrow"></span>
-    <select class="select_tb" formControlName="grupo">
-                  <option *ngFor="let gru of grupos" [value]="gru.id">
-                    {{gru.razao}}
-                  </option>
-                </select>
-    <!--[if !IE]> -->
-</div>
-<!-- <![endif]-->
-<input type="text" class="input_tb" formControlName="filtro" *ngIf="!isGrupo()" placeholder="Conteúdo Para Pesquisa.">
-</span>
-</form>
-<button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="getClientes()">
+        <span class="example-spacer">Clientes:</span>
+        <app-navegator [controle]="controlePaginas" (changePage)="onChangePage()"></app-navegator>
+        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="getClientesContador()">
       <mat-icon>rotate_right</mat-icon>
       </button>
-<button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(getAcoes()[ 'Inclusao']) " [matTooltip]="getTexto().incluir" matTooltipPosition="above">
-              <mat-icon>add_circle_outline</mat-icon>
+        <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(getAcoes()[ 'Inclusao']) " [matTooltip]="getTexto().incluir" matTooltipPosition="above">
+       <mat-icon>add_circle_outline</mat-icon>
       </button>
-</mat-toolbar>
-<span class="example-spacer">
-  <form [formGroup]="navegador" class="button-container-right-form ">
-    <button class="example-icon" mat-icon-button aria-label="Example icon-button with share icon" >
-       <mat-icon>first_page</mat-icon>
-    </button>
-    <button class="example-icon" mat-icon-button aria-label="Example icon-button with share icon" >
-      <mat-icon>chevron_left</mat-icon>
-   </button>
-    <input matInput formControlName="navegador" class="paginas">
-   <button class="mat-icon-button" mat-icon-button aria-label="Example icon-button with share icon" >
-    <mat-icon>chevron_right</mat-icon>
- </button>
- <button class="mat-icon-button" mat-icon-button aria-label="Example icon-button with share icon" >
-  <mat-icon>last_page</mat-icon>
-</button>
-  </form>
-</span>
+    </mat-toolbar>
+</div>
+<div class="parametros">
+    <form [formGroup]="parametros" autocomplete="off" class="cad-container">
+        <mat-form-field field appearance="outline" class="LargerWidth">
+            <mat-label>Ordenação</mat-label>
+            <mat-select formControlName="ordenacao">
+                <mat-option *ngFor="let op of opcoesOrdenacao" [value]="op">
+                    {{op}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="LargerWidth">
+            <mat-label>Pesquisar Por</mat-label>
+            <mat-select formControlName="campo">
+                <mat-option *ngFor="let op of opcoesCampo" [value]="op">
+                    {{op}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="LargerWidth" *ngIf="isGrupo()">
+            <mat-label>Pesquisar Por</mat-label>
+            <mat-select formControlName="grupo">
+                <mat-option *ngFor="let gru of grupos" [value]="gru.id">
+                    {{gru.razao}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="LargeWidth" *ngIf="!isGrupo()">
+            <mat-label>Descrição</mat-label>
+            <input matInput formControlName="filtro">
+        </mat-form-field>
+    </form>
 </div>
 <div class="Browse">
     <div class="linha" *ngFor="let cliente of clientes ; index as id">
@@ -94,7 +70,6 @@
                 <mat-label class="labelTitle">Grupo:</mat-label>
                 <mat-label class="labelData">{{cliente.grupo}}</mat-label>
             </mat-card-content>
-
         </mat-card>
     </div>
 

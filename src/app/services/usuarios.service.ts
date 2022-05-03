@@ -21,7 +21,9 @@ export class UsuariosService {
   }
 
   getUsuario(id_empresa: number, id: number): Observable<UsuarioModel> {
-    return this.http.get<UsuarioModel>(`/api/usuario/${id_empresa}/${id}`);
+    return this.http.get<UsuarioModel>(
+      `${this.apiURL}usuario/${id_empresa}/${id}`
+    );
   }
 
   getusuarios_01(

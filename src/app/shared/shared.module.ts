@@ -10,6 +10,8 @@ import { SubcontaPipe } from './subconta.pipe';
 import { TipoContaPipe } from './tipo-conta.pipe';
 import { SoHorasPipe } from './so-horas.pipe';
 import { SituacaoPadraoPipe } from './situacao-padrao.pipe';
+import { SharedNavegatorComponent } from './shared-navegator/shared-navegator.component';
+import { MaterialModule } from '../material/material.module';
 
 @NgModule({
   declarations: [
@@ -23,8 +25,9 @@ import { SituacaoPadraoPipe } from './situacao-padrao.pipe';
     TipoContaPipe,
     SoHorasPipe,
     SituacaoPadraoPipe,
+    SharedNavegatorComponent,
   ],
-  imports: [CommonModule],
+  imports: [CommonModule, MaterialModule],
   exports: [
     FormDebugComponent,
     HoraSexagenalPipe,
@@ -36,6 +39,7 @@ import { SituacaoPadraoPipe } from './situacao-padrao.pipe';
     TipoContaPipe,
     SoHorasPipe,
     SituacaoPadraoPipe,
+    SharedNavegatorComponent,
   ],
 })
 export class SharedModule {}

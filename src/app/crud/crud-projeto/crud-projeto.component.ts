@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CadastroAcoes } from 'src/app/shared/cadastro-acoes';
 import { MensagensBotoes } from 'src/app/shared/util';
+import { ControlePaginas } from 'src/app/shared/controle-paginas';
 
 @Component({
   selector: 'app-crud-projeto',
@@ -35,6 +36,10 @@ export class CrudProjetoComponent implements OnInit {
 
   opcoesCampo = ['Código', 'Descrição'];
 
+  controlePaginas: ControlePaginas = new ControlePaginas(0, 0);
+
+  tamPagina: number = 50;
+
   constructor(
     private formBuilder: FormBuilder,
     private projetosServices: ProjetosService,
@@ -55,7 +60,7 @@ export class CrudProjetoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getProjetos();
+    this.getProjetosContador();
   }
 
   ngOnDestroy() {
@@ -103,6 +108,8 @@ export class CrudProjetoComponent implements OnInit {
 
     par.orderby = this.parametros.value.ordenacao;
 
+    par.pagina = this.controlePaginas.getPaginalAtual();
+
     this.inscricaoGetFiltro = this.projetosServices
       .getProjetos_01(par)
       .subscribe(
@@ -132,6 +139,57 @@ export class CrudProjetoComponent implements OnInit {
       );
   }
 
+  getProjetosContador() {
+    let par = new ParametroProjeto01();
+
+    par.id_empresa = 1;
+
+    if (this.parametros.value.campo == 'Código') {
+      let key = parseInt(this.parametros.value.filtro, 10);
+
+      console.log('key', key);
+
+      if (isNaN(key)) {
+        par.id = 0;
+      } else {
+        par.id = key;
+      }
+    }
+
+    if (this.parametros.value.campo == 'Descrição')
+      par.descricao = this.parametros.value.filtro.toUpperCase();
+
+    par.orderby = this.parametros.value.ordenacao;
+
+    par.contador = 'S';
+
+    this.inscricaoGetFiltro = this.projetosServices
+      .getProjetos_01(par)
+      .subscribe(
+        (data: any) => {
+          this.controlePaginas = new ControlePaginas(
+            this.tamPagina,
+            data.total
+          );
+          this.getProjetos();
+        },
+        (error: any) => {
+          if (error.error.message == 'Nehuma Informação Para Esta Consulta.') {
+            this.controlePaginas = new ControlePaginas(this.tamPagina, 0);
+            this.openSnackBar_OK(
+              'Nenhuma Informação Encontrada Para Esta Consulta!',
+              'OK'
+            );
+          } else {
+            this.controlePaginas = new ControlePaginas(this.tamPagina, 0);
+            this.openSnackBar_Err(
+              `Pesquisa Nos Projetos ${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
+              'OK'
+            );
+          }
+        }
+      );
+  }
   openSnackBar_Err(message: string, action: string) {
     this._snackBar.open(message, action);
   }
@@ -146,6 +204,7 @@ export class CrudProjetoComponent implements OnInit {
   delay(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
+
   setValues() {
     this.parametros.setValue({
       ordenacao: 'Código',
@@ -157,5 +216,9 @@ export class CrudProjetoComponent implements OnInit {
 
   getTexto() {
     return MensagensBotoes;
+  }
+
+  onChangePage() {
+    this.getProjetos();
   }
 }

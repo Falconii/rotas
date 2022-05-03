@@ -147,3 +147,7 @@ table {
     display: flex;
     justify-content: right;
 }
+
+.cad-container .mat-form-field {
+    margin-left: 8px;
+}

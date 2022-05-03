@@ -41,12 +41,11 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "docs",
+                        "outputPath": "dist/rotas",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "tsconfig.app.json",
-                        "baseHref": "/rotas/",
                         "assets": [
                             "src/favicon.ico",
                             "src/assets"
@@ -66,7 +65,7 @@
                                 },
                                 {
                                     "type": "anyComponentStyle",
-                                    "maximumWarning": "2kb",
+                                    "maximumWarning": "3kb",
                                     "maximumError": "4kb"
                                 }
                             ],
@@ -94,7 +93,7 @@
                             "browserTarget": "rotas:build:production"
                         },
                         "development": {
-                            "browserTarget": "rotas:build:development"
+                            "browserTarget": "rotas:build:development",
                         }
                     },
                     "defaultConfiguration": "development"

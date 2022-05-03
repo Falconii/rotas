@@ -1,3 +1,4 @@
+import { ControlePaginas } from './../../shared/controle-paginas';
 import { MensagensBotoes } from 'src/app/shared/util';
 import { GrupoEconomicoService } from './../../services/grupo-economico.service';
 import { ClientesService } from './../../services/clientes.service';
@@ -26,17 +27,15 @@ export class CrudClienteComponent implements OnInit {
 
   parametros: FormGroup;
 
-  navegador: FormGroup;
-
   erro: string = '';
 
   opcoesOrdenacao = ['Código', 'Razão', 'Grupo'];
 
   opcoesCampo = ['Código', 'Razão', 'Grupo'];
 
-  paginaAtual: number = 1;
+  tamPagina = 50;
 
-  totalPaginas: number = 0;
+  controlePaginas: ControlePaginas = new ControlePaginas(this.tamPagina, 0);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,11 +50,7 @@ export class CrudClienteComponent implements OnInit {
       filtro: [null],
       grupo: [],
     });
-    this.navegador = formBuilder.group({
-      pagina: [null],
-    });
     this.setValues();
-    this.setValuesNavegador();
     this.getGrupos();
   }
 
@@ -106,7 +101,7 @@ export class CrudClienteComponent implements OnInit {
 
     par.contador = 'N';
 
-    par.pagina = 0;
+    par.pagina = this.controlePaginas.getPaginalAtual();
 
     this.inscricaoGetFiltro = this.clientesServices
       .getClientes_01(par)
@@ -153,11 +148,14 @@ export class CrudClienteComponent implements OnInit {
       .getClientes_01_C(par)
       .subscribe(
         (data: any) => {
-          this.totalPaginas = data.total;
-          console.log('Contador', this.paginaAtual);
+          this.controlePaginas = new ControlePaginas(
+            this.tamPagina,
+            data.total
+          );
+          this.getClientes();
         },
         (error: any) => {
-          this.paginaAtual = 0;
+          this.controlePaginas = new ControlePaginas(this.tamPagina, 0);
           this.openSnackBar_Err(
             `Pesquisa Nos Clientes ${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
             'OK'
@@ -202,12 +200,11 @@ export class CrudClienteComponent implements OnInit {
     });
   }
 
-  setValuesNavegador() {
-    this.navegador.setValue({
-      pagina: this.paginaAtual,
-    });
-  }
   getTexto() {
     return MensagensBotoes;
+  }
+
+  onChangePage() {
+    this.getClientes();
   }
 }

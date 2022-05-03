@@ -1,35 +1,7 @@
 <p>
     <mat-toolbar>
-        <span>Projetos: </span>
-        <form [formGroup]="parametros">
-            <span class="example-spacer">
-        <!--[if !IE]> --><div class="notIE"> <!-- <![endif]-->
-          <span class="fancyArrow"></span>
-            <label for="ordem" class="label_tb">Ordenação:</label>
-            <select formControlName="ordenacao" class="select_tb" name="ordem">
-              <option *ngFor="let op of opcoesOrdenacao" [value]="op">
-                {{op}}
-              </option>
-            </select>
-            <!--[if !IE]> -->
-            </div>
-            <!-- <![endif]-->
-            <!--[if !IE]> -->
-            <div class="notIE">
-                <!-- <![endif]-->
-                <span class="fancyArrow"></span>
-                <label for="ordem" class="label_tb">Pesquisar Por:</label>
-                <select class="select_tb" formControlName="campo">
-                <option *ngFor="let op of opcoesCampo" [value]="op">
-                  {{op}}
-                </option>
-              </select>
-                <!--[if !IE]> -->
-            </div>
-            <!-- <![endif]-->
-            <input type="text" class="input_tb" formControlName="filtro" placeholder="Conteúdo Para Pesquisa.">
-            </span>
-        </form>
+        <span class="example-spacer">Projetos: </span>
+        <app-navegator [controle]="controlePaginas" (changePage)="onChangePage()"></app-navegator>
         <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="getProjetos()" matTooltip="Novo Projeto" matTooltipPosition="above">
         <mat-icon>rotate_right</mat-icon>
         </button>
@@ -38,6 +10,30 @@
         </button>
     </mat-toolbar>
 </p>
+<div class="parametros">
+    <form [formGroup]="parametros" autocomplete="off" class="cad-container">
+        <mat-form-field field appearance="outline" class="LargerWidth">
+            <mat-label>Ordenação</mat-label>
+            <mat-select formControlName="ordenacao">
+                <mat-option *ngFor="let op of opcoesOrdenacao" [value]="op">
+                    {{op}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="LargerWidth">
+            <mat-label>Pesquisar Por</mat-label>
+            <mat-select formControlName="campo">
+                <mat-option *ngFor="let op of opcoesCampo" [value]="op">
+                    {{op}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="LargeWidth">
+            <mat-label>Descrição</mat-label>
+            <input matInput formControlName="filtro">
+        </mat-form-field>
+    </form>
+</div>
 <div class="Browse">
     <div class="linha" *ngFor="let projeto of projetos ; index as id">
         <mat-card class="example-card" (click)="escolha(projeto,getAcoes()['Consulta'])" *ngIf="projeto.id !=0">

@@ -7,6 +7,7 @@
         <button mat-button [matMenuTriggerFor]="cadastros">Cadastros</button>
         <button mat-button [matMenuTriggerFor]="projetos">Projetos</button>
         <button mat-button [matMenuTriggerFor]="execucao">Execução</button>
+        <button mat-button [matMenuTriggerFor]="sobre">Sobre</button>
         <span>
           <!-- #docregion sub-menu -->
           <mat-menu #cadastros="matMenu">
@@ -20,13 +21,14 @@
           </mat-menu>
           <mat-menu #projetos="matMenu">
             <button mat-menu-item routerLink="projetos">Projetos Manutenção</button>
-            <button mat-menu-item routerLink="trabalhosprojetos">Trabalhos Do Projeto</button>
           </mat-menu>
           <mat-menu #execucao="matMenu">
             <button mat-menu-item routerLink="apontamento">Apontamentos</button>
             <button mat-menu-item >Agenda Trabalhos</button>
           </mat-menu>
-
+          <mat-menu #sobre="matMenu">
+            <button mat-menu-item routerLink="sobre">Parâmentos Do Sistema</button>
+          </mat-menu>
         </span>
         <span class="example-spacer"></span>
         <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" matTooltip="LOGIN" matTooltipPosition="above" (click)="onLogin()">
