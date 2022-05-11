@@ -56,6 +56,7 @@ export class ClienteViewComponent implements OnInit {
           Validators.maxLength(65),
         ],
       ],
+      cadastr: [null],
       fantasi: [
         { value: '' },
         [
@@ -64,8 +65,21 @@ export class ClienteViewComponent implements OnInit {
           Validators.maxLength(25),
         ],
       ],
+      cnpj_cpf: '',
+      inscri: '',
       gru_econo: [{ value: '' }],
       gru_econo_: [{ value: '' }],
+      ruaf: [{ value: '' }],
+      nrof: [{ value: '' }],
+      complementof: [{ value: '' }],
+      bairrof: [{ value: '' }],
+      cidadef: [{ value: '' }],
+      uff: [{ value: '' }],
+      cepf: [{ value: '' }],
+      tel1: [{ value: '' }],
+      tel2: [{ value: '' }],
+      emailf: [{ value: '' }],
+      obs: [{ value: '' }],
     });
     this.cliente = new ClientesModel();
     this.grupos = [];
@@ -189,6 +203,9 @@ export class ClienteViewComponent implements OnInit {
     this.formulario.setValue({
       id: this.cliente.id,
       razao: this.cliente.razao,
+      cadastr: '',
+      cnpj_cpf: '',
+      inscri: '',
       fantasi: this.cliente.fantasi,
       gru_econo: this.cliente.gru_econo,
       gru_econo_:
@@ -196,6 +213,17 @@ export class ClienteViewComponent implements OnInit {
         this.idAcao == CadastroAcoes.Exclusao
           ? this.cliente.grupo
           : '',
+      ruaf: this.cliente.ruaf,
+      nrof: this.cliente.nrof,
+      complementof: this.cliente.complementof,
+      bairrof: this.cliente.bairrof,
+      cidadef: this.cliente.cidadef,
+      uff: this.cliente.uff,
+      cepf: this.cliente.cepf,
+      tel1: this.cliente.tel1,
+      tel2: this.cliente.tel2,
+      emailf: this.cliente.emailf,
+      obs: this.cliente.obs,
     });
   }
 

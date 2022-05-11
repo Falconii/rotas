@@ -13,6 +13,7 @@ import { CrudModule } from './crud/crud.module';
 import { CrudViewModule } from './views/crud-view/crud-view.module';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { SobreComponent } from './sobre/sobre.component';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, LoginComponent, SobreComponent],
@@ -27,6 +28,9 @@ import { SobreComponent } from './sobre/sobre.component';
     CrudViewModule,
     CrudModule,
     MaterialModule,
+    NgxMaskModule.forRoot({
+      dropSpecialCharacters: false,
+    }),
   ],
   providers: [HttpClient, { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }],
   bootstrap: [AppComponent],

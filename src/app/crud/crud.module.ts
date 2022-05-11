@@ -4,6 +4,7 @@ import { CrudClienteComponent } from './crud-cliente/crud-cliente.component';
 import { CrudEmpresaComponent } from './crud-empresa/crud-empresa.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
+import { NgxMaskModule } from 'ngx-mask';
 import { CrudUsuarioComponent } from './crud-usuario/crud-usuario.component';
 import { CrudGrupoEcoComponent } from './crud-grupo-eco/crud-grupo-eco.component';
 import { CrudGrupoUserComponent } from './crud-grupo-user/crud-grupo-user.component';
@@ -24,6 +25,7 @@ import { CrudExecucaoLancamentoComponent } from './crud-execucao-lancamento/crud
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
+    NgxMaskModule.forChild(),
   ],
   declarations: [
     CrudClienteComponent,

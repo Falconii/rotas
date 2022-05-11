@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { NgxMaskModule } from 'ngx-mask';
 import { CommonModule } from '@angular/common';
 import { ClienteViewComponent } from './cliente-view/cliente-view.component';
 import { EmpresaViewComponent } from './empresa-view/empresa-view.component';
@@ -13,7 +14,13 @@ import { HoraSexagenalPipe } from 'src/app/shared/hora-sexagenal.pipe';
 import { CrudViewEstruturaComponent } from './crud-view-estrutura/crud-view-estrutura.component';
 
 @NgModule({
-  imports: [CommonModule, MaterialModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgxMaskModule.forChild(),
+  ],
   declarations: [
     ClienteViewComponent,
     EmpresaViewComponent,

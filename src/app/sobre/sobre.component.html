@@ -1,8 +1,30 @@
 <mat-toolbar>
     <span class="example-spacer">Parâmetros Gerais: </span>
-    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Voltar" matTooltipPosition="above">
+    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Voltar" matTooltipPosition="above" (click)="onRetorno()">
        <mat-icon>arrow_back</mat-icon>
       </button>
 </mat-toolbar>
-<h1>Ambiente:{{this.ambiente}}</h1>
-<h1>UrlApi:{{this.apiURL}}</h1>
+<div class="Browse">
+    <div class="linha">
+        <mat-card class="example-card card-marg">
+            <mat-card-content>
+                <mat-label class="labelTitleFirst">Versão:</mat-label>
+                <mat-label class="labelData">{{this.versao}}</mat-label>
+                <mat-label class="labelTitle">Data:</mat-label>
+                <mat-label class="labelData">{{this.data}}</mat-label>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="example-card card-marg">
+            <mat-card-content>
+                <mat-label class="labelTitleFirst">Ambiente:</mat-label>
+                <mat-label class="labelData">{{this.ambiente}}</mat-label>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="example-card card-marg">
+            <mat-card-content>
+                <mat-label class="labelTitleFirst">API:</mat-label>
+                <mat-label class="labelData">{{this.apiURL}}</mat-label>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
