@@ -16,6 +16,18 @@ export function DataYYYYMMDD(value: Date): string {
   return [year, month, day].join('-');
 }
 
+export function DataDDMMYYYY(value: Date): string {
+  let d: Date = new Date(value),
+    month = '' + (d.getMonth() + 1),
+    day = '' + d.getDate(),
+    year = d.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [day, month, year].join('/');
+}
+
 /*
 exports Date.prototype.yyyymmdd = function() {
   var mm = this.getMonth() + 1; // getMonth() is zero-based

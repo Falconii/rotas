@@ -1,7 +1,7 @@
 <!--http://jsfiddle.net/danield770/sNwrs/3158/-->
-<p>
-    <mat-toolbar>  
-      <span class="example-spacer">Empresas:</span>
+<div class="div-barra">
+    <mat-toolbar>
+        <span class="example-spacer">Empresas:</span>
         <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="getEmpresas()">
                 <mat-icon>rotate_right</mat-icon>
         </button>
@@ -9,10 +9,10 @@
                 <mat-icon>add_circle_outline</mat-icon>
         </button>
     </mat-toolbar>
-</p>
+</div>
 <div class="parametros">
-    <form [formGroup]="parametros" autocomplete="off" class="cad-container">
-        <mat-form-field field appearance="outline" class="LargerWidth">
+    <form [formGroup]="parametros" autocomplete="off" class="col-med-4">
+        <mat-form-field field appearance="outline" class="col-max">
             <mat-label>Ordenação</mat-label>
             <mat-select formControlName="ordenacao">
                 <mat-option *ngFor="let op of opcoesOrdenacao" [value]="op">
@@ -20,7 +20,7 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field field appearance="outline" class="LargerWidth">
+        <mat-form-field field appearance="outline" class="col-max">
             <mat-label>Pesquisar Por</mat-label>
             <mat-select formControlName="campo">
                 <mat-option *ngFor="let op of opcoesCampo" [value]="op">
@@ -28,7 +28,7 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="LargeWidth">
+        <mat-form-field appearance="outline" class="col-max column-span-2">
             <mat-label>Descrição</mat-label>
             <input matInput formControlName="filtro">
         </mat-form-field>

@@ -47,17 +47,31 @@ export class EmpresaViewComponent implements OnInit {
         [
           Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(40),
+          Validators.maxLength(65),
         ],
       ],
+      cadastr: { value: '' },
       fantasi: [
         { value: '' },
         [
           Validators.required,
           Validators.minLength(3),
-          Validators.maxLength(20),
+          Validators.maxLength(25),
         ],
       ],
+      cnpj_cpf: '',
+      inscri: '',
+      ruaf: [{ value: '' }],
+      nrof: [{ value: '' }],
+      complementof: [{ value: '' }],
+      bairrof: [{ value: '' }],
+      cidadef: [{ value: '' }],
+      uff: [{ value: '' }],
+      cepf: [{ value: '' }],
+      tel1: [{ value: '' }],
+      tel2: [{ value: '' }],
+      emailf: [{ value: '' }],
+      obs: [{ value: '' }],
     });
     this.empresa = new EmpresaModel();
     this.inscricaoRota = route.params.subscribe((params: any) => {
@@ -96,7 +110,21 @@ export class EmpresaViewComponent implements OnInit {
     this.formulario.setValue({
       id: this.empresa.id,
       razao: this.empresa.razao,
+      cadastr: this.empresa.cadastr,
+      cnpj_cpf: this.empresa.cnpj_cpf,
+      inscri: this.empresa.inscri,
       fantasi: this.empresa.fantasi,
+      ruaf: this.empresa.ruaf,
+      nrof: this.empresa.nrof,
+      complementof: this.empresa.complementof,
+      bairrof: this.empresa.bairrof,
+      cidadef: this.empresa.cidadef,
+      uff: this.empresa.uff,
+      cepf: this.empresa.cepf,
+      tel1: this.empresa.tel1,
+      tel2: this.empresa.tel2,
+      emailf: this.empresa.emailf,
+      obs: this.empresa.obs,
     });
   }
 
@@ -157,8 +185,22 @@ export class EmpresaViewComponent implements OnInit {
   }
 
   executaAcao() {
+    this.empresa.cnpj_cpf = this.formulario.value.cnpj_cpf;
     this.empresa.razao = this.formulario.value.razao;
     this.empresa.fantasi = this.formulario.value.fantasi;
+    this.empresa.inscri = this.formulario.value.inscri;
+    this.empresa.cadastr = this.formulario.value.cadastr;
+    this.empresa.ruaf = this.formulario.value.ruaf;
+    this.empresa.nrof = this.formulario.value.nrof;
+    this.empresa.complementof = this.formulario.value.complementof;
+    this.empresa.bairrof = this.formulario.value.bairrof;
+    this.empresa.cidadef = this.formulario.value.cidadef;
+    this.empresa.uff = this.formulario.value.uff;
+    this.empresa.cepf = this.formulario.value.cepf;
+    this.empresa.tel1 = this.formulario.value.tel1;
+    this.empresa.tel2 = this.formulario.value.tel2;
+    this.empresa.emailf = this.formulario.value.emailf;
+    this.empresa.obs = this.formulario.value.obs;
     switch (+this.idAcao) {
       case CadastroAcoes.Inclusao:
         this.inscricaoAcao = this.empresasServices

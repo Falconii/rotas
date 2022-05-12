@@ -1,3 +1,5 @@
+import { DataDDMMYYYY } from '../shared/util';
+
 export class ClientesModel {
   public id_empresa: number = 0;
   public id: number = 0;
@@ -5,7 +7,7 @@ export class ClientesModel {
   public razao: string = '';
   public fantasi: string = '';
   public inscri: string = '';
-  public cadastr: Date = new Date();
+  public cadastr: string = DataDDMMYYYY(new Date());
   public ruaf: string = '';
   public nrof: string = '';
   public complementof: string = '';

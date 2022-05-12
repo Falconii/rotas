@@ -1,7 +1,3 @@
-.cad-container .mat-form-field {
-    margin-left: 8px;
-}
-
 .button-container-right {
     display: flex;
     justify-content: right;
@@ -11,20 +7,4 @@
 
 .button-container-right button {
     margin-left: 10px;
-}
-
-.SmallWidth {
-    width: 40px;
-}
-
-.MidleWidth {
-    width: 130px;
-}
-
-.LargeWidth {
-    width: 350px;
-}
-
-.LargerWidth {
-    width: 500px;
 }

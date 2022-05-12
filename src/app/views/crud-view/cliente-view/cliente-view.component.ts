@@ -56,7 +56,7 @@ export class ClienteViewComponent implements OnInit {
           Validators.maxLength(65),
         ],
       ],
-      cadastr: [null],
+      cadastr: { value: '' },
       fantasi: [
         { value: '' },
         [
@@ -203,9 +203,9 @@ export class ClienteViewComponent implements OnInit {
     this.formulario.setValue({
       id: this.cliente.id,
       razao: this.cliente.razao,
-      cadastr: '',
-      cnpj_cpf: '',
-      inscri: '',
+      cadastr: this.cliente.cadastr,
+      cnpj_cpf: this.cliente.cnpj_cpf,
+      inscri: this.cliente.inscri,
       fantasi: this.cliente.fantasi,
       gru_econo: this.cliente.gru_econo,
       gru_econo_:
@@ -263,9 +263,24 @@ export class ClienteViewComponent implements OnInit {
   }
 
   executaAcao() {
+    this.cliente.cnpj_cpf = this.formulario.value.cnpj_cpf;
     this.cliente.razao = this.formulario.value.razao;
     this.cliente.fantasi = this.formulario.value.fantasi;
+    this.cliente.inscri = this.formulario.value.inscri;
+    this.cliente.cadastr = this.formulario.value.cadastr;
+    this.cliente.ruaf = this.formulario.value.ruaf;
+    this.cliente.nrof = this.formulario.value.nrof;
+    this.cliente.complementof = this.formulario.value.complementof;
+    this.cliente.bairrof = this.formulario.value.bairrof;
+    this.cliente.cidadef = this.formulario.value.cidadef;
+    this.cliente.uff = this.formulario.value.uff;
+    this.cliente.cepf = this.formulario.value.cepf;
+    this.cliente.tel1 = this.formulario.value.tel1;
+    this.cliente.tel2 = this.formulario.value.tel2;
+    this.cliente.emailf = this.formulario.value.emailf;
+    this.cliente.obs = this.formulario.value.obs;
     this.cliente.gru_econo = this.formulario.value.gru_econo;
+    this.cliente.grupo = this.formulario.value.grupo;
     switch (+this.idAcao) {
       case CadastroAcoes.Inclusao:
         this.inscricaoAcao = this.clientesServices

@@ -4,12 +4,12 @@
     </mat-toolbar>
 </p>
 <form [formGroup]="formulario" autocomplete="off">
-    <div class="col-med-3">
-        <mat-form-field appearance="outline" class="col-max">
+    <div class="col-med-4">
+        <mat-form-field appearance="outline" class="col-70">
             <mat-label>CÓDIGO</mat-label>
             <input matInput formControlName="id">
         </mat-form-field>
-        <mat-form-field appearance="outline" class="col-max">
+        <mat-form-field appearance="outline" class="col-max column-span-2">
             <mat-label>Razão Social</mat-label>
             <input matInput formControlName="razao" [readonly]="readOnly">
             <mat-error *ngIf="formulario.get('razao')?.status == 'INVALID' && touchedOrDirty('razao')">Razão - No mínimo 03 letras e no máximo 65 letras</mat-error>
@@ -48,8 +48,8 @@
             <input matInput formControlName="inscri" [readonly]="readOnly">
         </mat-form-field>
     </div>
-    <div class="col-med-2">
-        <mat-form-field appearance="outline" class="col-max">
+    <div class="col-med-3">
+        <mat-form-field appearance="outline" class="col-max column-span-2">
             <mat-label>Endereço:</mat-label>
             <input matInput formControlName="ruaf">
         </mat-form-field>

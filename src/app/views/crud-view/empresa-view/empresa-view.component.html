@@ -4,20 +4,84 @@
     </mat-toolbar>
 </p>
 <form [formGroup]="formulario" autocomplete="off">
-    <div class="cad-container">
-        <mat-form-field appearance="outline" class="MidleWidth">
+    <div class="col-med-4">
+        <mat-form-field appearance="outline" class="col-70">
             <mat-label>CÓDIGO</mat-label>
             <input matInput formControlName="id">
         </mat-form-field>
-        <mat-form-field appearance="outline" class="LargerWidth">
+        <mat-form-field appearance="outline" class="col-max column-span-2">
             <mat-label>Razão Social</mat-label>
             <input matInput formControlName="razao" [readonly]="readOnly">
             <mat-error *ngIf="formulario.get('razao')?.status == 'INVALID' && touchedOrDirty('razao')">Razão - No mínimo 03 letras e no máximo 65 letras</mat-error>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="MidleWidth">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Cadastro</mat-label>
+            <input matInput formControlName="cadastr" mask="00/00/0000" placeholder="21/11/1987" [validation]="true" [readonly]="readOnly">
+        </mat-form-field>
+    </div>
+    <div class="col-med-3">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>Fantasia</mat-label>
             <input matInput formControlName="fantasi" [readonly]="readOnly">
             <mat-error *ngIf="formulario.get('fantasi')?.status == 'INVALID' && touchedOrDirty('fantasi')">Fantasia máximo 25 letras</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>CNPJ/CPF</mat-label>
+            <input matInput formControlName="cnpj_cpf">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Inscrição Est.</mat-label>
+            <input matInput formControlName="inscri" [readonly]="readOnly">
+        </mat-form-field>
+    </div>
+    <div class="col-med-3">
+        <mat-form-field appearance="outline" class="col-max column-span-2">
+            <mat-label>Endereço:</mat-label>
+            <input matInput formControlName="ruaf">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Número</mat-label>
+            <input matInput formControlName="nrof" [readonly]="readOnly">
+        </mat-form-field>
+    </div>
+    <div class="col-med-1">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Complemento:</mat-label>
+            <input matInput formControlName="complementof">
+        </mat-form-field>
+    </div>
+    <div class="col-med-3">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Bairro:</mat-label>
+            <input matInput formControlName="bairrof">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Cidade:</mat-label>
+            <input matInput formControlName="cidadef" [readonly]="readOnly">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Estado:</mat-label>
+            <input matInput formControlName="cidadef" [readonly]="readOnly">
+        </mat-form-field>
+    </div>
+    <div class="col-med-3">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>E-Mail:</mat-label>
+            <input matInput formControlName="emailf">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Telefone 1:</mat-label>
+            <input matInput formControlName="tel1" [readonly]="readOnly">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Telefone 2:</mat-label>
+            <input matInput formControlName="tel2" [readonly]="readOnly">
+        </mat-form-field>
+    </div>
+    <div class="col-med-1">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Observação:</mat-label>
+            <input matInput formControlName="obs">
         </mat-form-field>
     </div>
     <div class="button-container-right">
