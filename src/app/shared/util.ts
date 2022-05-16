@@ -4,6 +4,7 @@ import { MoviData } from './../Models/movi-data';
 import { Dias_Planejados } from './dias-planejados';
 import { ErrorIntervalo } from './error-intervalo';
 import { Intervalo } from './intervalo';
+
 export function DataYYYYMMDD(value: Date): string {
   let d: Date = new Date(value),
     month = '' + (d.getMonth() + 1),
@@ -385,4 +386,10 @@ export function validaIntervalo(
     throw err;
   }
   return;
+}
+
+export function ddmmaaaatoaaaammdd(dt: string): string {
+  var data = dt.split('/');
+
+  return [data[2], data[1], data[0]].join('-');
 }

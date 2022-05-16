@@ -6,6 +6,12 @@ import { CadastroAcoes } from 'src/app/shared/cadastro-acoes';
 import { EmpresasService } from 'src/app/services/empresas.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ValidatorStringLen } from 'src/app/shared/Validators/validator-string-len';
+import { ValidatorDate } from 'src/app/shared/Validators/validator-date';
+import { ValidatorCnpjCpf } from 'src/app/shared/Validators/validator-Cnpj-Cpf';
+import { ValidatorCep } from 'src/app/shared/Validators/validator-cep';
+import { DropdownService } from 'src/app/shared/services/dropdown.service';
+import { EstadoModel } from 'src/app/Models/estado-model';
 
 @Component({
   selector: 'app-empresa-view',
@@ -28,50 +34,41 @@ export class EmpresaViewComponent implements OnInit {
   inscricaoGetEmpresa!: Subscription;
   inscricaoRota!: Subscription;
   inscricaoAcao!: Subscription;
+  inscricaoUf!: Subscription;
 
   durationInSeconds = 2;
 
   labelCadastro: string = '';
 
+  ufs: EstadoModel[] = [];
+
   constructor(
     private formBuilder: FormBuilder,
     private empresasServices: EmpresasService,
+    private estadosSrv: DropdownService,
     private route: ActivatedRoute,
     private router: Router,
     private _snackBar: MatSnackBar
   ) {
     this.formulario = formBuilder.group({
       id: [{ value: '', disabled: true }],
-      razao: [
-        { value: '' },
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(65),
-        ],
-      ],
-      cadastr: { value: '' },
-      fantasi: [
-        { value: '' },
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(25),
-        ],
-      ],
-      cnpj_cpf: '',
-      inscri: '',
-      ruaf: [{ value: '' }],
-      nrof: [{ value: '' }],
-      complementof: [{ value: '' }],
-      bairrof: [{ value: '' }],
-      cidadef: [{ value: '' }],
-      uff: [{ value: '' }],
-      cepf: [{ value: '' }],
-      tel1: [{ value: '' }],
-      tel2: [{ value: '' }],
-      emailf: [{ value: '' }],
-      obs: [{ value: '' }],
+      razao: [{ value: '' }, [ValidatorStringLen(3, 40, true)]],
+      cadastr: [{ value: '' }, [ValidatorDate(true)]],
+      fantasi: [{ value: '' }, [ValidatorStringLen(3, 20, true)]],
+      cnpj_cpf: [{ value: '' }, [ValidatorCnpjCpf(true)]],
+      inscri: [{ value: '' }, [ValidatorStringLen(0, 20)]],
+      ruaf: [{ value: '' }, [ValidatorStringLen(3, 80, true)]],
+      nrof: [{ value: '' }, [ValidatorStringLen(1, 10, true)]],
+      complementof: [{ value: '' }, [ValidatorStringLen(0, 30)]],
+      bairrof: [{ value: '' }, [ValidatorStringLen(3, 40, true)]],
+      cidadef: [{ value: '' }, [ValidatorStringLen(3, 40, true)]],
+      uff: [{ value: '' }, [ValidatorStringLen(2, 2, true)]],
+      uff_: [{ value: '' }],
+      cepf: [{ value: '' }, [ValidatorCep(true)]],
+      tel1: [{ value: '' }, [ValidatorStringLen(0, 23, true)]],
+      tel2: [{ value: '' }, [ValidatorStringLen(0, 23)]],
+      emailf: [{ value: '' }, [Validators.email]],
+      obs: [{ value: '' }, [ValidatorStringLen(0, 200)]],
     });
     this.empresa = new EmpresaModel();
     this.inscricaoRota = route.params.subscribe((params: any) => {
@@ -82,19 +79,14 @@ export class EmpresaViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.idAcao == CadastroAcoes.Inclusao) {
-      this.empresa = new EmpresaModel();
-    } else {
-      this.getEmpresa();
-    }
-
-    this.setValue();
+    this.getUfs();
   }
 
   ngOnDestroy(): void {
     this.inscricaoGetEmpresa?.unsubscribe();
     this.inscricaoRota?.unsubscribe();
     this.inscricaoAcao?.unsubscribe();
+    this.inscricaoUf?.unsubscribe();
   }
 
   onSubmit() {
@@ -120,6 +112,11 @@ export class EmpresaViewComponent implements OnInit {
       bairrof: this.empresa.bairrof,
       cidadef: this.empresa.cidadef,
       uff: this.empresa.uff,
+      uff_:
+        this.idAcao == CadastroAcoes.Consulta ||
+        this.idAcao == CadastroAcoes.Exclusao
+          ? this.empresa.uff
+          : '',
       cepf: this.empresa.cepf,
       tel1: this.empresa.tel1,
       tel2: this.empresa.tel2,
@@ -155,6 +152,26 @@ export class EmpresaViewComponent implements OnInit {
           );
         }
       );
+  }
+
+  getUfs() {
+    this.inscricaoUf = this.estadosSrv.getEstados().subscribe(
+      (data: EstadoModel[]) => {
+        this.ufs = data;
+        if (this.idAcao == CadastroAcoes.Inclusao) {
+          this.empresa = new EmpresaModel();
+          this.setValue();
+        } else {
+          this.getEmpresa();
+        }
+      },
+      (error: any) => {
+        this.openSnackBar_Err(
+          `Pesquisa Cadastrado De Estados ${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
+          'OK'
+        );
+      }
+    );
   }
 
   setAcao(op: number) {
@@ -280,5 +297,16 @@ export class EmpresaViewComponent implements OnInit {
       return true;
     }
     return false;
+  }
+
+  getValidfield(field: string): boolean {
+    return (
+      this.formulario.get(field)?.errors?.ValidatorStringLen &&
+      this.touchedOrDirty(field)
+    );
+  }
+
+  getMensafield(field: string): string {
+    return this.formulario.get(field)?.errors?.message;
   }
 }

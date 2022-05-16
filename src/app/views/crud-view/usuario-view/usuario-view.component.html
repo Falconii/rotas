@@ -4,7 +4,7 @@
     </mat-toolbar>
 </p>
 <form [formGroup]="formulario" autocomplete="off">
-    <div class="col-med-3">
+    <div class="col-med-4">
         <mat-form-field appearance="outline" class="col-max">
             <mat-label>CÓDIGO</mat-label>
             <input matInput formControlName="id">
@@ -14,8 +14,12 @@
             <input matInput formControlName="razao" [readonly]="readOnly">
             <mat-error *ngIf="formulario.get('razao')?.status == 'INVALID' && touchedOrDirty('razao')">Razão - No mínimo 03 letras e no máximo 65 letras</mat-error>
         </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Cadastro</mat-label>
+            <input matInput formControlName="cadastr" mask="00/00/0000" placeholder="21/11/1987" [validation]="true" [readonly]="readOnly">
+        </mat-form-field>
     </div>
-    <div class="col-med-3">
+    <div class="col-med-4">
         <mat-form-field appearance="outline" class="col-max">
             <mat-label>Senha</mat-label>
             <input matInput formControlName="senha" [readonly]="readOnly">
@@ -32,6 +36,54 @@
         <mat-form-field field appearance="outline" class="col-max column-span-2" *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
             <mat-label>Grupo</mat-label>
             <input matInput formControlName="grupo_" [readonly]="readOnly">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>CNPJ/CPF</mat-label>
+            <input matInput formControlName="cnpj_cpf">
+        </mat-form-field>
+    </div>
+    <div class="col-med-3">
+        <mat-form-field appearance="outline" class="col-max column-span-2">
+            <mat-label>Endereço:</mat-label>
+            <input matInput formControlName="rua">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Número</mat-label>
+            <input matInput formControlName="nro" [readonly]="readOnly">
+        </mat-form-field>
+    </div>
+    <div class="col-med-1">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Complemento:</mat-label>
+            <input matInput formControlName="complemento">
+        </mat-form-field>
+    </div>
+    <div class="col-med-3">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Bairro:</mat-label>
+            <input matInput formControlName="bairro">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Cidade:</mat-label>
+            <input matInput formControlName="cidade" [readonly]="readOnly">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Estado:</mat-label>
+            <input matInput formControlName="uf" [readonly]="readOnly">
+        </mat-form-field>
+    </div>
+    <div class="col-med-3">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>E-Mail:</mat-label>
+            <input matInput formControlName="email">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Telefone 1:</mat-label>
+            <input matInput formControlName="tel1" [readonly]="readOnly">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Telefone 2:</mat-label>
+            <input matInput formControlName="tel2" [readonly]="readOnly">
         </mat-form-field>
     </div>
     <div class="button-container-right">

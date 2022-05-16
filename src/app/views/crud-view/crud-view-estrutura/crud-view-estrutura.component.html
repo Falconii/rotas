@@ -1,27 +1,29 @@
-<p>
+<div class="div-barra">
     <mat-toolbar>
-        <span><mat-label>{{labelCadastro}}</mat-label></span>
+        <span><mat-label>{{labelCadastro}} KKKK</mat-label></span>
     </mat-toolbar>
-</p>
+</div>
 <form [formGroup]="formulario" autocomplete="off">
-    <div class="cad-container">
-        <mat-form-field appearance="outline" class="MidleWidth">
+    <div class="col-med-4">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>Conta</mat-label>
             <input matInput formControlName="conta" readonly=true>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="MidleWidth">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>SubConta</mat-label>
             <input matInput formControlName="subconta" readonly=true>
         </mat-form-field>
-        <mat-form-field field appearance="outline" class="MidleWidth">
+        <mat-form-field field appearance="outline" class="col-max">
             <mat-label>Nivel:</mat-label>
             <input matInput formControlName="nivel" [readonly]="readOnly">
         </mat-form-field>
-        <mat-form-field field appearance="outline" class="MidleWidth">
+        <mat-form-field field appearance="outline" class="col-max">
             <mat-label>Tipo:</mat-label>
             <input matInput formControlName="tipo" [readonly]="readOnly">
         </mat-form-field>
-        <mat-form-field appearance="outline" class="LargeWidth">
+    </div>
+    <div class="col-med-1">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>Descrição</mat-label>
             <input matInput formControlName="descricao" [readonly]="readOnly">
             <mat-error *ngIf="formulario.get('descricao')?.status == 'INVALID' && touchedOrDirty('descricao')">Descrição máximo 60 letras</mat-error>

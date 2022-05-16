@@ -10,40 +10,63 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.button-container-right {
+    display: flex;
+    justify-content: right;
+    height: min-content;
+    width: 100%;
+}
+
 .col-med-1 {
     display: grid;
     grid-template-columns: repeat(1, [col-start] 1fr);
-    gap: 20px;
+    gap: 10px;
 }
 
 .col-med-2 {
     display: grid;
     grid-template-columns: repeat(2, [col-start] 1fr);
-    gap: 20px;
+    gap: 10px;
 }
 
 .col-med-3 {
     display: grid;
     grid-template-columns: repeat(3, [col-start] 1fr);
-    gap: 20px;
+    gap: 10px;
 }
 
 .col-med-4 {
     display: grid;
     grid-template-columns: repeat(4, [col-start] 1fr);
-    gap: 20px;
+    gap: 10px;
 }
 
 .col-med-5 {
     display: grid;
     grid-template-columns: repeat(5, [col-start] 1fr);
-    gap: 20px;
+    gap: 10px;
 }
 
 .col-med-6 {
     display: grid;
-    grid-template-columns: repeat(5, [col-start] 1fr);
-    gap: 20px;
+    grid-template-columns: repeat(6, [col-start] 1fr);
+    gap: 10px;
+}
+
+.col-med-7 {
+    display: grid;
+    grid-template-columns: repeat(7, [col-start] 1fr);
+    gap: 10px;
+}
+
+.col-med-8 {
+    display: grid;
+    grid-template-columns: repeat(8, [col-start] 1fr);
+    gap: 10px;
 }
 
 .col-max {
@@ -75,7 +98,27 @@ body {
 }
 
 .column-span-3 {
-    grid-column: span 2;
+    grid-column: span 3;
+}
+
+.column-span-4 {
+    grid-column: span 4;
+}
+
+.column-span-5 {
+    grid-column: span 5;
+}
+
+.column-span-6 {
+    grid-column: span 5;
+}
+
+.column-span-7 {
+    grid-column: span 5;
+}
+
+.column-span-8 {
+    grid-column: span 5;
 }
 
 .div-barra {

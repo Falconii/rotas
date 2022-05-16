@@ -56,6 +56,7 @@ export class UsuarioViewComponent implements OnInit {
           Validators.maxLength(65),
         ],
       ],
+      cadastr: { value: '' },
       senha: [
         { value: '' },
         [
@@ -66,6 +67,17 @@ export class UsuarioViewComponent implements OnInit {
       ],
       grupo: [{ value: '' }],
       grupo_: [{ value: '' }],
+      cnpj_cpf: [{ value: '' }],
+      rua: [{ value: '' }],
+      nro: [{ value: '' }],
+      complemento: [{ value: '' }],
+      bairro: [{ value: '' }],
+      cidade: [{ value: '' }],
+      uf: [{ value: '' }],
+      cep: [{ value: '' }],
+      tel1: [{ value: '' }],
+      tel2: [{ value: '' }],
+      email: [{ value: '' }],
     });
     this.usuario = new UsuarioModel();
     this.grupos = [];
@@ -188,6 +200,7 @@ export class UsuarioViewComponent implements OnInit {
     this.formulario.setValue({
       id: this.usuario.id,
       razao: this.usuario.razao,
+      cadastr: this.usuario.cadastr,
       senha: this.usuario.senha,
       grupo: this.usuario.grupo,
       grupo_:
@@ -195,6 +208,17 @@ export class UsuarioViewComponent implements OnInit {
         this.idAcao == CadastroAcoes.Exclusao
           ? this.usuario.gru_descricao
           : '',
+      cnpj_cpf: this.usuario.cnpj_cpf,
+      rua: this.usuario.rua,
+      nro: this.usuario.nro,
+      complemento: this.usuario.complemento,
+      bairro: this.usuario.bairro,
+      cidade: this.usuario.cidade,
+      uf: this.usuario.uf,
+      cep: this.usuario.cep,
+      tel1: this.usuario.tel1,
+      tel2: this.usuario.tel2,
+      email: this.usuario.email,
     });
   }
 
@@ -235,7 +259,20 @@ export class UsuarioViewComponent implements OnInit {
 
   executaAcao() {
     this.usuario.razao = this.formulario.value.razao;
+    this.usuario.cnpj_cpf = this.formulario.value.cnpj_cpf;
+    this.usuario.cadastr = this.formulario.value.cadastr;
+    this.usuario.rua = this.formulario.value.rua;
+    this.usuario.nro = this.formulario.value.nro;
+    this.usuario.complemento = this.formulario.value.complemento;
+    this.usuario.bairro = this.formulario.value.bairro;
+    this.usuario.cidade = this.formulario.value.cidade;
+    this.usuario.uf = this.formulario.value.uf;
+    this.usuario.cep = this.formulario.value.cep;
+    this.usuario.tel1 = this.formulario.value.tel1;
+    this.usuario.tel2 = this.formulario.value.tel2;
+    this.usuario.email = this.formulario.value.email;
     this.usuario.senha = this.formulario.value.senha;
+    this.usuario.pasta = this.formulario.value.pasta;
     this.usuario.grupo = this.formulario.value.grupo;
     switch (+this.idAcao) {
       case CadastroAcoes.Inclusao:

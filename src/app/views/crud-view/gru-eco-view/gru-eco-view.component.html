@@ -1,16 +1,15 @@
-<p>gru-eco-view works!</p>
-<p>
+<div class="div-barra">
     <mat-toolbar>
         <span><mat-label>{{labelCadastro}}</mat-label></span>
     </mat-toolbar>
-</p>
+</div>
 <form [formGroup]="formulario" autocomplete="off">
-    <div class="cad-container">
-        <mat-form-field appearance="outline" class="MidleWidth">
+    <div class="col-med-3">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>CÓDIGO</mat-label>
             <input matInput formControlName="id">
         </mat-form-field>
-        <mat-form-field appearance="outline" class="LargerWidth">
+        <mat-form-field appearance="outline" class="col-max column-span-2">
             <mat-label>Razão Social</mat-label>
             <input matInput formControlName="razao" [readonly]="readOnly">
             <mat-error *ngIf="formulario.get('razao')?.status == 'INVALID' && touchedOrDirty('razao')">Razão - No mínimo 03 letras e no máximo 65 letras</mat-error>

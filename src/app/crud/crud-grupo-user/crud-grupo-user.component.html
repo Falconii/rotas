@@ -1,36 +1,7 @@
 <!--http://jsfiddle.net/danield770/sNwrs/3158/-->
-<p>
+<div class="div-barra">
     <mat-toolbar>
-        <span>Grp de Usuários: </span>
-        <form [formGroup]="parametros">
-            <span class="example-spacer">
-          <!--[if !IE]> --><div class="notIE"> <!-- <![endif]-->
-            <span class="fancyArrow"></span>
-            <label for="ordem" class="label_tb">Ordenação:</label>
-            <select formControlName="ordenacao" class="select_tb" name="ordem">
-                <option *ngFor="let op of opcoesOrdenacao" [value]="op">
-                  {{op}}
-                </option>
-              </select>
-            <!--[if !IE]> -->
-            </div>
-            <!-- <![endif]-->
-            <!--[if !IE]> -->
-            <div class="notIE">
-                <!-- <![endif]-->
-                <span class="fancyArrow"></span>
-                <label for="ordem" class="label_tb">Pesquisar Por:</label>
-                <select class="select_tb" formControlName="campo">
-                  <option *ngFor="let op of opcoesCampo" [value]="op">
-                    {{op}}
-                  </option>
-                </select>
-                <!--[if !IE]> -->
-            </div>
-            <!-- <![endif]-->
-            <input type="text" class="input_tb" formControlName="filtro" placeholder="Conteúdo Para Pesquisa.">
-            </span>
-        </form>
+        <span class="example-spacer">Grp de Usuários: </span>
         <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="getGrupos()">
     <mat-icon>rotate_right</mat-icon>
   </button>
@@ -38,7 +9,31 @@
    <mat-icon>add_circle_outline</mat-icon>
 </button>
     </mat-toolbar>
-</p>
+</div>
+<div class="parametros">
+    <form [formGroup]="parametros" autocomplete="off" class="col-med-4">
+        <mat-form-field field appearance="outline" class="col-max">
+            <mat-label>Ordenação</mat-label>
+            <mat-select formControlName="ordenacao">
+                <mat-option *ngFor="let op of opcoesOrdenacao" [value]="op">
+                    {{op}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="col-max">
+            <mat-label>Pesquisar Por</mat-label>
+            <mat-select formControlName="campo">
+                <mat-option *ngFor="let op of opcoesCampo" [value]="op">
+                    {{op}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-max column-span-2">
+            <mat-label>Descrição</mat-label>
+            <input matInput formControlName="filtro">
+        </mat-form-field>
+    </form>
+</div>
 <div class="Browse">
     <div class="linha" *ngFor="let grupo of grupos ; index as id">
         <mat-card class="example-card" (click)="escolha(getAcoes()['Consulta'],grupo)">
