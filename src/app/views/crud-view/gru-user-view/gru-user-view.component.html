@@ -11,8 +11,8 @@
         </mat-form-field>
         <mat-form-field appearance="outline" class="col-max column-span-2">
             <mat-label>Descrição Do Grupo</mat-label>
-            <input matInput formControlName="grupo" [readonly]="readOnly">
-            <mat-error *ngIf="formulario.get('grupo')?.status == 'INVALID' && touchedOrDirty('grupo')">Razão - No mínimo 03 letras e no máximo 20 letras</mat-error>
+            <input matInput formControlName="grupo" oninput="this.value = this.value.toUpperCase()" autofocus [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('grupo')?.errors?.ValidatorStringLen && touchedOrDirty('grupo')">{{formulario.get('grupo')?.errors?.message}}</mat-error>
         </mat-form-field>
     </div>
     <div class="button-container-right">

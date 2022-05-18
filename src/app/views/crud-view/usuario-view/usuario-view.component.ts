@@ -8,6 +8,12 @@ import { Subscription } from 'rxjs';
 import { CadastroAcoes } from 'src/app/shared/cadastro-acoes';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ValidatorStringLen } from 'src/app/shared/Validators/validator-string-len';
+import { ValidatorCep } from 'src/app/shared/Validators/validator-cep';
+import { ValidatorDate } from 'src/app/shared/Validators/validator-date';
+import { ValidatorCnpjCpf } from 'src/app/shared/Validators/validator-Cnpj-Cpf';
+import { EstadoModel } from 'src/app/Models/estado-model';
+import { DropdownService } from 'src/app/shared/services/dropdown.service';
 
 @Component({
   selector: 'app-usuario-view',
@@ -33,30 +39,28 @@ export class UsuarioViewComponent implements OnInit {
   inscricaoGetGrupo!: Subscription;
   inscricaoRota!: Subscription;
   inscricaoAcao!: Subscription;
+  inscricaoUf!: Subscription;
 
   durationInSeconds = 2;
 
   labelCadastro: string = '';
 
+  ufs: EstadoModel[] = [];
+
   constructor(
     private formBuilder: FormBuilder,
     private usuariosService: UsuariosService,
     private grupoUserService: GrupoUserService,
+    private estadosSrv: DropdownService,
     private route: ActivatedRoute,
     private router: Router,
     private _snackBar: MatSnackBar
   ) {
     this.formulario = formBuilder.group({
       id: [{ value: '', disabled: true }],
-      razao: [
-        { value: '' },
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(65),
-        ],
-      ],
-      cadastr: { value: '' },
+      razao: [{ value: '' }, [ValidatorStringLen(3, 40, true)]],
+      cadastr: [{ value: '' }, [ValidatorDate(true)]],
+      cnpj_cpf: [{ value: '' }, [ValidatorCnpjCpf(false)]],
       senha: [
         { value: '' },
         [
@@ -67,17 +71,17 @@ export class UsuarioViewComponent implements OnInit {
       ],
       grupo: [{ value: '' }],
       grupo_: [{ value: '' }],
-      cnpj_cpf: [{ value: '' }],
-      rua: [{ value: '' }],
-      nro: [{ value: '' }],
-      complemento: [{ value: '' }],
-      bairro: [{ value: '' }],
-      cidade: [{ value: '' }],
-      uf: [{ value: '' }],
-      cep: [{ value: '' }],
-      tel1: [{ value: '' }],
-      tel2: [{ value: '' }],
-      email: [{ value: '' }],
+      rua: [{ value: '' }, [ValidatorStringLen(3, 80, true)]],
+      nro: [{ value: '' }, [ValidatorStringLen(1, 10, true)]],
+      complemento: [{ value: '' }, [ValidatorStringLen(0, 30)]],
+      bairro: [{ value: '' }, [ValidatorStringLen(3, 40, true)]],
+      cidade: [{ value: '' }, [ValidatorStringLen(3, 40, true)]],
+      uf: [{ value: '' }, [ValidatorStringLen(2, 2, true)]],
+      uf_: [{ value: '' }],
+      cep: [{ value: '' }, [ValidatorCep(true)]],
+      tel1: [{ value: '' }, [ValidatorStringLen(0, 23, true)]],
+      tel2: [{ value: '' }, [ValidatorStringLen(0, 23)]],
+      email: [{ value: '' }, [Validators.email]],
     });
     this.usuario = new UsuarioModel();
     this.grupos = [];
@@ -111,6 +115,8 @@ export class UsuarioViewComponent implements OnInit {
       this.getUsuario();
     }
 
+    this.getUfs();
+
     this.getGrupos();
   }
 
@@ -119,6 +125,7 @@ export class UsuarioViewComponent implements OnInit {
     this.inscricaoGetGrupo?.unsubscribe();
     this.inscricaoRota?.unsubscribe();
     this.inscricaoAcao?.unsubscribe();
+    this.inscricaoUf?.unsubscribe();
   }
 
   onSubmit() {
@@ -132,6 +139,20 @@ export class UsuarioViewComponent implements OnInit {
 
   onCancel() {
     this.router.navigate(['/usuarios']);
+  }
+
+  getUfs() {
+    this.inscricaoUf = this.estadosSrv.getEstados().subscribe(
+      (data: EstadoModel[]) => {
+        this.ufs = data;
+      },
+      (error: any) => {
+        this.openSnackBar_Err(
+          `Pesquisa Cadastrado De Estados ${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
+          'OK'
+        );
+      }
+    );
   }
 
   getUsuario() {
@@ -215,6 +236,11 @@ export class UsuarioViewComponent implements OnInit {
       bairro: this.usuario.bairro,
       cidade: this.usuario.cidade,
       uf: this.usuario.uf,
+      uf_:
+        this.idAcao == CadastroAcoes.Consulta ||
+        this.idAcao == CadastroAcoes.Exclusao
+          ? this.usuario.uf
+          : '',
       cep: this.usuario.cep,
       tel1: this.usuario.tel1,
       tel2: this.usuario.tel2,
@@ -341,5 +367,16 @@ export class UsuarioViewComponent implements OnInit {
     )
       return true;
     return false;
+  }
+
+  getValidfield(field: string): boolean {
+    return (
+      this.formulario.get(field)?.errors?.ValidatorStringLen &&
+      this.touchedOrDirty(field)
+    );
+  }
+
+  getMensafield(field: string): string {
+    return this.formulario.get(field)?.errors?.message;
   }
 }

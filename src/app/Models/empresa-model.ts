@@ -18,6 +18,6 @@ export class EmpresaModel {
   public tel2: string = '';
   public emailf: string = '';
   public obs: string = '';
-  public user_insert: number = 0;
+  public user_insert: number = 1;
   public user_update: number = 0;
 }

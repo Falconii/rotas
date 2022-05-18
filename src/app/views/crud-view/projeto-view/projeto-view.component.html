@@ -4,54 +4,46 @@ import {MAT_DATE_LOCALE} from '@angular/material';
 providers: [{ provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }]
 
 https://www.thecodehubs.com/how-to-use-material-input-date-in-angular-app/
-
-
 -->
-<p>
+<div class="div-barra">
     <mat-toolbar>
-        <span><mat-label>{{labelCadastro}}</mat-label></span>
+        <span class="example-spacer"><mat-label>{{labelCadastro}}</mat-label></span>
     </mat-toolbar>
-</p>
+</div>
 <form [formGroup]="formulario" autocomplete="off">
-    <div class="cad-container">
-        <mat-form-field appearance="outline" class="MidleWidth">
+    <div class="col-med-2">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>Código</mat-label>
             <input matInput formControlName="id">
         </mat-form-field>
-        <mat-form-field appearance="outline" class="MidleWidth">
+        <mat-form-field appearance="outline" class="col-max">
+            <mat-label>Situação</mat-label>
+            <input matInput formControlName="status" [readonly]="readOnly">
+        </mat-form-field>
+    </div>
+    <div class="col-med-3">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>Data Proposta</mat-label>
             <input matInput [matDatepicker]="propostaDatePicker" formControlName="dataprop" [readonly]="readOnly">
             <mat-datepicker-toggle matSuffix [for]="propostaDatePicker"></mat-datepicker-toggle>
             <mat-datepicker #propostaDatePicker></mat-datepicker>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="MidleWidth">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>Data Projeto</mat-label>
             <input matInput [matDatepicker]="projetoDatePicker" formControlName="dataproj" [readonly]="readOnly">
             <mat-datepicker-toggle matSuffix [for]="projetoDatePicker"></mat-datepicker-toggle>
             <mat-datepicker #projetoDatePicker></mat-datepicker>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="MidleWidth">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>Data Encerramento</mat-label>
             <input matInput [matDatepicker]="encerramentoDatePicker" formControlName="dataenc" [readonly]="readOnly">
             <mat-datepicker-toggle matSuffix [for]="encerramentoDatePicker"></mat-datepicker-toggle>
             <mat-datepicker #encerramentoDatePicker></mat-datepicker>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="MidleWidth">
-            <mat-label>Situação</mat-label>
-            <input matInput formControlName="status" [readonly]="readOnly">
-        </mat-form-field>
     </div>
-    <!--
-    <div>
-        <mat-form-field class="mr-sm-24" fxFlex>
-            <input matInput [matDatepicker]="startDatePicker" formControlName="startDate" placeholder="Data de ínicio">
-            <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-            <mat-datepicker #startDatePicker></mat-datepicker>
-        </mat-form-field>
-    </div>
-  -->
-    <div class="cad-container">
-        <mat-form-field field appearance="outline" class="LargeWidth" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+
+    <div class="col-med-2">
+        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
             <mat-label>Diretor</mat-label>
             <mat-select formControlName="id_diretor">
                 <mat-option *ngFor="let diretor of diretores" [value]="diretor.id">
@@ -59,11 +51,11 @@ https://www.thecodehubs.com/how-to-use-material-input-date-in-angular-app/
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field field appearance="outline" class="LargeWidth" *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
             <mat-label>Diretor</mat-label>
             <input matInput formControlName="diretor_razao" [readonly]="readOnly">
         </mat-form-field>
-        <mat-form-field field appearance="outline" class="LargeWidth" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
             <mat-label>Cliente</mat-label>
             <mat-select formControlName="id_cliente">
                 <mat-option *ngFor="let cliente of clientes" [value]="cliente.id">
@@ -71,28 +63,28 @@ https://www.thecodehubs.com/how-to-use-material-input-date-in-angular-app/
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field field appearance="outline" class="LargeWidth" *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
             <mat-label>Cliente</mat-label>
             <input matInput formControlName="cliente_razao" [readonly]="readOnly">
         </mat-form-field>
     </div>
-    <div class="cad-container">
-        <mat-form-field appearance="outline" class="MidleWidth">
+    <div class="col-med-2">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>Horas Vendidas</mat-label>
             <input matInput formControlName="horasve" [readonly]="readOnly">
         </mat-form-field>
-        <mat-form-field appearance="outline" class="LargerWidth">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>Descrição</mat-label>
             <input matInput formControlName="descricao" [readonly]="readOnly">
             <mat-error *ngIf="formulario.get('descricao')?.status == 'INVALID' && touchedOrDirty('descricao')">Razão - No mínimo 03 letras e no máximo 50 letras</mat-error>
         </mat-form-field>
     </div>
-    <div class="cad-container">
-        <mat-form-field appearance="outline" class="MidleWidth">
+    <div class="col-med-2">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>Horas Planejadas</mat-label>
             <input matInput formControlName="horasplan" [readonly]="true">
         </mat-form-field>
-        <mat-form-field appearance="outline" class="MidleWidth">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>Horas Executadas</mat-label>
             <input matInput formControlName="horasexec" [readonly]="true">
         </mat-form-field>

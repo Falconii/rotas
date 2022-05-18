@@ -11,9 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { EmpresaQuery01Model } from 'src/app/Models/empresa-query_01-model';
-import { ParametroCliente01 } from 'src/app/parametros/parametro-cliente-01';
 import { CadastroAcoes } from 'src/app/shared/cadastro-acoes';
-import { ControlePaginas } from 'src/app/shared/controle-paginas';
 
 @Component({
   selector: 'app-crud-empresa',

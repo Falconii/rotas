@@ -79,7 +79,13 @@ export class EmpresaViewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.idAcao == CadastroAcoes.Inclusao) {
+      this.empresa = new EmpresaModel();
+    } else {
+      this.getEmpresa();
+    }
     this.getUfs();
+    this.setValue();
   }
 
   ngOnDestroy(): void {
@@ -90,7 +96,6 @@ export class EmpresaViewComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('this.formulario', this.formulario);
     if (this.formulario.valid) {
       this.executaAcao();
     } else {
@@ -158,12 +163,6 @@ export class EmpresaViewComponent implements OnInit {
     this.inscricaoUf = this.estadosSrv.getEstados().subscribe(
       (data: EstadoModel[]) => {
         this.ufs = data;
-        if (this.idAcao == CadastroAcoes.Inclusao) {
-          this.empresa = new EmpresaModel();
-          this.setValue();
-        } else {
-          this.getEmpresa();
-        }
       },
       (error: any) => {
         this.openSnackBar_Err(
@@ -242,7 +241,6 @@ export class EmpresaViewComponent implements OnInit {
               this.onCancel();
             },
             (error: any) => {
-              console.log('Error', error.error);
               this.openSnackBar_Err(
                 `Erro Na Alteração ${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
                 'OK'

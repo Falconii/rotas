@@ -8,8 +8,6 @@ export function ValidatorCnpjCpf(required: boolean = false): ValidatorFn {
       return null;
     }
 
-    console.log('par', par);
-
     if (required && par.length == 0) {
       return { ValidadorCnpjCpf: true, message: 'Dado Obrigatório' };
     }

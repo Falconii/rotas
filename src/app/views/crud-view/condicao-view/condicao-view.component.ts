@@ -1,22 +1,22 @@
-import { GrupoUserService } from 'src/app/services/grupo-user.service';
-import { GruUserModel } from './../../../Models/gru-user-model';
+import { CondicaoService } from './../../../services/condicao.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CadastroAcoes } from 'src/app/shared/cadastro-acoes';
 import { Subscription } from 'rxjs';
+import { CondicoesPagtoModel } from 'src/app/Models/condicoes_pagtoModel';
+import { CadastroAcoes } from 'src/app/shared/cadastro-acoes';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ValidatorStringLen } from 'src/app/shared/Validators/validator-string-len';
 
 @Component({
-  selector: 'app-gru-user-view',
-  templateUrl: './gru-user-view.component.html',
-  styleUrls: ['./gru-user-view.component.css'],
+  selector: 'app-condicao-view',
+  templateUrl: './condicao-view.component.html',
+  styleUrls: ['./condicao-view.component.css'],
 })
-export class GruUserViewComponent implements OnInit {
+export class CondicaoViewComponent implements OnInit {
   formulario: FormGroup;
 
-  grupo: GruUserModel = new GruUserModel();
+  condicao: CondicoesPagtoModel = new CondicoesPagtoModel();
 
   erro: any;
 
@@ -36,19 +36,22 @@ export class GruUserViewComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private grupoEconomicoService: GrupoUserService,
+    private condicaoService: CondicaoService,
     private route: ActivatedRoute,
     private router: Router,
     private _snackBar: MatSnackBar
   ) {
     this.formulario = formBuilder.group({
       id: [{ value: '', disabled: true }],
-      grupo: [{ value: '' }, [ValidatorStringLen(3, 20, true)]],
+      descricao: [{ value: '' }, [ValidatorStringLen(3, 50, true)]],
+      np: [{ value: '' }, [Validators.min(0), Validators.max(24)]],
+      parcelas: [{ value: '' }, [ValidatorStringLen(3, 72, true)]],
+      dia: [{ value: '' }, [Validators.min(0), Validators.max(28)]],
     });
-    this.grupo = new GruUserModel();
+    this.condicao = new CondicoesPagtoModel();
     this.inscricaoRota = route.params.subscribe((params: any) => {
-      this.grupo.id_empresa = params.id_empresa;
-      this.grupo.id = params.id;
+      this.condicao.id_empresa = params.id_empresa;
+      this.condicao.id = params.id;
       this.idAcao = params.acao;
       this.setAcao(params.acao);
     });
@@ -56,10 +59,10 @@ export class GruUserViewComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.idAcao == CadastroAcoes.Inclusao) {
-      this.grupo = new GruUserModel();
-      this.grupo.id_empresa = 1;
+      this.condicao = new CondicoesPagtoModel();
+      this.condicao.id_empresa = 1;
     } else {
-      this.getGrupo();
+      this.getCondicao();
     }
 
     this.setValue();
@@ -81,8 +84,11 @@ export class GruUserViewComponent implements OnInit {
 
   setValue() {
     this.formulario.setValue({
-      id: this.grupo.id,
-      grupo: this.grupo.grupo,
+      id: this.condicao.id,
+      descricao: this.condicao.descricao,
+      np: this.condicao.np,
+      parcelas: this.condicao.parcelas,
+      dia: this.condicao.dia,
     });
   }
 
@@ -95,20 +101,20 @@ export class GruUserViewComponent implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['/gruusers']);
+    this.router.navigate(['/condicoes']);
   }
 
-  getGrupo() {
-    this.inscricaoGetGrupo = this.grupoEconomicoService
-      .getGrupoUser(this.grupo.id_empresa, this.grupo.id)
+  getCondicao() {
+    this.inscricaoGetGrupo = this.condicaoService
+      .getCondicao(this.condicao.id_empresa, this.condicao.id)
       .subscribe(
-        (data: GruUserModel) => {
-          this.grupo = data;
+        (data: CondicoesPagtoModel) => {
+          this.condicao = data;
           this.setValue();
         },
         (error: any) => {
           this.openSnackBar_Err(
-            `Pesquisa Nos Grupos De Usuários ${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
+            `Pesquisa Nos Condições De Pagamento ${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
             'OK'
           );
         }
@@ -119,22 +125,22 @@ export class GruUserViewComponent implements OnInit {
     switch (+op) {
       case CadastroAcoes.Inclusao:
         this.acao = 'Gravar';
-        this.labelCadastro = 'Grupos De Usuários - Inclusão.';
+        this.labelCadastro = 'Condições De Pagamento - Inclusão.';
         this.readOnly = false;
         break;
       case CadastroAcoes.Edicao:
         this.acao = 'Gravar';
-        this.labelCadastro = 'Grupos De Usuários - Alteração.';
+        this.labelCadastro = 'Condições De Pagamento - Alteração.';
         this.readOnly = false;
         break;
       case CadastroAcoes.Consulta:
         this.acao = 'Voltar';
-        this.labelCadastro = 'Grupos De Usuários - Consulta.';
+        this.labelCadastro = 'Condições De Pagamento - Consulta.';
         this.readOnly = true;
         break;
       case CadastroAcoes.Exclusao:
         this.acao = 'Excluir';
-        this.labelCadastro = 'Grupos De Usuários - Exclusão.';
+        this.labelCadastro = 'Condições De Pagamento - Exclusão.';
         this.readOnly = true;
         break;
       default:
@@ -143,13 +149,15 @@ export class GruUserViewComponent implements OnInit {
   }
 
   executaAcao() {
-    this.grupo.grupo = this.formulario.value.grupo;
+    this.condicao.descricao = this.formulario.value.descricao;
+    this.condicao.parcelas = this.formulario.value.parcelas;
+    this.condicao.dia = this.formulario.value.dia;
     switch (+this.idAcao) {
       case CadastroAcoes.Inclusao:
-        this.inscricaoAcao = this.grupoEconomicoService
-          .GrupoUserInsert(this.grupo)
+        this.inscricaoAcao = this.condicaoService
+          .CondicaoInsert(this.condicao)
           .subscribe(
-            async (data: GruUserModel) => {
+            async (data: CondicoesPagtoModel) => {
               this.onCancel();
             },
             (error: any) => {
@@ -161,8 +169,8 @@ export class GruUserViewComponent implements OnInit {
           );
         break;
       case CadastroAcoes.Edicao:
-        this.inscricaoAcao = this.grupoEconomicoService
-          .GrupoUserUpdate(this.grupo)
+        this.inscricaoAcao = this.condicaoService
+          .CondicaoUpdate(this.condicao)
           .subscribe(
             async (data: any) => {
               this.onCancel();
@@ -177,8 +185,8 @@ export class GruUserViewComponent implements OnInit {
           );
         break;
       case CadastroAcoes.Exclusao:
-        this.inscricaoAcao = this.grupoEconomicoService
-          .GrupoUserDelete(this.grupo.id_empresa, this.grupo.id)
+        this.inscricaoAcao = this.condicaoService
+          .CondicaoDelete(this.condicao.id_empresa, this.condicao.id)
           .subscribe(
             async (data: any) => {
               this.onCancel();

@@ -17,6 +17,7 @@ import { TreeEstruturaComponent } from './crud-estrutura/tree-estrutura/tree-est
 import { CrudAtividadeProjetoComponent } from './crud-atividade-projeto/crud-atividade-projeto.component';
 import { CrudPlanejamentoLancamentoComponent } from './crud-planejamento-lancamento/crud-planejamento-lancamento.component';
 import { CrudExecucaoLancamentoComponent } from './crud-execucao-lancamento/crud-execucao-lancamento.component';
+import { CrudCondicaoComponent } from './crud-condicao/crud-condicao.component';
 
 @NgModule({
   imports: [
@@ -42,6 +43,7 @@ import { CrudExecucaoLancamentoComponent } from './crud-execucao-lancamento/crud
     CrudAtividadeProjetoComponent,
     CrudPlanejamentoLancamentoComponent,
     CrudExecucaoLancamentoComponent,
+    CrudCondicaoComponent,
   ],
   exports: [
     CrudClienteComponent,
@@ -51,6 +53,7 @@ import { CrudExecucaoLancamentoComponent } from './crud-execucao-lancamento/crud
     CrudGrupoUserComponent,
     CrudMotivoApoComponent,
     CrudEstruturaComponent,
+    CrudCondicaoComponent,
   ],
 })
 export class CrudModule {}
