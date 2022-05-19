@@ -393,3 +393,9 @@ export function ddmmaaaatoaaaammdd(dt: string): string {
 
   return [data[2], data[1], data[0]].join('-');
 }
+
+export function aaaammddddmmaaaa(dt: string): string {
+  var data = dt.substring(0, 10).split('-');
+
+  return [data[2], data[1], data[0]].join('/');
+}

@@ -45,7 +45,7 @@ export class CondicaoViewComponent implements OnInit {
       id: [{ value: '', disabled: true }],
       descricao: [{ value: '' }, [ValidatorStringLen(3, 50, true)]],
       np: [{ value: '' }, [Validators.min(0), Validators.max(24)]],
-      parcelas: [{ value: '' }, [ValidatorStringLen(3, 72, true)]],
+      parcelas: [{ value: '' }, [ValidatorStringLen(3, 72, false)]],
       dia: [{ value: '' }, [Validators.min(0), Validators.max(28)]],
     });
     this.condicao = new CondicoesPagtoModel();
@@ -150,6 +150,7 @@ export class CondicaoViewComponent implements OnInit {
 
   executaAcao() {
     this.condicao.descricao = this.formulario.value.descricao;
+    this.condicao.np = this.formulario.value.np;
     this.condicao.parcelas = this.formulario.value.parcelas;
     this.condicao.dia = this.formulario.value.dia;
     switch (+this.idAcao) {

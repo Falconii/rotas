@@ -39,6 +39,11 @@
         <mat-card class="example-card" (click)="escolha(projeto,getAcoes()['Consulta'])" *ngIf="projeto.id !=0">
             <mat-card-actions>
                 <span class="button-container-right ">
+              <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(projeto,98)"
+                  matTooltip = "Financeiro"
+                  matTooltipPosition="above">
+                  <mat-icon>attach_money</mat-icon>
+              </button>
               <button mat-icon-button aria-label="Example icon-button with share icon " (click)="escolha(projeto,99)"
                 matTooltip = "Anexar Atividades"
                 matTooltipPosition="above">

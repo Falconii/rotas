@@ -1,7 +1,7 @@
 <!--http://jsfiddle.net/danield770/sNwrs/3158/-->
-<p>
+<div class="div-barra">
     <mat-toolbar>
-        <span class="example-spacer">Projeto :{{projeto.id}}  {{projeto.descricao}} - Manutenção das Atividades </span>
+        <span class="example-spacer">Projeto:{{projeto.id}}  {{projeto.descricao}} - Manutenção das Atividades </span>
         <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Filtro Operacional" matTooltipPosition="above" *ngIf="idAcao == 99" (click)="setFiltro()">
           <mat-icon>filter_list</mat-icon>
          </button>
@@ -10,9 +10,9 @@
     </button>
 
     </mat-toolbar>
-</p>
+</div>
 <form [formGroup]="formulario" autocomplete="off" *ngIf="idAcao != 99">
-    <div class="cad-container">
+    <div class="col-med-4">
         <mat-form-field appearance="outline" class="MidleWidth">
             <mat-label>Atividade</mat-label>
             <input matInput formControlName="subconta" [readonly]="true">
@@ -29,7 +29,13 @@
             <mat-datepicker-toggle matSuffix [for]="finalDatePicker"></mat-datepicker-toggle>
             <mat-datepicker #finalDatePicker></mat-datepicker>
         </mat-form-field>
-        <mat-form-field field appearance="outline" class="LargeWidth" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+        <mat-form-field appearance="outline" class="MidleWidth">
+            <mat-label>Situação</mat-label>
+            <input matInput formControlName="status" [readonly]="true">
+        </mat-form-field>
+    </div>
+    <div class="col-med-3">
+        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
             <mat-label>Responsavel</mat-label>
             <mat-select formControlName="id_resp">
                 <mat-option *ngFor="let executor of executores" [value]="executor.id">
@@ -37,13 +43,7 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="MidleWidth">
-            <mat-label>Situação</mat-label>
-            <input matInput formControlName="status" [readonly]="true">
-        </mat-form-field>
-    </div>
-    <div class="cad-container">
-        <mat-form-field field appearance="outline" class="LargeWidth" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
             <mat-label>Executor</mat-label>
             <mat-select formControlName="id_exec">
                 <mat-option *ngFor="let executor of executores" [value]="executor.id">
@@ -51,7 +51,7 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field field appearance="outline" class="LargeWidth" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
             <mat-label>SubCliente</mat-label>
             <mat-select formControlName="id_subcliente">
                 <mat-option *ngFor="let subcliente of subclientes" [value]="subcliente.id">
@@ -60,8 +60,8 @@
             </mat-select>
         </mat-form-field>
     </div>
-    <div class="cad-container">
-        <mat-form-field appearance="outline" class="LargerWidth">
+    <div class="col-med-1">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>Observação</mat-label>
             <input matInput formControlName="obs" [readonly]="readOnly">
             <mat-error *ngIf="formulario.get('obs')?.status == 'INVALID' && touchedOrDirty('obs')">Observação - No máximo 60 letras</mat-error>
@@ -75,9 +75,9 @@
     </div>
 </form>
 <div class="Atividade" *ngIf="idAcao==99">
-    <form [formGroup]="parametros" autocomplete="off" class="cad-container">
-        <div class="cad-container">
-            <mat-form-field field appearance="outline" class="MidlerWidth">
+    <form [formGroup]="parametros" autocomplete="off">
+        <div class="col-med-4">
+            <mat-form-field field appearance="outline" class="col-max">
                 <mat-label>Estruturas</mat-label>
                 <mat-select formControlName="conta">
                     <mat-option *ngFor="let estruOff of estruturasOff" [value]="estruOff.conta">
@@ -85,8 +85,10 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <button class="buttons" mat-raised-button color="primary" (click)=onAnexar()>Anexar</button>
-            <mat-form-field field appearance="outline" class="LargeWidth">
+            <div class="col-max">
+                <button class="buttons" mat-raised-button color="primary" (click)=onAnexar()>Anexar</button>
+            </div>
+            <mat-form-field field appearance="outline" class="col-max  column-span-2">
                 <mat-label>Atividades</mat-label>
                 <mat-select formControlName="atividade" (selectionChange)="onVisualizar()">
                     <mat-option *ngFor="let in of estruturasIn" [value]="in.conta">

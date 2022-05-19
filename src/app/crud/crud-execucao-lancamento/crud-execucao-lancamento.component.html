@@ -1,66 +1,79 @@
 <!--
   https://assisrafael.github.io/angular-input-masks/
 -->
-<div class="div-barra" *ngIf="(idAcao == 99)">
-    <mat-toolbar>
-        <span class="example-spacer">{{getTitulo()}}</span>
-        <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Novo Apontamento" matTooltipPosition="above" (click)="adicao(getAcoes()['Inclusao'])">
-          <mat-icon>add_circle_outline</mat-icon>
-        </button>
-        <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()">
-        <mat-icon>arrow_back</mat-icon>
-    </button>
-    </mat-toolbar>
-    <span class="example-spacer">
-          <form [formGroup]="parametro" autocomplete="off" class="cad-container" >
-              <mat-label class="usuario">Usuário:{{usuario.razao}}</mat-label>
-              <mat-form-field appearance="outline" class="MidleWidth">
-                <mat-label>Data:</mat-label>
-                <input matInput [matDatepicker]="dataDatePicker" formControlName="data" >
-                <mat-datepicker-toggle matSuffix [for]="dataDatePicker"></mat-datepicker-toggle>
-                <mat-datepicker #dataDatePicker></mat-datepicker>
-              </mat-form-field>
-              <mat-form-field field appearance="outline" class="LargerWidth" >
-                <mat-label>Atividades</mat-label>
-                <mat-select formControlName="id_atividade" (selectionChange)="onAtividadeChange()">
-                    <mat-option *ngFor="let atividade of atividades" [value]="atividade.id">
-                        {{atividade.id_projeto}}-{{atividade.estru_descri}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-              <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Atualizar" matTooltipPosition="above" (click)="onRefresh()" >
-                <mat-icon>rotate_right</mat-icon>
-              </button>
-    </form>
-    </span>
+<div *ngIf="(idAcao == 99)">
+    <div class="div-barra">
+        <mat-toolbar>
+            <span class="example-spacer">{{getTitulo()}}</span>
+            <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Novo Apontamento" matTooltipPosition="above" (click)="adicao(getAcoes()['Inclusao'])">
+              <mat-icon>add_circle_outline</mat-icon>
+            </button>
+            <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" (click)="onRetorno()">
+               <mat-icon>arrow_back</mat-icon>
+            </button>
+        </mat-toolbar>
+    </div>
+    <div>
+        <form [formGroup]="parametro" autocomplete="off">
+            <div class="col-med-4">
+                <mat-form-field appearance="outline" class="col-max">
+                    <mat-label>Usuário:</mat-label>
+                    <input matInput formControlName="usuario" readonly="true">
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="col-max">
+                    <mat-label>Data:</mat-label>
+                    <input matInput [matDatepicker]="dataDatePicker" formControlName="data">
+                    <mat-datepicker-toggle matSuffix [for]="dataDatePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #dataDatePicker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field field appearance="outline" class="col-max">
+                    <mat-label>Atividades</mat-label>
+                    <mat-select formControlName="id_atividade" (selectionChange)="onAtividadeChange()">
+                        <mat-option *ngFor="let atividade of atividades" [value]="atividade.id">
+                            {{atividade.id_projeto}}-{{atividade.estru_descri}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="col-max">
+                    <button mat-icon-button aria-label="Example icon-button with share icon " matTooltip="Atualizar" matTooltipPosition="above" (click)="onRefresh()" class="button">
+                    <mat-icon>rotate_right</mat-icon>
+                  </button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 <form [formGroup]="formulario" autocomplete="off" *ngIf="idAcao !== 99">
-    <h1>Lançamento:{{labelCadastro}}</h1>
-    <div class="cad-container">
-        <mat-form-field appearance="outline" class="MidleWidth">
+    <div class="div-barra">
+        <mat-toolbar>
+            <span class="example-spacer">{{labelCadastro}}</span>
+        </mat-toolbar>
+    </div>
+    <div class="col-med-5">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>Entrada</mat-label>
-            <input matInput autofocus formControlName="entrada" placeholder="HH:MM">
+            <input matInput autofocus formControlName="entrada" placeholder="HH:MM" mask="00:00" [readonly]="readOnly">
         </mat-form-field>
-        <mat-form-field appearance="outline" class="MidleWidth">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>Saída</mat-label>
-            <input matInput formControlName="saida" placeholder="HH:MM">
+            <input matInput formControlName="saida" placeholder="HH:MM" mask="00:00" [readonly]="readOnly">
         </mat-form-field>
-    </div>
-    <div class="cad-container">
-        <mat-form-field appearance="outline" class="LargeWidth">
+        <mat-form-field appearance="outline" class="col-max column-span-2">
             <mat-label>Atividade</mat-label>
-            <input matInput formControlName="atividade" readonly="true">
+            <input matInput formControlName="atividade" readonly="true" tabindex="-1">
         </mat-form-field>
-        <mat-checkbox class="encerramento" formControlName="encerra">Encerrar Atividade</mat-checkbox>
+        <div class="col-max">
+            <mat-checkbox class="encerramento" formControlName="encerra" [disableRipple]="false">Encerrar Atividade</mat-checkbox>
+        </div>
     </div>
-    <div class="cad-container">
-        <mat-form-field appearance="outline" class="LargeWidth">
+    <div class="col-med-1">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>Cliente</mat-label>
-            <input matInput formControlName="cliente" readonly="true">
+            <input matInput formControlName="cliente" readonly="true" tabindex="-1">
         </mat-form-field>
     </div>
-    <div class="cad-container">
-        <mat-form-field field appearance="outline" class="LargeWidth" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+    <div class="col-med-1">
+        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
             <mat-label>Motivo</mat-label>
             <mat-select formControlName="id_motivo">
                 <mat-option *ngFor="let motivo of motivos" [value]="motivo.codigo">
@@ -68,9 +81,11 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <mat-form-field appearance="outline" class="LargerWidth">
+    </div>
+    <div class="col-med-1">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>Observação</mat-label>
-            <input matInput formControlName="obs">
+            <input matInput formControlName="obs" oninput="this.value = this.value.toUpperCase()" [readonly]="readOnly">
         </mat-form-field>
     </div>
     <div class="button-container-right">

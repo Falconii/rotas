@@ -23,7 +23,7 @@
         </mat-form-field>
         <mat-form-field appearance="outline" class="col-max column-span-2">
             <mat-label>Parcelas</mat-label>
-            <input matInput formControlName="parcelas" [dropSpecialCharacters]="true" mask="000-000-000-000-000-000-000-000-000-000-000-000-000-000-000-000-000-000-000-000-000-000-000-000" [readonly]="readOnly">
+            <input matInput formControlName="parcelas" placeholder="000-000-000-000-000-000-000-000-000-000-000-000-000-000-000-000-000-000-000-000-000-000-000-000" [readonly]="readOnly">
             <mat-error *ngIf="formulario.get('parcelas')?.errors?.ValidatorStringLen && touchedOrDirty('parcelas')">{{formulario.get('parcelas')?.errors?.message}}</mat-error>
         </mat-form-field>
     </div>

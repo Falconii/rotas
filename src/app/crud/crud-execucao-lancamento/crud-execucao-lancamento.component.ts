@@ -17,6 +17,7 @@ import { MoviData } from 'src/app/Models/movi-data';
 import { AponPlanejamentoService } from 'src/app/services/apon-planejamento.service';
 import { CadastroAcoes } from 'src/app/shared/cadastro-acoes';
 import {
+  aaaammddddmmaaaa,
   DataYYYYMMDD,
   DataYYYYMMDDTHHMMSSZ,
   DifHoras,
@@ -69,6 +70,7 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
   formulario: FormGroup;
   parametro: FormGroup;
   intervalos: Intervalo[] = [];
+  readOnly: boolean = true;
 
   constructor(
     formBuilder: FormBuilder,
@@ -90,15 +92,16 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
       obs: [{ value: '' }, [Validators.maxLength(50)]],
     });
     this.parametro = formBuilder.group({
+      usuario: [{ value: '' }],
       data: [{ value: '' }],
       id_atividade: [{ value: '' }, [Validators.required, Validators.min(1)]],
     });
-    this.setParametro();
     this.getUsuario();
     this.setValue();
     this.idAcao = 99;
     this.setAcao(this.idAcao);
     this.setValue();
+    this.setParametro();
   }
 
   ngOnInit(): void {}
@@ -117,6 +120,7 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
     this.inscricaoUsuario = this.usuariosService.getUsuario(1, 12).subscribe(
       (data: UsuarioModel) => {
         this.usuario = data;
+        this.parametro.patchValue({ usuario: this.usuario.razao });
         this.getAtividades();
         this.getMotivos();
       },
@@ -228,6 +232,7 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
 
   setParametro() {
     this.parametro.setValue({
+      usuario: this.usuario.razao,
       data: new Date(),
       id_atividade: 0,
     });
@@ -237,15 +242,31 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
     switch (+op) {
       case CadastroAcoes.Inclusao:
         this.acao = 'Gravar';
+        this.labelCadastro = `Inclusão - ${aaaammddddmmaaaa(
+          this.apontamento.inicial
+        )}`;
+        this.readOnly = false;
         break;
       case CadastroAcoes.Edicao:
         this.acao = 'Gravar';
+        this.labelCadastro = `Alteração - ${aaaammddddmmaaaa(
+          this.apontamento.inicial
+        )}`;
+        this.readOnly = false;
         break;
       case CadastroAcoes.Consulta:
         this.acao = 'Voltar';
+        this.labelCadastro = `Consulta - ${aaaammddddmmaaaa(
+          this.apontamento.inicial
+        )}`;
+        this.readOnly = true;
         break;
       case CadastroAcoes.Exclusao:
         this.acao = 'Excluir';
+        this.labelCadastro = `Exclusão - ${aaaammddddmmaaaa(
+          this.apontamento.inicial
+        )}`;
+        this.readOnly = true;
         break;
       default:
         this.acao = '';
@@ -356,7 +377,6 @@ export class CrudExecucaoLancamentoComponent implements OnInit {
       this.apontamento.estru_descricao = this.atividade.estru_descri;
       this.idAcao = opcao;
       this.setAcao(this.idAcao);
-      this.labelCadastro = DataYYYYMMDDTHHMMSSZ(date1);
       this.setValue();
       console.log('inicial', this.apontamento.inicial);
       console.log('final', this.apontamento.final);
