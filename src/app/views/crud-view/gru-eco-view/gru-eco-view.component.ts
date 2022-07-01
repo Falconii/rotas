@@ -6,6 +6,7 @@ import { CadastroAcoes } from 'src/app/shared/cadastro-acoes';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ValidatorStringLen } from 'src/app/shared/Validators/validator-string-len';
 
 @Component({
   selector: 'app-gru-eco-view',
@@ -42,14 +43,7 @@ export class GruEcoViewComponent implements OnInit {
   ) {
     this.formulario = formBuilder.group({
       id: [{ value: '', disabled: true }],
-      razao: [
-        { value: '' },
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(40),
-        ],
-      ],
+      razao: [{ value: '' }, [ValidatorStringLen(3, 20, true)]],
     });
     this.grupo = new GrupoEcoModel();
     this.inscricaoRota = route.params.subscribe((params: any) => {

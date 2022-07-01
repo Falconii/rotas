@@ -26,6 +26,7 @@ import { CrudPlanejamentoLancamentoComponent } from './crud/crud-planejamento-la
 import { CrudExecucaoLancamentoComponent } from './crud/crud-execucao-lancamento/crud-execucao-lancamento.component';
 import { CrudCondicaoComponent } from './crud/crud-condicao/crud-condicao.component';
 import { CondicaoViewComponent } from './views/crud-view/condicao-view/condicao-view.component';
+import { AtualizacaoCadastralComponent } from './crud/crud-usuario/atualizacao-cadastral/atualizacao-cadastral.component';
 
 const routes: Routes = [
   { path: 'empresa/:id/:acao', component: EmpresaViewComponent },
@@ -78,6 +79,10 @@ const routes: Routes = [
   {
     path: 'sobre',
     component: SobreComponent,
+  },
+  {
+    path: 'atualizacao/:id_empresa/:email',
+    component: AtualizacaoCadastralComponent,
   },
   { path: '', component: HomeComponent },
 ];

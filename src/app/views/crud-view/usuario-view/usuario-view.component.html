@@ -16,7 +16,7 @@
         </mat-form-field>
         <mat-form-field appearance="outline" class="col-max">
             <mat-label>Cadastro</mat-label>
-            <input matInput formControlName="cadastr" mask="00/00/0000" placeholder="21/11/1987" [readonly]="readOnly">
+            <input matInput formControlName="cadastr" mask="00/00/0000" placeholder="21/11/1987" readonly=true>
             <mat-error *ngIf="formulario.get('cadastr')?.errors?.ValidatorDate && touchedOrDirty('cadastr')">{{formulario.get('cadastr')?.errors?.message}}</mat-error>
         </mat-form-field>
     </div>
@@ -26,7 +26,7 @@
             <input matInput formControlName="senha" [readonly]="readOnly">
             <mat-error *ngIf="formulario.get('senha')?.status == 'INVALID' && touchedOrDirty('senha')">Fantasia máximo 25 letras</mat-error>
         </mat-form-field>
-        <mat-form-field field appearance="outline" class="col-max column-span-2" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+        <mat-form-field field appearance="outline" class="col-max column-span-2" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']) && (idAcao != getAcoes()[ 'Atualizacao']))">
             <mat-label>Grupo Do Usuário</mat-label>
             <mat-select formControlName="grupo">
                 <mat-option *ngFor="let grupo of grupos" [value]="grupo.id">
@@ -95,8 +95,8 @@
     <div class="col-med-3">
         <mat-form-field appearance="outline" class="col-max">
             <mat-label>E-Mail:</mat-label>
-            <input matInput formControlName="email" [readonly]="readOnly">
-            <mat-error *ngIf="formulario.get('emailf')?.status == 'INVALID' && touchedOrDirty('emailf')">E-Mail Inválido!</mat-error>
+            <input matInput formControlName="email" [readonly]="setEmailReadOnly()">
+            <mat-error *ngIf="formulario.get('email')?.status == 'INVALID' && touchedOrDirty('email')">E-Mail Inválido!</mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline" class="col-max">
             <mat-label>Telefone 1:</mat-label>

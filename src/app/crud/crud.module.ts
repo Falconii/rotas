@@ -18,6 +18,7 @@ import { CrudAtividadeProjetoComponent } from './crud-atividade-projeto/crud-ati
 import { CrudPlanejamentoLancamentoComponent } from './crud-planejamento-lancamento/crud-planejamento-lancamento.component';
 import { CrudExecucaoLancamentoComponent } from './crud-execucao-lancamento/crud-execucao-lancamento.component';
 import { CrudCondicaoComponent } from './crud-condicao/crud-condicao.component';
+import { AtualizacaoCadastralComponent } from './crud-usuario/atualizacao-cadastral/atualizacao-cadastral.component';
 
 @NgModule({
   imports: [
@@ -44,6 +45,7 @@ import { CrudCondicaoComponent } from './crud-condicao/crud-condicao.component';
     CrudPlanejamentoLancamentoComponent,
     CrudExecucaoLancamentoComponent,
     CrudCondicaoComponent,
+    AtualizacaoCadastralComponent,
   ],
   exports: [
     CrudClienteComponent,

@@ -26,6 +26,15 @@ export class UsuariosService {
     );
   }
 
+  getUsuarioByEmail(
+    id_empresa: number,
+    email: string
+  ): Observable<UsuarioModel> {
+    return this.http.get<UsuarioModel>(
+      `${this.apiURL}usuariobyemail/${id_empresa}/${email}`
+    );
+  }
+
   getusuarios_01(
     params: ParametroUsuario01
   ): Observable<UsuarioQuery01Model[]> {

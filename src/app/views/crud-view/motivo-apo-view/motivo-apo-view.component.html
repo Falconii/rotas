@@ -1,25 +1,30 @@
-<p>
+<div class="div-barra">
     <mat-toolbar>
         <span><mat-label>{{labelCadastro}}</mat-label></span>
     </mat-toolbar>
-</p>
+</div>
 <form [formGroup]="formulario" autocomplete="off">
-    <div class="cad-container">
-        <mat-form-field appearance="outline" class="MidleWidth">
+    <div class="col-med-3">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>CÓDIGO</mat-label>
             <input matInput formControlName="codigo" [readonly]="ReadOnlyKey">
         </mat-form-field>
-        <mat-form-field appearance="outline" class="LargerWidth">
+        <mat-form-field appearance="outline" class="col-max">
             <mat-label>Motivo</mat-label>
-            <input matInput formControlName="motivo" [readonly]="readOnly">
-            <mat-error *ngIf="formulario.get('motivo')?.status == 'INVALID' && touchedOrDirty('motivo')">Motivo - No mínimo 03 letras e no máximo 20 letras</mat-error>
+            <input matInput formControlName="motivo" oninput="this.value = this.value.toUpperCase()" autofocus [readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('motivo')?.errors?.ValidatorStringLen && touchedOrDirty('motivo')">{{formulario.get('motivo')?.errors?.message}}</mat-error>
         </mat-form-field>
-    </div>
-    <div class="cad-container">
-        <mat-form-field appearance="outline" class="MidleWidth">
-            <mat-label>Produtivo</mat-label>
-            <input matInput formControlName="produtivo" [readonly]="readOnly">
-            <mat-error *ngIf="formulario.get('produtivo')?.status == 'INVALID' && touchedOrDirty('produtivo')">Apenas Sim Ou Não</mat-error>
+        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao != getAcoes()[ 'Consulta']) && (idAcao != getAcoes()[ 'Exclusao']))">
+            <mat-label>Produtivo:</mat-label>
+            <mat-select formControlName="produtivo">
+                <mat-option *ngFor="let resp of respostas" [value]="resp.resp">
+                    {{resp.resposta}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field field appearance="outline" class="col-max" *ngIf="( (idAcao == getAcoes()[ 'Consulta']) || (idAcao == getAcoes()[ 'Exclusao']) )">
+            <mat-label>Produtivo:</mat-label>
+            <input matInput formControlName="produtivo_" [readonly]="readOnly">
         </mat-form-field>
     </div>
     <div class="button-container-right">

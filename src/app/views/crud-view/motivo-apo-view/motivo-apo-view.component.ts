@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ValidatorStringLen } from 'src/app/shared/Validators/validator-string-len';
 
 @Component({
   selector: 'app-motivo-apo-view',
@@ -27,6 +28,11 @@ export class MotivoApoViewComponent implements OnInit {
 
   ReadOnlyKey: boolean = false;
 
+  respostas: any[] = [
+    { resp: 'S', resposta: 'SIM' },
+    { resp: 'N', resposta: 'NÃO' },
+  ];
+
   inscricaoGet!: Subscription;
   inscricaoRota!: Subscription;
   inscricaoAcao!: Subscription;
@@ -44,15 +50,9 @@ export class MotivoApoViewComponent implements OnInit {
   ) {
     this.formulario = formBuilder.group({
       codigo: ['', [Validators.required]],
-      motivo: [
-        { value: '' },
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(20),
-        ],
-      ],
+      motivo: [{ value: '' }, [ValidatorStringLen(3, 20, true)]],
       produtivo: [{ value: 'N' }, [Validators.required]],
+      produtivo_: [{ value: 'N' }],
     });
     this.motivo = new MotivoApoModel();
     this.inscricaoRota = route.params.subscribe((params: any) => {
@@ -95,6 +95,13 @@ export class MotivoApoViewComponent implements OnInit {
       codigo: this.motivo.codigo,
       motivo: this.motivo.motivo,
       produtivo: this.motivo.produtivo,
+      produtivo_:
+        this.idAcao == CadastroAcoes.Consulta ||
+        this.idAcao == CadastroAcoes.Exclusao
+          ? this.motivo.produtivo == 'S'
+            ? 'SIM'
+            : 'NÃO'
+          : '',
     });
   }
 

@@ -81,7 +81,7 @@ export class UsuarioViewComponent implements OnInit {
       cep: [{ value: '' }, [ValidatorCep(true)]],
       tel1: [{ value: '' }, [ValidatorStringLen(0, 23, true)]],
       tel2: [{ value: '' }, [ValidatorStringLen(0, 23)]],
-      email: [{ value: '' }, [Validators.email]],
+      email: [{ value: '' }, [Validators.required, Validators.email]],
     });
     this.usuario = new UsuarioModel();
     this.grupos = [];
@@ -138,7 +138,11 @@ export class UsuarioViewComponent implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['/usuarios']);
+    if (this.idAcao == CadastroAcoes.Atualizacao) {
+      this.router.navigate(['/']);
+    } else {
+      this.router.navigate(['/usuarios']);
+    }
   }
 
   getUfs() {
@@ -278,6 +282,11 @@ export class UsuarioViewComponent implements OnInit {
         this.labelCadastro = 'Usuários - Exclusão.';
         this.readOnly = true;
         break;
+      case CadastroAcoes.Atualizacao:
+        this.acao = 'Gravar';
+        this.labelCadastro = 'Usuários - Atualização';
+        this.readOnly = false;
+        break;
       default:
         break;
     }
@@ -317,6 +326,22 @@ export class UsuarioViewComponent implements OnInit {
           );
         break;
       case CadastroAcoes.Edicao:
+        this.inscricaoAcao = this.usuariosService
+          .UsuarioUpdate(this.usuario)
+          .subscribe(
+            async (data: any) => {
+              this.onCancel();
+            },
+            (error: any) => {
+              console.log('Error', error.error);
+              this.openSnackBar_Err(
+                `Erro Na Alteração ${error.error.tabela} - ${error.error.erro} - ${error.error.message}`,
+                'OK'
+              );
+            }
+          );
+        break;
+      case CadastroAcoes.Atualizacao:
         this.inscricaoAcao = this.usuariosService
           .UsuarioUpdate(this.usuario)
           .subscribe(
@@ -378,5 +403,12 @@ export class UsuarioViewComponent implements OnInit {
 
   getMensafield(field: string): string {
     return this.formulario.get(field)?.errors?.message;
+  }
+
+  setEmailReadOnly() {
+    if (this.idAcao == 5) {
+      return true;
+    }
+    return this.readOnly;
   }
 }

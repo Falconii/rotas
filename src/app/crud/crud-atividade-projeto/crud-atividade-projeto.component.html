@@ -63,8 +63,8 @@
     <div class="col-med-1">
         <mat-form-field appearance="outline" class="col-max">
             <mat-label>Observação</mat-label>
-            <input matInput formControlName="obs" [readonly]="readOnly">
-            <mat-error *ngIf="formulario.get('obs')?.status == 'INVALID' && touchedOrDirty('obs')">Observação - No máximo 60 letras</mat-error>
+            <input matInput formControlName="obs" oninput="this.value = this.value.toUpperCase()" autofocus[readonly]="readOnly">
+            <mat-error *ngIf="formulario.get('obs')?.errors?.ValidatorStringLen && touchedOrDirty('obs')">{{formulario.get('obs')?.errors?.message}}</mat-error>
         </mat-form-field>
     </div>
     <div class="cad-container">
